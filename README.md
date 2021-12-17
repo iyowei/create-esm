@@ -60,6 +60,9 @@
 create-esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
 ```
 
+![Kapture 2021-12-16 at 21 24 14](https://user-images.githubusercontent.com/5499703/146546818-848b478e-90b7-4891-875d-b00a5dd143ee.gif)
+
+
 > 必须提供待拷贝的文件、文件夹，否则执行结果类似于 `create-esm --help`。
 
 ### 查看命令行参数说明
