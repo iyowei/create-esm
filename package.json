@@ -1,0 +1,57 @@
+{
+  "name": "@iyowei/create-esm",
+  "description": "这是一个命令行工具，指定文件、文件夹后，自动创建一个项目、打包、发布，确保一个指令即可在项目中安装使用，进而支持跨项目使用。",
+  "type": "module",
+  "main": "cli.js",
+  "bin": {
+    "create-esm": "cli.js"
+  },
+  "files": [
+    "cli.js",
+    "src/**/*",
+    "tpl/**/*"
+  ],
+  "engines": {
+    "node": ">=12.20.0"
+  },
+  "version": "1.0.0-alpha.1",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm"
+  },
+  "dependencies": {
+    "@iyowei/callsite-home": "^1.0.0",
+    "@iyowei/cli-cancel-or-continue": "^1.0.0",
+    "@iyowei/fast-gitignore": "^1.0.1",
+    "@iyowei/is-esm": "^1.0.0",
+    "@iyowei/is-readme-path": "^1.0.0",
+    "@iyowei/is-virtual-root": "^1.0.0",
+    "@iyowei/js-module-dependencies-to-be-installed": "^1.0.0",
+    "@iyowei/not-empty-string": "^1.0.2",
+    "@iyowei/resolve-virtual-root": "^1.0.0",
+    "@npmcli/package-json": "^1.0.1",
+    "alpha-sort": "^5.0.0",
+    "boxen": "^6.2.1",
+    "chalk": "^5.0.0",
+    "detective-es6": "^2.2.1",
+    "figlet": "^1.5.2",
+    "fs-extra": "^10.0.0",
+    "gradient-string": "^2.0.0",
+    "is-scoped": "^3.0.0",
+    "listr2": "^3.13.5",
+    "load-json-file": "^7.0.1",
+    "lodash": "^4.17.21",
+    "meow": "^10.1.2",
+    "prompts": "^2.4.2",
+    "shelljs": "^0.8.4",
+    "validate-npm-package-name": "^3.0.0",
+    "write-json-file": "^5.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "iyowei"
+  ],
+  "private": false,
+  "license": "MIT"
+}

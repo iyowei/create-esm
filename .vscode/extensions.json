@@ -1,0 +1,12 @@
+{
+  "recommendations": [
+    "coenraads.bracket-pair-colorizer",
+    "editorconfig.editorconfig",
+    "amodio.toggle-excluded-files",
+    "oderwat.indent-rainbow",
+    "esbenp.prettier-vscode",
+    "wayou.vscode-todo-highlight",
+    "gruntfuggly.todo-tree",
+    "redhat.vscode-yaml"
+  ]
+}
