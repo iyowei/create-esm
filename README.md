@@ -36,11 +36,7 @@
 - [使用](#使用)
   - [根据命令行提示一步步操作](#根据命令行提示一步步操作)
   - [查看命令行参数说明](#查看命令行参数说明)
-  - [在 Github 个人账户下创建 `unscoped` 包](#在-github-个人账户-下创建-unscopedunscoped-包)
-  - [在 Github 个人账户下创建 `scoped` 包](#在-github-个人账户-下创建-scopedscoped-包)
-  - [在 **同名** Github 组织下创建 `scoped` 包](#在-同名-github-组织-下创建-scopedscoped-包)
-  - [在 **异名** Github 组织下创建 `unscoped` 包](#在-异名-github-组织-下创建-unscopedunscoped-包)
-  - [在 **异名** Github 组织下创建 `scoped` 包](#在-异名-github-组织-下创建-scopedscoped-包)
+  - [使用命令行参数直接创建项目](#使用命令行参数直接创建项目)
   - [查看全局配置](#查看全局配置)
   - [更新全局配置](#更新全局配置)
   - [最佳实践](#最佳实践)
@@ -98,20 +94,9 @@ create-esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
 
 熟悉命令行参数后，相比交互式命令行界面下输入参数值，可选择命令行参数直供的方式，高效的多。
 
-### 在 [Github 个人账户][github personal] 下创建 [unscoped][unscoped] 包
+### 使用命令行参数直接创建项目
 
-```shell
-create-esm \
-/Users/iyowei/Development/iyowei/create-esm/src/lsDir.js \
-/Users/iyowei/Development/iyowei/create-esm/src/README.md \ # 打包前，项目中每个模块都有自己的 README.md 文件，比较推荐
--n "ls-dir" \
--p "并行扫描文件夹，可在扫描的同时更新或过滤数据，一定程度复用遍历。" \
--o "/Users/iyowei/Development/iyowei" \
---sshkey "~/.ssh/github" \
---no-double-check-dependencies
-```
-
-### 在 [Github 个人账户][github personal] 下创建 [scoped][scoped] 包
+##### 在 [Github 个人账户][github personal] 下创建 [scoped][scoped] 包
 
 ```shell
 create-esm \
@@ -125,7 +110,7 @@ create-esm \
 --no-double-check-dependencies
 ```
 
-### 在 **同名** [Github 组织][github org] 下创建 [scoped][scoped] 包
+##### 在 **同名** [Github 组织][github org] 下创建 [scoped][scoped] 包
 
 ```shell
 create-esm \
@@ -138,27 +123,13 @@ create-esm \
 --no-double-check-dependencies
 ```
 
-### 在 **异名** [Github 组织][github org] 下创建 [unscoped][unscoped] 包
+##### 在 **异名** [Github 组织][github org] 下创建 [unscoped][unscoped] 包
 
 ```shell
 create-esm \
 /Users/iyowei/Development/iyowei/create-esm/src/lsDir.js \
 /Users/iyowei/Development/iyowei/create-esm/src/README.md \ # 打包前，项目中每个模块都有自己的 README.md 文件，比较推荐
 -n test-scan-dir \
---github-org iyoha \
--p "并行扫描文件夹，可在扫描的同时更新或过滤数据，一定程度复用遍历。" \
--o "/Users/iyowei/Development/iyowei" \
---sshkey "~/.ssh/github" \
---no-double-check-dependencies
-```
-
-### 在 **异名** [Github 组织][github org] 下创建 [scoped][scoped] 包
-
-```shell
-create-esm \
-/Users/iyowei/Development/iyowei/create-esm/src/lsDir.js \
-/Users/iyowei/Development/iyowei/create-esm/src/README.md \ # 打包前，项目中每个模块都有自己的 README.md 文件，比较推荐
--n @iyowei/test-scan-dir \
 --github-org iyoha \
 -p "并行扫描文件夹，可在扫描的同时更新或过滤数据，一定程度复用遍历。" \
 -o "/Users/iyowei/Development/iyowei" \
