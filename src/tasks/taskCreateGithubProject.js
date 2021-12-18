@@ -119,14 +119,3 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
     task.title = "成功创建 Github 项目";
   }
 }
-
-function checkExistsWithTimeout(filePath) {
-  return new Promise(function (resolve) {
-    const ins = setInterval(() => {
-      if (existsSync(filePath)) {
-        clearInterval(ins);
-        resolve("已创建");
-      }
-    }, 100);
-  });
-}
