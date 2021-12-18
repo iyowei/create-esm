@@ -55,9 +55,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
         },
 
         // 脚手架
-        scripts: {
-          preinstall: "npx only-allow pnpm",
-        },
+        scripts: {},
 
         // 基本信息
         description: opts.get("description"),
