@@ -34,6 +34,7 @@ import {
 } from "./args.js";
 
 const questioners = [];
+const ext = [".js", ".mjs"];
 
 function treatInputs({ cli, questioners, confirmedOptions }) {
   if (isEmpty(cli.input)) {
@@ -69,7 +70,7 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
   }
 
   // ==========================================================================>
-  const ext = [".js", ".mjs"];
+
   const existNonESMFile = cli.input
     .filter((cur) => ext.includes(extname(cur)))
     .some((cur) => !isESMSync(cur));
@@ -91,8 +92,6 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
   }
 
   // ==========================================================================>
-
-  const ext = [".js", ".mjs"];
 
   const rootFiles = inputs.filter((cur) => cur.dirent.isFile());
 
@@ -211,7 +210,6 @@ function treatArgs({ cli, questioners, confirmedOptions }) {
     new Set(
       cli.input
         .filter((cur) => {
-          const ext = [".js", ".mjs"];
           return ext.includes(extname(cur));
         })
         .map((cur) => {
@@ -253,7 +251,6 @@ function hasReadme(paths = []) {
 }
 
 function getJSTypeFileInputs(inputs) {
-  const ext = [".js", ".mjs"];
   return inputs.filter((cur) => {
     return cur.dirent.isFile() && ext.includes(extname(cur.path));
   });

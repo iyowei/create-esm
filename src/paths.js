@@ -11,6 +11,8 @@ export const TPL_GITIGNORE = join(TPL_DIR, "gitignore");
 
 export const TPL_README = join(TPL_DIR, "README.md");
 
+export const TPL_DOT_VSCODE = join(TPL_DIR, ".vscode");
+
 export function getOutputPathGitignore(newProjectPath) {
   return join(newProjectPath, ".gitignore");
 }
@@ -25,4 +27,8 @@ export function getOutputPathNpmRC(newProjectPath) {
 
 export function getOutputPathREADME(newProjectPath) {
   return join(newProjectPath, "README.md");
+}
+
+export function getOutputDotVSCode(newProjectPath) {
+  return join(newProjectPath, ".vscode");
 }
