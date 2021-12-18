@@ -43,7 +43,6 @@ import taskCreateChangelog from "./src/tasks/taskCreateChangelog.js";
       },
       description: {
         type: "string",
-        alias: "p",
       },
       output: {
         type: "string",
@@ -60,7 +59,7 @@ import taskCreateChangelog from "./src/tasks/taskCreateChangelog.js";
       },
       sshkey: {
         type: "string",
-        alias: "s",
+        alias: "k",
       },
       personal: {
         type: "boolean",
