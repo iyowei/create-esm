@@ -1,16 +1,3 @@
-[pnpm]: https://pnpm.io/zh/installation
-[github cli]: https://cli.github.com/
-[登录 github cli]: https://cli.github.com/manual/gh_auth_login
-[登录 npm]: https://docs.npmjs.com/cli/v7/commands/npm-adduser
-[安全的 ssh 管道]: https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-[node version badge]: https://img.shields.io/badge/node.js-%3E%3D12.20.0-brightgreen?style=flat&logo=Node.js
-[download node.js]: https://nodejs.org/en/download/
-[prs welcome badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat
-[scoped]: https://docs.npmjs.com/creating-and-publishing-scoped-public-packages
-[unscoped]: https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages
-[github org]: https://docs.github.com/cn/organizations/collaborating-with-groups-in-organizations/about-organizations
-[github personal]: https://docs.github.com/cn/get-started/learning-about-github/types-of-github-accounts#personal-accounts
-
 # $ create-esm [待拷贝的文件、文件夹] [选项]
 
 > 这是一个命令行工具，给到源码文件路径后，自动创建一个项目、打包、发布，确保一个指令即可在项目中安装使用，进而支持跨项目使用。
@@ -41,6 +28,9 @@
   - [更新全局配置](#更新全局配置)
   - [最佳实践](#最佳实践)
 - [安装](#安装)
+  - [NPM](#npm)
+  - [PNPM](#pnpm)
+  - [Yarn](#yarn)
 - [参与贡献](#参与贡献)
 
 ## 使用
@@ -61,7 +51,6 @@ create-esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
 ```
 
 ![Kapture 2021-12-16 at 21 24 14](https://user-images.githubusercontent.com/5499703/146546818-848b478e-90b7-4891-875d-b00a5dd143ee.gif)
-
 
 > 必须提供待拷贝的文件、文件夹，否则执行结果类似于 `create-esm --help`。
 
@@ -160,7 +149,7 @@ create-esm set [key] [value]
 
 ## 安装
 
-[![Node Version Badge][node version badge]][download node.js]
+[![Node Version Badge][node version badge]][download node.js] ![esm][esm]
 
 依赖的工具有几个，部分操作没法儿自动化，不过好在这些事是一次性的，
 
@@ -178,15 +167,22 @@ create-esm set [key] [value]
 
 安装 "@iyowei/create-esm"，
 
+### NPM
+
 ```shell
-# Pnpm
-pnpm add @iyowei/create-esm --global
-
-# Yarn
-yarn global add @iyowei/create-esm
-
-# npm
 npm i @iyowei/create-esm --global
+```
+
+### PNPM
+
+```shell
+pnpm add @iyowei/create-esm --global
+```
+
+### Yarn
+
+```shell
+yarn global add @iyowei/create-esm
 ```
 
 上述都安装、配置好后，就可以顺利使用 "create-esm" 脚手架了。对了，使用时得联网。😃
@@ -194,3 +190,19 @@ npm i @iyowei/create-esm --global
 ## 参与贡献
 
 ![PRs Welcome][prs welcome badge]
+
+[esm]: https://img.shields.io/badge/ESM-brightgreen?style=flat
+[pnpm]: https://pnpm.io/zh/installation
+[github cli]: https://cli.github.com/
+[登录 github cli]: https://cli.github.com/manual/gh_auth_login
+[登录 npm]: https://docs.npmjs.com/cli/v7/commands/npm-adduser
+[安全的 ssh 管道]: https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+[node version badge]: https://img.shields.io/badge/node.js-%3E%3D12.20.0-brightgreen?style=flat&logo=Node.js
+[download node.js]: https://nodejs.org/en/download/
+[prs welcome badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat
+[scoped]: https://docs.npmjs.com/creating-and-publishing-scoped-public-packages
+[unscoped]: https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages
+[github org]: https://docs.github.com/cn/organizations/collaborating-with-groups-in-organizations/about-organizations
+[github personal]: https://docs.github.com/cn/get-started/learning-about-github/types-of-github-accounts#personal-accounts
+
+<!-- 更多文档细节，参考 https://github.com/iyowei/readme-templates -->
