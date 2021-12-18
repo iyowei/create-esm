@@ -1,11 +1,16 @@
 {
   "files.exclude": {
-    ".npmrc": true,
-    ".gitignore": true,
-    ".nvmrc": true,
-    ".editorconfig": true,
-    ".vscode": true,
     "node_modules": true,
-    "pnpm-lock.yaml": true
+    ".vscode": true,
+    "pnpm-lock.yaml": true,
+    "LICENSE": true,
+    ".npmrc": true,
+    ".nvmrc": true,
+    ".gitignore": true,
+    ".editorconfig": true,
+    ".github": true,
+    ".eslintcache": true,
+    ".prettierrc": true,
+    "CHANGELOG.md": true
   }
 }

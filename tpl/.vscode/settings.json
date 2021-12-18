@@ -7,6 +7,10 @@
     ".npmrc": true,
     ".nvmrc": true,
     ".gitignore": true,
-    ".editorconfig": true
+    ".editorconfig": true,
+    ".github": true,
+    ".eslintcache": true,
+    ".prettierrc": true,
+    "CHANGELOG.md": true
   }
 }
