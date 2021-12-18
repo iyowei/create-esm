@@ -38,120 +38,128 @@ const questioners = [];
 function treatInputs({ cli, questioners, confirmedOptions }) {
   if (isEmpty(cli.input)) {
     terminateCli("请指定文件、文件夹");
-  } else {
-    const inputsExist = cli.input.filter((cur) => !existsSync(cur));
+  }
 
-    // 校验输入文件中是否有不存在的
-    if (!isEmpty(inputsExist)) {
-      log(`
+  const inputsExist = cli.input.filter((cur) => !existsSync(cur));
+
+  // 校验输入文件中是否有不存在的
+  if (!isEmpty(inputsExist)) {
+    log(`
   ${chalk.redBright.bold("以下输入的文件不存在，请检查是否输入有误，")}
   ${inputsExist.reduce((acc, cur) => {
     return !acc ? `- ${cur}` : `${acc}\n  - ${cur}`;
   }, "")}
       `);
 
-      shell.exit(1);
-    }
+    shell.exit(1);
+  }
 
-    // ==========================================================================>
-    const ext = [".js", ".mjs"];
-    const existNonESMFile = cli.input
-      .filter((cur) => ext.includes(extname(cur)))
-      .some((cur) => !isESMSync(cur));
+  // ==========================================================================>
 
-    if (existNonESMFile) {
-      terminateCli("仅适用 ESM 模块文件");
-    }
+  const inputs = cli.input.map((cur) => {
+    return {
+      path: cur,
+      name: basename(cur),
+      dirent: statSync(cur),
+    };
+  });
 
-    // ==========================================================================>
+  if (isEmpty(getJSTypeFileInputs(inputs))) {
+    terminateCli(hints[HINT_NO_FILE_INPUT]);
+  }
 
-    if (!hasReadme(cli.input)) {
-      confirmedOptions.set("generateReadme", true);
-    }
+  // ==========================================================================>
+  const ext = [".js", ".mjs"];
+  const existNonESMFile = cli.input
+    .filter((cur) => ext.includes(extname(cur)))
+    .some((cur) => !isESMSync(cur));
 
-    // ==========================================================================>
+  if (existNonESMFile) {
+    terminateCli("仅适用 ESM 模块文件");
+  }
 
-    const inputs = cli.input.map((cur) => {
-      return {
-        path: cur,
-        name: basename(cur),
-        dirent: statSync(cur),
-      };
+  // ==========================================================================>
+
+  if (!isEmpty(cli.flags.githubOrg) && cli.flags.personal) {
+    terminateCli("`--personal`、`--github-org` 两个参数不能同时出现");
+  }
+
+  // ==========================================================================>
+
+  if (!hasReadme(cli.input)) {
+    confirmedOptions.set("generateReadme", true);
+  }
+
+  // ==========================================================================>
+
+  const ext = [".js", ".mjs"];
+
+  const rootFiles = inputs.filter((cur) => cur.dirent.isFile());
+
+  // 输入文件集合中存在非 JS 文件时，让用户选择发包时需要包含的文件
+  if (rootFiles.some((cur) => !ext.includes(extname(cur.name)))) {
+    questioners.push({
+      type: "multiselect",
+      name: "pkgFiles",
+      message: "选择发包时需要包含的文件",
+      choices: inputs.map((cur) => {
+        return {
+          title: cur.name,
+          value: cur.dirent.isDirectory()
+            ? `${basename(cur.path)}/**`
+            : `${basename(cur.path)}`,
+        };
+      }),
+      instructions: false,
     });
+  } else {
+    confirmedOptions.set(
+      "pkgFiles",
+      inputs.map((cur) => {
+        return cur.dirent.isDirectory()
+          ? `${basename(cur.path)}/**`
+          : `${basename(cur.path)}`;
+      })
+    );
+  }
 
-    if (isEmpty(getJSTypeFileInputs(inputs))) {
-      terminateCli(hints[HINT_NO_FILE_INPUT]);
-    } else {
-      const ext = [".js", ".mjs"];
+  confirmedOptions.set("targets", inputs);
 
-      const rootFiles = inputs.filter((cur) => cur.dirent.isFile());
+  const jsFileTypeInputs = getJSTypeFileInputs(inputs);
 
-      // 输入文件集合中存在非 JS 文件时，让用户选择发包时需要包含的文件
-      if (rootFiles.some((cur) => !ext.includes(extname(cur.name)))) {
-        questioners.push({
-          type: "multiselect",
-          name: "pkgFiles",
-          message: "选择发包时需要包含的文件",
-          choices: inputs.map((cur) => {
-            return {
-              title: cur.name,
-              value: cur.dirent.isDirectory()
-                ? `${basename(cur.path)}/**`
-                : `${basename(cur.path)}`,
-            };
-          }),
-          instructions: false,
+  if (jsFileTypeInputs.length === 1) {
+    const _the = jsFileTypeInputs[0];
+    confirmedOptions.set(
+      "pkgExports",
+      Object.assign(_the, {
+        relativePath: `./${_the.name}`,
+        bareRelativePath: _the.name,
+      })
+    );
+  } else {
+    // 有多份文件，此时需要用户指定将哪份文件作为导出文件
+    questioners.push({
+      name: "pkgExports",
+      type: "select",
+      choices: jsFileTypeInputs.reduce((acc, cur) => {
+        const { name, path, dirent } = cur;
+
+        acc.push({
+          title: name,
+          value: {
+            path,
+            relativePath: `./${name}`,
+            bareRelativePath: name,
+            dirent,
+            name,
+          },
         });
-      } else {
-        confirmedOptions.set(
-          "pkgFiles",
-          inputs.map((cur) => {
-            return cur.dirent.isDirectory()
-              ? `${basename(cur.path)}/**`
-              : `${basename(cur.path)}`;
-          })
-        );
-      }
 
-      confirmedOptions.set("targets", inputs);
-
-      const jsFileTypeInputs = getJSTypeFileInputs(inputs);
-
-      if (jsFileTypeInputs.length === 1) {
-        const _the = jsFileTypeInputs[0];
-        confirmedOptions.set(
-          "pkgExports",
-          Object.assign(_the, {
-            relativePath: `./${_the.name}`,
-            bareRelativePath: _the.name,
-          })
-        );
-      } else {
-        // 有多份文件，此时需要用户指定将哪份文件作为导出文件
-        questioners.push({
-          name: "pkgExports",
-          type: "select",
-          choices: jsFileTypeInputs.reduce((acc, cur) => {
-            const { name, path, dirent } = cur;
-
-            acc.push({
-              title: name,
-              value: {
-                path,
-                relativePath: `./${name}`,
-                bareRelativePath: name,
-                dirent,
-                name,
-              },
-            });
-
-            return acc;
-          }, []),
-          message: "选择 NPM 包导出文件",
-          instructions: false,
-        });
-      }
-    }
+        return acc;
+      }, []),
+      message: "选择 NPM 包导出文件",
+      instructions: false,
+    });
   }
 }
 
@@ -325,6 +333,8 @@ export default async function getOptions(cli) {
    *
    * `--github-org` 为不同名 Github Org 存在
    * `--personal` 因为 `--github-org` 可能为空存在
+   *
+   * 两者不能同时出现
    */
   if (isEmpty(confirmedOptions.get("namespace"))) {
     if (!isEmpty(cli.flags.githubOrg)) {

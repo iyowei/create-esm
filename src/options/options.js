@@ -19,6 +19,8 @@ const DEFAULTS = new Map(
     namespace: "",
     sshkey: "",
     dependencies: [],
+
+    // 默认在个人 Github 账户下创建项目
     githubOrgNameSameWithNpmOrg: false,
     githubOrgName: "",
   })
