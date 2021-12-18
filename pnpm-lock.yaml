@@ -1,15 +1,15 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@iyowei/callsite-home': ^1.0.0
-  '@iyowei/cli-cancel-or-continue': ^1.0.0
-  '@iyowei/fast-gitignore': ^1.0.1
-  '@iyowei/is-esm': ^1.0.0
-  '@iyowei/is-readme-path': ^1.0.0
-  '@iyowei/is-virtual-root': ^1.0.0
-  '@iyowei/js-module-dependencies-to-be-installed': ^1.0.0
-  '@iyowei/not-empty-string': ^1.0.2
-  '@iyowei/resolve-virtual-root': ^1.0.0
+  '@iyowei/callsite-home': ^1.0.1
+  '@iyowei/cli-cancel-or-continue': ^1.0.1
+  '@iyowei/fast-gitignore': ^1.0.2
+  '@iyowei/is-esm': ^1.0.1
+  '@iyowei/is-readme-path': ^1.0.1
+  '@iyowei/is-virtual-root': ^1.0.1
+  '@iyowei/js-module-dependencies-to-be-installed': ^1.0.1
+  '@iyowei/not-empty-string': ^1.0.3
+  '@iyowei/resolve-virtual-root': ^1.0.1
   '@npmcli/package-json': ^1.0.1
   alpha-sort: ^5.0.0
   boxen: ^6.2.1
@@ -29,15 +29,15 @@ specifiers:
   write-json-file: ^5.0.0
 
 dependencies:
-  '@iyowei/callsite-home': 1.0.0
-  '@iyowei/cli-cancel-or-continue': 1.0.0
-  '@iyowei/fast-gitignore': 1.0.1
-  '@iyowei/is-esm': 1.0.0
-  '@iyowei/is-readme-path': 1.0.0
-  '@iyowei/is-virtual-root': 1.0.0
-  '@iyowei/js-module-dependencies-to-be-installed': 1.0.0
-  '@iyowei/not-empty-string': 1.0.2
-  '@iyowei/resolve-virtual-root': 1.0.0
+  '@iyowei/callsite-home': 1.0.1
+  '@iyowei/cli-cancel-or-continue': 1.0.1
+  '@iyowei/fast-gitignore': 1.0.2
+  '@iyowei/is-esm': 1.0.1
+  '@iyowei/is-readme-path': 1.0.1
+  '@iyowei/is-virtual-root': 1.0.1
+  '@iyowei/js-module-dependencies-to-be-installed': 1.0.1
+  '@iyowei/not-empty-string': 1.0.3
+  '@iyowei/resolve-virtual-root': 1.0.1
   '@npmcli/package-json': 1.0.1
   alpha-sort: 5.0.0
   boxen: 6.2.1
@@ -85,8 +85,8 @@ packages:
     hasBin: true
     dev: false
 
-  /@iyowei/callsite-home/1.0.0:
-    resolution: {integrity: sha512-lA6GhSmMY3R8LZnWueilSFrf9loK/PX/wxoBTwnf7jCagEOaGc5xNxsSleBgR8igx4IBS7OBKzxjDM1FlAmSTg==}
+  /@iyowei/callsite-home/1.0.1:
+    resolution: {integrity: sha512-wY5S9qaD/GlvMAInv8uaSU6LpZt5kF+oa9zkwV76qVtuTf7tA1H2p7A5YUYqvASPu/p5xoivGmhJ5ShdXusJ3A==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dependencies:
@@ -95,14 +95,14 @@ packages:
       read-pkg-up: 9.0.0
     dev: false
 
-  /@iyowei/cli-cancel-or-continue/1.0.0:
-    resolution: {integrity: sha512-7Vqspx05vUUSc+Je+EscOmWQ2RF+sg4S38lPKQPTJxWLDZ55CpipgkT9ZjbKTwO2rDe54qi6w1UJEt8F7jAdag==}
+  /@iyowei/cli-cancel-or-continue/1.0.1:
+    resolution: {integrity: sha512-MJXz5kzsXmgzNV/shP5vG04woIogk4H5QkPed325RGGeJfEAo9T/US80523ENRA4PRiF9ekWxzJ09CON7UUmLg==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dev: false
 
-  /@iyowei/fast-gitignore/1.0.1:
-    resolution: {integrity: sha512-yiy+8gBeUbOlmIGIRjsyI6pqpRl/phEyFWosTYBYmdj4whzL3BeLB5i+gkP69ozYWtV73UtZ9DqJpgDO0yJUow==}
+  /@iyowei/fast-gitignore/1.0.2:
+    resolution: {integrity: sha512-OEje5HJOWCBwLQXzCSiszvlBkT/1iiiZLO172ZzmOlPzHVkfXcWVi3G5oTGBZ1uR8pA415tKZ0yiZjAPRV0CGw==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dependencies:
@@ -112,8 +112,8 @@ packages:
       p-map: 5.3.0
     dev: false
 
-  /@iyowei/is-esm/1.0.0:
-    resolution: {integrity: sha512-RqYcHuUU8QqVa82YLDumkc8UgLZ/Wr6BWWdFlBlPEVY3wdGsxqKn7mKzwlx48Gdtn8XVq5tWLPS9NTow6zO92g==}
+  /@iyowei/is-esm/1.0.1:
+    resolution: {integrity: sha512-mmU+xPWnTrRKndxThHemHVKR9g38tQZHtX6XeLDsOH7Ql5/BFWYx3sRmJgllioHMhczRwfZJF6vl4XD+0vFmcA==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dependencies:
@@ -121,34 +121,34 @@ packages:
       node-source-walk: 4.2.0
     dev: false
 
-  /@iyowei/is-readme-path/1.0.0:
-    resolution: {integrity: sha512-vrjYKngp7Lprmp6FhN77Poxc7dVQqJ88w4hu/rv3QOl2mo+UQ+WNHB5mMDVB2UWfGDzFMC3nH7Qtz4VlfXDyZw==}
+  /@iyowei/is-readme-path/1.0.1:
+    resolution: {integrity: sha512-i0HI1RyqRVvunPLbAtcNFuXlpkc7JLPb6pzK0axoY7v6Ilb0xUK2GJpf0mqARs032SNqEn/3mi6XshOdhEt08A==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dev: false
 
-  /@iyowei/is-virtual-root/1.0.0:
-    resolution: {integrity: sha512-FxMLkXZg6adOxy8BHkJx4T53/YWKFjaz9g9pPdmTft+XehmNTWMEgCSx68c7Avn4KSnA/CUt+4osa3uNvZ9OaQ==}
+  /@iyowei/is-virtual-root/1.0.1:
+    resolution: {integrity: sha512-J//EfBe6gWeGtJQMfMgN6sP6j3SpddZuk3xO4nG8Ofv5+712kjccxenRUpxgm9i9vLfOpIcBUSjk/ak35pcIAg==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dev: false
 
-  /@iyowei/js-module-dependencies-to-be-installed/1.0.0:
-    resolution: {integrity: sha512-yK2HBzVtj2V7ReZ/PQrpvJzn324Nhnr3K3BM60kfVzG+aLUqLZRkMxezlAkYeYyOGYXWn9AhVeGq3skl3H0Zjg==}
+  /@iyowei/js-module-dependencies-to-be-installed/1.0.1:
+    resolution: {integrity: sha512-G3HD8qA9l8HxraMgBORMaIontpYeImv4oAhJ/w769WVK0cjEoFhp3/FVuE1JSK59rmxbb24vZWAtUmVzaqbzhw==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dependencies:
       builtin-modules: 3.2.0
     dev: false
 
-  /@iyowei/not-empty-string/1.0.2:
-    resolution: {integrity: sha512-Zs1E1l8DAFmvECSaNtMpaJh0CtIZyou6hbb5Vg9FYJ1FZmcO0ZEQSnAZG9vJFWAntfBCGlMGy+Xrkt5Rt7iI6A==}
+  /@iyowei/not-empty-string/1.0.3:
+    resolution: {integrity: sha512-m0c+r0HGwc5VdLPUSu5VYJwiSTVdw+x99jRpW/lOp/XMnkKHZ3vnxS0nZGXPV4b4y4dOVCjUrrCYWA2fGKKTjQ==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dev: false
 
-  /@iyowei/resolve-virtual-root/1.0.0:
-    resolution: {integrity: sha512-hKJqOFzWdSXJBaoxFSjxxSLseuzDEudNo307CSPgHVdy2C1a4vmxNrToiD7t/KgNTSEKvhO6yUUgatGMS/stwg==}
+  /@iyowei/resolve-virtual-root/1.0.1:
+    resolution: {integrity: sha512-Ldxj6Rb3Qbgc3OvWiG1Bm6I7wENbj8P0bKz2RPGHNPu/gh2jH/vDXCAveWhJ+u8AYU1O0u13R1rorpfVoz41uA==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dev: false
@@ -279,7 +279,7 @@ packages:
     dev: false
 
   /boxen/6.2.1:
-    resolution: {integrity: sha1-sJiiJ4ss0oRd7vLf8u/DjTKbQ00=, tarball: boxen/download/boxen-6.2.1.tgz?cache=0&sync_timestamp=1634185641329&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fboxen%2Fdownload%2Fboxen-6.2.1.tgz}
+    resolution: {integrity: sha1-sJiiJ4ss0oRd7vLf8u/DjTKbQ00=, tarball: boxen/download/boxen-6.2.1.tgz?cache=0&sync_timestamp=1634135099696&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fboxen%2Fdownload%2Fboxen-6.2.1.tgz}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       ansi-align: 3.0.1
@@ -523,7 +523,7 @@ packages:
     dev: false
 
   /fs-extra/10.0.0:
-    resolution: {integrity: sha1-n/YbZV3eU/s0qC34S7IUzoAuF8E=, tarball: fs-extra/download/fs-extra-10.0.0.tgz?cache=0&sync_timestamp=1632822706452&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Ffs-extra%2Fdownload%2Ffs-extra-10.0.0.tgz}
+    resolution: {integrity: sha1-n/YbZV3eU/s0qC34S7IUzoAuF8E=, tarball: fs-extra/download/fs-extra-10.0.0.tgz}
     engines: {node: '>=12'}
     dependencies:
       graceful-fs: 4.2.8
@@ -756,7 +756,7 @@ packages:
     dev: false
 
   /lodash/4.17.21:
-    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=, tarball: lodash/download/lodash-4.17.21.tgz?cache=0&sync_timestamp=1632822706917&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Flodash%2Fdownload%2Flodash-4.17.21.tgz}
+    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=, tarball: lodash/download/lodash-4.17.21.tgz}
     dev: false
 
   /log-update/4.0.0:
@@ -1068,7 +1068,7 @@ packages:
     dev: false
 
   /shelljs/0.8.4:
-    resolution: {integrity: sha1-3naE/ut2f4cWsyYHiooAh1iQ48I=, tarball: shelljs/download/shelljs-0.8.4.tgz}
+    resolution: {integrity: sha1-3naE/ut2f4cWsyYHiooAh1iQ48I=, tarball: shelljs/download/shelljs-0.8.4.tgz?cache=0&sync_timestamp=1635241344051&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fshelljs%2Fdownload%2Fshelljs-0.8.4.tgz}
     engines: {node: '>=4'}
     hasBin: true
     dependencies:
