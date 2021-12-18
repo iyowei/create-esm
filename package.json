@@ -15,9 +15,7 @@
     "node": ">=12.20.0"
   },
   "version": "1.0.0-alpha.1",
-  "scripts": {
-    "preinstall": "npx only-allow pnpm"
-  },
+  "scripts": {},
   "dependencies": {
     "@iyowei/callsite-home": "^1.0.0",
     "@iyowei/cli-cancel-or-continue": "^1.0.0",
