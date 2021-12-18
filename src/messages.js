@@ -21,21 +21,22 @@ export const mainHelp = `
     $ ${texts[TXT_NAME]} [指定待拷贝的文件、文件夹] [选项]
 
   ${chalk.bold("选项")}
-    --name, -n                                 包名（实际安装时使用的名称）
-    --description                              描述
-    --output, -o                               新建项目的磁盘位置
-    --dependencies, -d                         手动指定要安装的依赖
-    --sshkey                                   私钥文件地址
-    --no-double-check-dependencies             不需要二次确认是否还有其它依赖需要安装
-    --no-confirm-github-org                    如果包名有命名空间，则确认是否需要在某个 Github Org 下创建项目
+    --name, -n                       包名（实际安装时使用的名称）
+    --description                    描述
+    --output, -o                     新建项目的磁盘位置
+    --dependencies, -d               手动指定要安装的依赖
+    --no-double-check-dependencies   不需要二次确认是否还有其它依赖需要安装
+    --sshkey, -k                     私钥文件地址
+    --personal                       包名有命名空间时，指定在 Github 个人账户下创建项目
+    --github-org                     包名有命名空间但与 Github 组织名不同时需特别指定，默认在与命名空间同名的 Github 组织下创建项目
 
-    --version, -v                              查看版本号
-    --help, -h                                 查看帮助
+    --version, -v                    查看版本号
+    --help, -h                       查看帮助
 
   ${chalk.bold("命令")}
-    set                                        设置 ${texts[TXT_NAME]} 全局设置
-    reset                                      清空 ${texts[TXT_NAME]} 全局设置
-    defaults                                   查看 ${texts[TXT_NAME]} 全局设置
+    set                              设置 ${texts[TXT_NAME]} 全局配置
+    reset                            清空 ${texts[TXT_NAME]} 全局配置
+    defaults                         查看 ${texts[TXT_NAME]} 全局配置
 
   ${chalk.bold("示例")}
     $ ${texts[TXT_NAME]}
