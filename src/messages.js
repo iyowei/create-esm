@@ -53,6 +53,13 @@ export const setupHelp = `
     $ ${texts[TXT_NAME]} set output /Users/iyowei/Development/shortime
 `;
 
+export const defaultsHelp = `
+  查看 @iyowei/create-esm 全局配置
+
+  示例
+    $ ${texts[TXT_NAME]} defaults
+`;
+
 export const resetHelp = `
   重置 @iyowei/create-esm 全局配置
 

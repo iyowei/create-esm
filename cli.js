@@ -11,6 +11,7 @@ import {
   mainHelp,
   setupHelp,
   resetHelp,
+  defaultsHelp,
   COMMAND_SET,
   COMMAND_DEFAULTS,
   COMMAND_RESET,
@@ -104,7 +105,15 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
   // 二级指令：查看默认配置
   if (cli.input[0] === COMMAND_DEFAULTS) {
     if (cli.flags.help) {
-      shell.echo(setupHelp);
+      shell.echo(defaultsHelp);
+      return;
+    }
+
+    shell.echo(getGlobalConfigurations());
+
+    return;
+  }
+
   // 二级指令：清空
   if (cli.input[0] === COMMAND_RESET) {
     if (cli.flags.help) {
