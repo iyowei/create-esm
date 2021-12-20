@@ -143,7 +143,7 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
 
   // 生成
 
-  console.log(opts);
+  // console.log(opts);
 
   const tasks = new Listr(
     [
