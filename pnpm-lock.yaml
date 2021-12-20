@@ -6,10 +6,10 @@ specifiers:
   '@iyowei/fast-gitignore': ^1.0.2
   '@iyowei/is-esm': ^1.0.1
   '@iyowei/is-readme-path': ^1.0.1
-  '@iyowei/is-virtual-root': ^1.0.1
+  '@iyowei/is-tilde-path': ^1.0.0
   '@iyowei/js-module-dependencies-to-be-installed': ^1.0.1
   '@iyowei/not-empty-string': ^1.0.3
-  '@iyowei/resolve-virtual-root': ^1.0.1
+  '@iyowei/untildify': ^1.0.0
   '@npmcli/package-json': ^1.0.1
   alpha-sort: ^5.0.0
   boxen: ^6.2.1
@@ -34,10 +34,10 @@ dependencies:
   '@iyowei/fast-gitignore': 1.0.2
   '@iyowei/is-esm': 1.0.1
   '@iyowei/is-readme-path': 1.0.1
-  '@iyowei/is-virtual-root': 1.0.1
+  '@iyowei/is-tilde-path': 1.0.0
   '@iyowei/js-module-dependencies-to-be-installed': 1.0.1
   '@iyowei/not-empty-string': 1.0.3
-  '@iyowei/resolve-virtual-root': 1.0.1
+  '@iyowei/untildify': 1.0.0
   '@npmcli/package-json': 1.0.1
   alpha-sort: 5.0.0
   boxen: 6.2.1
@@ -122,10 +122,9 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@iyowei/is-virtual-root/1.0.1:
-    resolution: {integrity: sha512-J//EfBe6gWeGtJQMfMgN6sP6j3SpddZuk3xO4nG8Ofv5+712kjccxenRUpxgm9i9vLfOpIcBUSjk/ak35pcIAg==}
+  /@iyowei/is-tilde-path/1.0.0:
+    resolution: {integrity: sha512-dg52yU/vCztJPEsIQqNKbT5Mv40KuWsFQs6jtvqX9KaZuZyQNMCSGDKJY3Hv3yiAk/ltJ+jRz19hErAoq/rcAw==}
     engines: {node: '>=12.20.0'}
-    requiresBuild: true
     dev: false
 
   /@iyowei/js-module-dependencies-to-be-installed/1.0.1:
@@ -142,10 +141,9 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@iyowei/resolve-virtual-root/1.0.1:
-    resolution: {integrity: sha512-Ldxj6Rb3Qbgc3OvWiG1Bm6I7wENbj8P0bKz2RPGHNPu/gh2jH/vDXCAveWhJ+u8AYU1O0u13R1rorpfVoz41uA==}
+  /@iyowei/untildify/1.0.0:
+    resolution: {integrity: sha512-qNaNBMShWJ4EEgXke2d8kkVq7zB7Wa9DKSFrxPsAYUVKP76I8DZOuoYwYtfsv5ztn4o4jmLzOXQVh5b2qToPDw==}
     engines: {node: '>=12.20.0'}
-    requiresBuild: true
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:

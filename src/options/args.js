@@ -4,8 +4,8 @@ import { homedir } from 'os';
 
 import isEmpty from 'lodash/isEmpty.js';
 import validateNpmPkgName from 'validate-npm-package-name';
-import isVirtualRoot from '@iyowei/is-virtual-root';
-import resolveVirtualRoot from '@iyowei/resolve-virtual-root';
+import isTildePath from '@iyowei/is-tilde-path';
+import { untildify } from '@iyowei/untildify';
 
 export const ARG_NAME = 'name';
 export const ARG_DESCRIPTION = 'description';
@@ -54,8 +54,8 @@ export const rules = {
       return { ok: true };
     },
     format: (path) => {
-      if (isVirtualRoot(path)) {
-        return resolveVirtualRoot(path);
+      if (isTildePath(path)) {
+        return untildify(path);
       }
 
       return realpathSync(path);
@@ -72,8 +72,8 @@ export const rules = {
       return { ok: true };
     },
     format: (path) => {
-      if (isVirtualRoot(path)) {
-        return resolveVirtualRoot(path);
+      if (isTildePath(path)) {
+        return untildify(path);
       }
 
       return realpathSync(path);
