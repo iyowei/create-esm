@@ -53,6 +53,13 @@ export const setupHelp = `
     $ ${texts[TXT_NAME]} set output /Users/iyowei/Development/shortime
 `;
 
+export const resetHelp = `
+  重置 @iyowei/create-esm 全局配置
+
+  示例
+    $ ${texts[TXT_NAME]} reset
+`;
+
 export const HINT_NO_FILE_INPUT = 'nfi';
 
 export const hints = {
@@ -65,6 +72,7 @@ export const hints = {
 
 export const COMMAND_SET = 'set';
 export const COMMAND_DEFAULTS = 'defaults';
+export const COMMAND_RESET = 'reset';
 
 export const banner = `\n${chalk.bold(
   gradient.rainbow(

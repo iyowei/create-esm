@@ -10,6 +10,11 @@ import boxen from 'boxen';
 import { getText, TXT_NAME } from '../messages.js';
 import terminateCli from '../terminateCli.js';
 
+const GLOBAL_DEFAULTS = {
+  output: '',
+  sshkey: '',
+};
+
 export const defaultsFilePath = join(
   homedir(),
   `${getText(TXT_NAME)}-defaults.json`,
@@ -19,10 +24,7 @@ export const defaultsFilePath = join(
 export function getGlobalConfigurations() {
   return existsSync(defaultsFilePath)
     ? loadJsonFileSync(defaultsFilePath)
-    : {
-        output: '',
-        sshkey: '',
-      };
+    : GLOBAL_DEFAULTS;
 }
 
 // TODO: 键有效性校验
@@ -39,4 +41,8 @@ export function updateGlobalConfigurations(key, value) {
   Object.assign(defaults, { [key]: realpathSync(value) });
 
   writeJsonFileSync(defaultsFilePath, defaults);
+}
+
+export function reset() {
+  writeJsonFileSync(defaultsFilePath, GLOBAL_DEFAULTS);
 }

@@ -10,14 +10,17 @@ import {
   banner,
   mainHelp,
   setupHelp,
+  resetHelp,
   COMMAND_SET,
   COMMAND_DEFAULTS,
+  COMMAND_RESET,
   getReport,
 } from './src/messages.js';
 
 import {
   updateGlobalConfigurations,
   getGlobalConfigurations,
+  reset,
 } from './src/options/global.js';
 import makeOptions from './src/options/make.js';
 import prerequisites from './src/prerequisites.js';
@@ -102,9 +105,14 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
   if (cli.input[0] === COMMAND_DEFAULTS) {
     if (cli.flags.help) {
       shell.echo(setupHelp);
+  // 二级指令：清空
+  if (cli.input[0] === COMMAND_RESET) {
+    if (cli.flags.help) {
+      shell.echo(resetHelp);
       return;
     }
 
+    reset();
     shell.echo(getGlobalConfigurations());
 
     return;

@@ -34,8 +34,6 @@ import {
   ARG_SSH_KEY,
 } from './args.js';
 
-// import createTemplates from '../../tpls/index.js';
-
 const questioners = [];
 const ext = ['.js', '.mjs'];
 
@@ -104,24 +102,22 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
       type: 'multiselect',
       name: 'pkgFiles',
       message: '选择发包时需要包含的文件',
-      choices: inputs.map((cur) => {
-        return {
-          title: cur.name,
-          value: cur.dirent.isDirectory()
-            ? `${basename(cur.path)}/**`
-            : `${basename(cur.path)}`,
-        };
-      }),
+      choices: inputs.map((cur) => ({
+        title: cur.name,
+        value: cur.dirent.isDirectory()
+          ? `${basename(cur.path)}/**`
+          : `${basename(cur.path)}`,
+      })),
       instructions: false,
     });
   } else {
     confirmedOptions.set(
       'pkgFiles',
-      inputs.map((cur) => {
-        return cur.dirent.isDirectory()
+      inputs.map((cur) =>
+        cur.dirent.isDirectory()
           ? `${basename(cur.path)}/**`
-          : `${basename(cur.path)}`;
-      }),
+          : `${basename(cur.path)}`,
+      ),
     );
   }
 
