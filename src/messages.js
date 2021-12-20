@@ -1,15 +1,15 @@
-import { basename } from "path";
+import { basename } from 'path';
 
-import chalk from "chalk";
-import gradient from "gradient-string";
-import figlet from "figlet";
+import chalk from 'chalk';
+import gradient from 'gradient-string';
+import figlet from 'figlet';
 
-import isEmpty from "lodash/isEmpty.js";
+import isEmpty from 'lodash/isEmpty.js';
 
-export const TXT_NAME = "name";
+export const TXT_NAME = 'name';
 
 export const texts = {
-  [TXT_NAME]: "create-esm",
+  [TXT_NAME]: 'create-esm',
 };
 
 export function getText(key) {
@@ -17,10 +17,10 @@ export function getText(key) {
 }
 
 export const mainHelp = `
-  ${chalk.bold("使用方式")}
+  ${chalk.bold('使用方式')}
     $ ${texts[TXT_NAME]} [指定待拷贝的文件、文件夹] [选项]
 
-  ${chalk.bold("选项")}
+  ${chalk.bold('选项')}
     --name, -n                       包名（实际安装时使用的名称）
     --description                    描述
     --output, -o                     新建项目的磁盘位置
@@ -33,12 +33,12 @@ export const mainHelp = `
     --version, -v                    查看版本号
     --help, -h                       查看帮助
 
-  ${chalk.bold("命令")}
+  ${chalk.bold('命令')}
     set                              设置 ${texts[TXT_NAME]} 全局配置
     reset                            清空 ${texts[TXT_NAME]} 全局配置
     defaults                         查看 ${texts[TXT_NAME]} 全局配置
 
-  ${chalk.bold("示例")}
+  ${chalk.bold('示例')}
     $ ${texts[TXT_NAME]}
     $ ${
       texts[TXT_NAME]
@@ -53,35 +53,35 @@ export const setupHelp = `
     $ ${texts[TXT_NAME]} set output /Users/iyowei/Development/shortime
 `;
 
-export const HINT_NO_FILE_INPUT = "nfi";
+export const HINT_NO_FILE_INPUT = 'nfi';
 
 export const hints = {
   [HINT_NO_FILE_INPUT]: chalk.redBright(
     `无法确定 NPM 包导出文件，请重新输入，应${chalk.underline(
-      "全是文件，或文件、文件夹的组合"
-    )}。`
+      '全是文件，或文件、文件夹的组合',
+    )}。`,
   ),
 };
 
-export const COMMAND_SET = "set";
-export const COMMAND_DEFAULTS = "defaults";
+export const COMMAND_SET = 'set';
+export const COMMAND_DEFAULTS = 'defaults';
 
 export const banner = `\n${chalk.bold(
   gradient.rainbow(
-    figlet.textSync("Scaffold!", {
-      font: "Ghost",
-      horizontalLayout: "default",
-      verticalLayout: "default",
+    figlet.textSync('Scaffold!', {
+      font: 'Ghost',
+      horizontalLayout: 'default',
+      verticalLayout: 'default',
       width: 100,
       whitespaceBreak: true,
-    })
-  )
+    }),
+  ),
 )}\n`;
 
 export const getReport = (opts) => {
   let f = `
   即将在 ${chalk.greenBright.bold(
-    opts.get('output')
+    opts.get('output'),
   )} 位置创建 ${chalk.greenBright.bold(opts.get('name'))} 项目。
 
   待拷贝，
@@ -89,9 +89,9 @@ ${opts.get('targets').reduce((acc, cur) => {
   return !acc
     ? `- ${chalk.greenBright.bold(basename(cur.path))}, ${chalk.grey(cur.path)}`
     : `${acc}\n- ${chalk.greenBright.bold(basename(cur.path))}, ${chalk.grey(
-        cur.path
+        cur.path,
       )}`;
-}, "")}\n
+}, '')}\n
   `;
 
   // 如果 `opts.dependencies` 有效，才显示 "需要安装的依赖有这些" 部分
@@ -101,11 +101,13 @@ ${opts.get('dependencies').reduce((acc, cur) => {
   return !acc
     ? `- ${chalk.greenBright.bold(cur)}`
     : `${acc}\n- ${chalk.greenBright.bold(cur)}`;
-}, "")}\n
+}, '')}\n
   `;
   }
 
-  f += chalk.yellowBright.bold("按 [ctrl + c] 终止，或按其它 [任意] 键继续... \n");
+  f += chalk.yellowBright.bold(
+    '按 [ctrl + c] 终止，或按其它 [任意] 键继续... \n',
+  );
 
   return f;
 };

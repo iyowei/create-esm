@@ -1,23 +1,23 @@
-import { existsSync, realpathSync } from "fs";
-import { resolve } from "path";
-import { homedir } from "os";
+import { existsSync, realpathSync } from 'fs';
+import { resolve } from 'path';
+import { homedir } from 'os';
 
-import isEmpty from "lodash/isEmpty.js";
-import validateNpmPkgName from "validate-npm-package-name";
-import isVirtualRoot from "@iyowei/is-virtual-root";
-import resolveVirtualRoot from "@iyowei/resolve-virtual-root";
+import isEmpty from 'lodash/isEmpty.js';
+import validateNpmPkgName from 'validate-npm-package-name';
+import isVirtualRoot from '@iyowei/is-virtual-root';
+import resolveVirtualRoot from '@iyowei/resolve-virtual-root';
 
-export const ARG_NAME = "name";
-export const ARG_DESCRIPTION = "description";
-export const ARG_OUTPUT = "output";
-export const ARG_SSH_KEY = "sshkey";
+export const ARG_NAME = 'name';
+export const ARG_DESCRIPTION = 'description';
+export const ARG_OUTPUT = 'output';
+export const ARG_SSH_KEY = 'sshkey';
 
 // 部分 ”交互式提问“ 自动根据某些参数是否提供、是否有默认值等特征出现或隐藏
 export const rules = {
   [ARG_NAME]: {
     is_default: false,
     cliRequired: true,
-    hint: "必须提供 name 参数",
+    hint: '必须提供 name 参数',
 
     /**
      * 问题：
@@ -41,12 +41,12 @@ export const rules = {
   [ARG_DESCRIPTION]: {
     is_default: false,
     cliRequired: true,
-    hint: "必须提供 description 参数",
+    hint: '必须提供 description 参数',
   },
   [ARG_OUTPUT]: {
     is_default: true,
     cliRequired: false,
-    hint: "未提供 output 参数，且没有默认配置，请提供",
+    hint: '未提供 output 参数，且没有默认配置，请提供',
     validate: (value) => {
       if (!existsSync(value) || isEmpty(value)) {
         return { ok: false, message: `给定磁盘位置 "${value}" 不存在` };
@@ -64,7 +64,7 @@ export const rules = {
   [ARG_SSH_KEY]: {
     is_default: true,
     cliRequired: false,
-    hint: "未提供 sshkey 参数，且没有默认配置，请提供",
+    hint: '未提供 sshkey 参数，且没有默认配置，请提供',
     validate: (value) => {
       if (!existsSync(value) || isEmpty(value)) {
         return { ok: false, message: `给定路径 "${value}" 未检测到私钥文件` };

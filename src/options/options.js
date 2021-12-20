@@ -1,29 +1,38 @@
-import shell from "shelljs";
-import boxen from "boxen";
-import isEmpty from "lodash/isEmpty.js";
+import shell from 'shelljs';
+import boxen from 'boxen';
+import isEmpty from 'lodash/isEmpty.js';
 
-import { rules as argsRules } from "./args.js";
-import terminateCli from "../terminateCli.js";
+import { rules as argsRules } from './args.js';
+import terminateCli from '../terminateCli.js';
 
 const DEFAULTS = new Map(
   Object.entries({
     targets: [],
-    name: "",
-    pkgName: "",
-    description: "",
-    generateReadme: false,
+
+    name: '',
+    pkgName: '',
+    description: '',
     pkgFiles: [],
     pkgExports: {},
-    output: "",
-    newProjectPath: "",
-    namespace: "",
-    sshkey: "",
     dependencies: [],
+
+    namespace: '',
+
+    generateReadme: false,
 
     // 默认在个人 Github 账户下创建项目
     githubOrgNameSameWithNpmOrg: false,
-    githubOrgName: "",
-  })
+    githubOrgName: '',
+
+    output: '',
+    newProjectPath: '',
+
+    sshkey: '',
+
+    copiers: [],
+    prints: {},
+    gitignore: {},
+  }),
 );
 
 const KEY_STORE = Symbol();
