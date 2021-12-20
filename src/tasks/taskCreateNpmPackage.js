@@ -3,7 +3,6 @@ import { readFileSync, writeFileSync } from "fs";
 import pkg from "@npmcli/package-json";
 import shell from "shelljs";
 
-import { getOutputPathNpmRC, TPL_NPMRC } from "../paths.js";
 import isEmpty from "lodash/isEmpty.js";
 import print from "../print.js";
 
@@ -82,8 +81,8 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
 
     // 读取 .npmrc 模板，填入数据，写到新建项目中
     print({
-      outputPath: getOutputPathNpmRC(opts.get("newProjectPath")),
-      templatePath: TPL_NPMRC,
+      outputPath: opts.get('prints').npmrc.output,
+      templatePath: opts.get('prints').npmrc.source,
       data: { namespace: opts.get("namespace") },
     });
   }

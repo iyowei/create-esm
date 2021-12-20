@@ -3,42 +3,45 @@
  * TODO: 参数构造过程模块化
  */
 
-import { basename, extname, join } from "path";
-import { statSync, existsSync, readFileSync } from "fs";
-import { log } from "console";
+import { basename, extname, join } from 'path';
+import { statSync, existsSync, readFileSync } from 'fs';
+import { log } from 'console';
 
-import notEmptyString from "@iyowei/not-empty-string";
-import alphaSort from "alpha-sort";
-import isScoped from "is-scoped";
-import shell from "shelljs";
-import chalk from "chalk";
-import prompts from "prompts";
-import isReadmePath from "@iyowei/is-readme-path";
-import precinct from "detective-es6";
-import isEmpty from "lodash/isEmpty.js";
+import notEmptyString from '@iyowei/not-empty-string';
+import alphaSort from 'alpha-sort';
+import isScoped from 'is-scoped';
+import shell from 'shelljs';
+import chalk from 'chalk';
+import prompts from 'prompts';
+import isReadmePath from '@iyowei/is-readme-path';
+import precinct from 'detective-es6';
+import isEmpty from 'lodash/isEmpty.js';
+import createTemplates from '@iyowei/create-templates';
 
-import jsModuleDependenciesToBeInstalled from "@iyowei/js-module-dependencies-to-be-installed";
-import { HINT_NO_FILE_INPUT, hints } from "../messages.js";
-import { getGlobalConfigurations } from "./global.js";
-import terminateCli from "../terminateCli.js";
-import confirmedOptions from "./options.js";
-import { isESMSync } from "@iyowei/is-esm";
+import jsModuleDependenciesToBeInstalled from '@iyowei/js-module-dependencies-to-be-installed';
+import { HINT_NO_FILE_INPUT, hints } from '../messages.js';
+import { getGlobalConfigurations } from './global.js';
+import terminateCli from '../terminateCli.js';
+import confirmedOptions from './options.js';
+import { isESMSync } from '@iyowei/is-esm';
 
-import questions from "./questions.js";
+import questions from './questions.js';
 import {
   rules as argsRules,
   ARG_NAME,
   ARG_DESCRIPTION,
   ARG_OUTPUT,
   ARG_SSH_KEY,
-} from "./args.js";
+} from './args.js';
+
+// import createTemplates from '../../tpls/index.js';
 
 const questioners = [];
-const ext = [".js", ".mjs"];
+const ext = ['.js', '.mjs'];
 
 function treatInputs({ cli, questioners, confirmedOptions }) {
   if (isEmpty(cli.input)) {
-    terminateCli("请指定文件、文件夹");
+    terminateCli('请指定文件、文件夹');
   }
 
   const inputsExist = cli.input.filter((cur) => !existsSync(cur));
@@ -46,10 +49,10 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
   // 校验输入文件中是否有不存在的
   if (!isEmpty(inputsExist)) {
     log(`
-  ${chalk.redBright.bold("以下输入的文件不存在，请检查是否输入有误，")}
+  ${chalk.redBright.bold('以下输入的文件不存在，请检查是否输入有误，')}
   ${inputsExist.reduce((acc, cur) => {
     return !acc ? `- ${cur}` : `${acc}\n  - ${cur}`;
-  }, "")}
+  }, '')}
       `);
 
     shell.exit(1);
@@ -76,19 +79,19 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
     .some((cur) => !isESMSync(cur));
 
   if (existNonESMFile) {
-    terminateCli("仅适用 ESM 模块文件");
+    terminateCli('仅适用 ESM 模块文件');
   }
 
   // ==========================================================================>
 
   if (!isEmpty(cli.flags.githubOrg) && cli.flags.personal) {
-    terminateCli("`--personal`、`--github-org` 两个参数不能同时出现");
+    terminateCli('`--personal`、`--github-org` 两个参数不能同时出现');
   }
 
   // ==========================================================================>
 
   if (!hasReadme(cli.input)) {
-    confirmedOptions.set("generateReadme", true);
+    confirmedOptions.set('generateReadme', true);
   }
 
   // ==========================================================================>
@@ -98,9 +101,9 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
   // 输入文件集合中存在非 JS 文件时，让用户选择发包时需要包含的文件
   if (rootFiles.some((cur) => !ext.includes(extname(cur.name)))) {
     questioners.push({
-      type: "multiselect",
-      name: "pkgFiles",
-      message: "选择发包时需要包含的文件",
+      type: 'multiselect',
+      name: 'pkgFiles',
+      message: '选择发包时需要包含的文件',
       choices: inputs.map((cur) => {
         return {
           title: cur.name,
@@ -113,33 +116,33 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
     });
   } else {
     confirmedOptions.set(
-      "pkgFiles",
+      'pkgFiles',
       inputs.map((cur) => {
         return cur.dirent.isDirectory()
           ? `${basename(cur.path)}/**`
           : `${basename(cur.path)}`;
-      })
+      }),
     );
   }
 
-  confirmedOptions.set("targets", inputs);
+  confirmedOptions.set('targets', inputs);
 
   const jsFileTypeInputs = getJSTypeFileInputs(inputs);
 
   if (jsFileTypeInputs.length === 1) {
     const _the = jsFileTypeInputs[0];
     confirmedOptions.set(
-      "pkgExports",
+      'pkgExports',
       Object.assign(_the, {
         relativePath: `./${_the.name}`,
         bareRelativePath: _the.name,
-      })
+      }),
     );
   } else {
     // 有多份文件，此时需要用户指定将哪份文件作为导出文件
     questioners.push({
-      name: "pkgExports",
-      type: "select",
+      name: 'pkgExports',
+      type: 'select',
       choices: jsFileTypeInputs.reduce((acc, cur) => {
         const { name, path, dirent } = cur;
 
@@ -156,7 +159,7 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
 
         return acc;
       }, []),
-      message: "选择 NPM 包导出文件",
+      message: '选择 NPM 包导出文件',
       instructions: false,
     });
   }
@@ -179,7 +182,7 @@ function treatArgs({ cli, questioners, confirmedOptions }) {
           arg,
           !argsRules[arg].format
             ? cli.flags[arg]
-            : argsRules[arg].format(cli.flags[arg])
+            : argsRules[arg].format(cli.flags[arg]),
         );
       }
     }
@@ -191,7 +194,7 @@ function treatArgs({ cli, questioners, confirmedOptions }) {
           arg,
           !argsRules[arg].format
             ? cli.flags[arg]
-            : argsRules[arg].format(cli.flags[arg])
+            : argsRules[arg].format(cli.flags[arg]),
         );
       } else {
         if (is_default) {
@@ -213,35 +216,35 @@ function treatArgs({ cli, questioners, confirmedOptions }) {
           return ext.includes(extname(cur));
         })
         .map((cur) => {
-          const specifiers = precinct(readFileSync(cur, "utf-8"));
+          const specifiers = precinct(readFileSync(cur, 'utf-8'));
           return jsModuleDependenciesToBeInstalled(specifiers);
         })
-        .flat()
-    )
+        .flat(),
+    ),
   );
 
   if (!isEmpty(scanedDependencies)) {
-    confirmedOptions.set("dependencies", scanedDependencies);
+    confirmedOptions.set('dependencies', scanedDependencies);
   }
 
   // 即使命令行中已指定，但仍需要二次确认的参数，除非要求，否则交互式提问用户
   !isEmpty(cli.flags.dependencies) &&
-    confirmedOptions.set("dependencies", [
+    confirmedOptions.set('dependencies', [
       ...cli.flags.dependencies,
-      ...confirmedOptions.get("dependencies"),
+      ...confirmedOptions.get('dependencies'),
     ]);
 
   if (cli.flags.doubleCheckDependencies) {
     questioners.push({
-      type: "list",
-      separator: " ",
-      initial: "",
-      name: "dependencies",
+      type: 'list',
+      separator: ' ',
+      initial: '',
+      name: 'dependencies',
       message: isEmpty(cli.flags.dependencies)
-        ? "未指定需要安装的依赖，如果需要，以逗号区分"
-        : `将安装 ${confirmedOptions.get("dependencies").reduce((acc, cur) => {
+        ? '未指定需要安装的依赖，如果需要，以逗号区分'
+        : `将安装 ${confirmedOptions.get('dependencies').reduce((acc, cur) => {
             return !acc ? `"${cur}"` : `${acc}、"${cur}"`;
-          }, "")}，如果需要指定更多，以逗号区分`,
+          }, '')}，如果需要指定更多，以逗号区分`,
     });
   }
 }
@@ -277,33 +280,33 @@ export default async function getOptions(cli) {
 
   [
     [
-      "name",
-      isScoped(confirmedOptions.get("name"))
-        ? confirmedOptions.get("name").split("/")[1]
-        : confirmedOptions.get("name"),
+      'name',
+      isScoped(confirmedOptions.get('name'))
+        ? confirmedOptions.get('name').split('/')[1]
+        : confirmedOptions.get('name'),
     ],
-    ["pkgName", confirmedOptions.get("name")],
+    ['pkgName', confirmedOptions.get('name')],
     [
-      "newProjectPath",
-      isScoped(confirmedOptions.get("name"))
+      'newProjectPath',
+      isScoped(confirmedOptions.get('name'))
         ? join(
-            confirmedOptions.get("output"),
-            confirmedOptions.get("name").split("/")[1]
+            confirmedOptions.get('output'),
+            confirmedOptions.get('name').split('/')[1],
           )
-        : join(confirmedOptions.get("output"), confirmedOptions.get("name")),
+        : join(confirmedOptions.get('output'), confirmedOptions.get('name')),
     ],
     [
-      "dependencies",
+      'dependencies',
       confirmedOptions
-        .get("dependencies")
+        .get('dependencies')
         .filter((cur) => notEmptyString(cur))
         .sort(alphaSort()),
     ],
     [
-      "namespace",
-      isScoped(confirmedOptions.get("name"))
-        ? confirmedOptions.get("name").split("/")[0].substring(1)
-        : "",
+      'namespace',
+      isScoped(confirmedOptions.get('name'))
+        ? confirmedOptions.get('name').split('/')[0].substring(1)
+        : '',
     ],
   ].forEach((cur) => {
     const k = cur[0];
@@ -333,19 +336,55 @@ export default async function getOptions(cli) {
    *
    * 两者不能同时出现
    */
-  if (isEmpty(confirmedOptions.get("namespace"))) {
+  if (isEmpty(confirmedOptions.get('namespace'))) {
     if (!isEmpty(cli.flags.githubOrg)) {
-      confirmedOptions.set("githubOrgName", cli.flags.githubOrg);
+      confirmedOptions.set('githubOrgName', cli.flags.githubOrg);
     }
   } else {
     if (!isEmpty(cli.flags.githubOrg)) {
-      confirmedOptions.set("githubOrgName", cli.flags.githubOrg);
+      confirmedOptions.set('githubOrgName', cli.flags.githubOrg);
     } else {
       if (!cli.flags.personal) {
-        confirmedOptions.set("githubOrgNameSameWithNpmOrg", true);
+        confirmedOptions.set('githubOrgNameSameWithNpmOrg', true);
       }
     }
   }
+
+  const tpls = createTemplates();
+
+  confirmedOptions.set('copiers', [
+    ...confirmedOptions
+      .get('targets')
+      .map((cur) => cur.path)
+      .map((cur) => ({
+        source: cur,
+        output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+      })),
+    ...tpls.copiers.map((cur) => ({
+      source: cur,
+      output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+    })),
+  ]);
+
+  confirmedOptions.set(
+    'prints',
+    Object.entries(tpls.prints).reduce((acc, cur) => {
+      const k = cur[0];
+      const v = cur[1];
+
+      acc[k] = {
+        source: v,
+        output: join(confirmedOptions.get('newProjectPath'), basename(v)),
+      };
+
+      return acc;
+    }, {}),
+  );
+
+  confirmedOptions.set('gitignore', {
+    source: tpls.stockrooms.gitignore,
+    output: join(confirmedOptions.get('newProjectPath'), '.gitignore'),
+  });
 
   return confirmedOptions.getAll();
 }

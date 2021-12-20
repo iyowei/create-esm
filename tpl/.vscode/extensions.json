@@ -1,8 +1,0 @@
-{
-  "recommendations": [
-    "editorconfig.editorconfig",
-    "amodio.toggle-excluded-files",
-    "oderwat.indent-rainbow",
-    "redhat.vscode-yaml"
-  ]
-}

@@ -1,8 +1,8 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@iyowei/callsite-home': ^1.0.1
   '@iyowei/cli-cancel-or-continue': ^1.0.1
+  '@iyowei/create-templates': ^1.0.2
   '@iyowei/fast-gitignore': ^1.0.2
   '@iyowei/is-esm': ^1.0.1
   '@iyowei/is-readme-path': ^1.0.1
@@ -29,8 +29,8 @@ specifiers:
   write-json-file: ^5.0.0
 
 dependencies:
-  '@iyowei/callsite-home': 1.0.1
   '@iyowei/cli-cancel-or-continue': 1.0.1
+  '@iyowei/create-templates': 1.0.2
   '@iyowei/fast-gitignore': 1.0.2
   '@iyowei/is-esm': 1.0.1
   '@iyowei/is-readme-path': 1.0.1
@@ -85,20 +85,15 @@ packages:
     hasBin: true
     dev: false
 
-  /@iyowei/callsite-home/1.0.1:
-    resolution: {integrity: sha512-wY5S9qaD/GlvMAInv8uaSU6LpZt5kF+oa9zkwV76qVtuTf7tA1H2p7A5YUYqvASPu/p5xoivGmhJ5ShdXusJ3A==}
-    engines: {node: '>=12.20.0'}
-    requiresBuild: true
-    dependencies:
-      callsites: 4.0.0
-      is-scoped: 3.0.0
-      read-pkg-up: 9.0.0
-    dev: false
-
   /@iyowei/cli-cancel-or-continue/1.0.1:
     resolution: {integrity: sha512-MJXz5kzsXmgzNV/shP5vG04woIogk4H5QkPed325RGGeJfEAo9T/US80523ENRA4PRiF9ekWxzJ09CON7UUmLg==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
+    dev: false
+
+  /@iyowei/create-templates/1.0.2:
+    resolution: {integrity: sha512-aHjwnqtwPil8Ajjh0gQJIGLHIUiazgsH+liW3Ut+k4CgOCGFmo5X+DiGryaweT2TSzeShjOfwfO2Qe8cOOZkQQ==}
+    engines: {node: '>=12.20.0'}
     dev: false
 
   /@iyowei/fast-gitignore/1.0.2:
@@ -279,7 +274,7 @@ packages:
     dev: false
 
   /boxen/6.2.1:
-    resolution: {integrity: sha1-sJiiJ4ss0oRd7vLf8u/DjTKbQ00=, tarball: boxen/download/boxen-6.2.1.tgz?cache=0&sync_timestamp=1634135099696&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fboxen%2Fdownload%2Fboxen-6.2.1.tgz}
+    resolution: {integrity: sha1-sJiiJ4ss0oRd7vLf8u/DjTKbQ00=, tarball: boxen/download/boxen-6.2.1.tgz}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       ansi-align: 3.0.1
@@ -313,11 +308,6 @@ packages:
 
   /builtins/1.0.3:
     resolution: {integrity: sha1-y5T662HIaWRR2zZTThQi+U8K7og=, tarball: builtins/download/builtins-1.0.3.tgz}
-    dev: false
-
-  /callsites/4.0.0:
-    resolution: {integrity: sha1-gBTOpP7f5oGjDi99LVV92VgIqSo=, tarball: callsites/download/callsites-4.0.0.tgz}
-    engines: {node: '>=12.20'}
     dev: false
 
   /camelcase-keys/7.0.1:
@@ -512,14 +502,6 @@ packages:
     dependencies:
       locate-path: 6.0.0
       path-exists: 4.0.0
-    dev: false
-
-  /find-up/6.2.0:
-    resolution: {integrity: sha1-87gdYz+oO+vmT4OourNX+G1ZFL4=, tarball: find-up/download/find-up-6.2.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      locate-path: 7.0.0
-      path-exists: 5.0.0
     dev: false
 
   /fs-extra/10.0.0:
@@ -748,15 +730,8 @@ packages:
       p-locate: 5.0.0
     dev: false
 
-  /locate-path/7.0.0:
-    resolution: {integrity: sha1-8KYMjdfvD3N2meuUYblWepK8l9o=, tarball: locate-path/download/locate-path-7.0.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      p-locate: 6.0.0
-    dev: false
-
   /lodash/4.17.21:
-    resolution: {integrity: sha1-Z5WRxWTDv/quhFTPCz3zcMPWkRw=, tarball: lodash/download/lodash-4.17.21.tgz}
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, tarball: lodash/download/lodash-4.17.21.tgz}
     dev: false
 
   /log-update/4.0.0:
@@ -879,25 +854,11 @@ packages:
       yocto-queue: 0.1.0
     dev: false
 
-  /p-limit/4.0.0:
-    resolution: {integrity: sha1-kUr2VE7TK/pUZwsGHK/L0EmEtkQ=, tarball: p-limit/download/p-limit-4.0.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      yocto-queue: 1.0.0
-    dev: false
-
   /p-locate/5.0.0:
     resolution: {integrity: sha1-g8gxXGeFAF470CGDlBHJ4RDm2DQ=, tarball: p-locate/download/p-locate-5.0.0.tgz}
     engines: {node: '>=10'}
     dependencies:
       p-limit: 3.1.0
-    dev: false
-
-  /p-locate/6.0.0:
-    resolution: {integrity: sha1-PamknUk0uQEIncozAvpl3FoFwE8=, tarball: p-locate/download/p-locate-6.0.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      p-limit: 4.0.0
     dev: false
 
   /p-map/4.0.0:
@@ -927,11 +888,6 @@ packages:
   /path-exists/4.0.0:
     resolution: {integrity: sha1-UTvb4tO5XXdi6METfvoZXGxhtbM=, tarball: path-exists/download/path-exists-4.0.0.tgz}
     engines: {node: '>=8'}
-    dev: false
-
-  /path-exists/5.0.0:
-    resolution: {integrity: sha1-pqrZSJIAsh+rMeSc8JJ35RFvuec=, tarball: path-exists/download/path-exists-5.0.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dev: false
 
   /path-is-absolute/1.0.1:
@@ -974,15 +930,6 @@ packages:
       type-fest: 1.4.0
     dev: false
 
-  /read-pkg-up/9.0.0:
-    resolution: {integrity: sha1-LwO6PhQwxW+PCk2nMnTG0mwoO0U=, tarball: read-pkg-up/download/read-pkg-up-9.0.0.tgz}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      find-up: 6.2.0
-      read-pkg: 7.0.0
-      type-fest: 2.8.0
-    dev: false
-
   /read-pkg/6.0.0:
     resolution: {integrity: sha1-pnp9ahwrDDzWqi6lIfQMRYpKUEw=, tarball: read-pkg/download/read-pkg-6.0.0.tgz}
     engines: {node: '>=12'}
@@ -991,16 +938,6 @@ packages:
       normalize-package-data: 3.0.3
       parse-json: 5.2.0
       type-fest: 1.4.0
-    dev: false
-
-  /read-pkg/7.0.0:
-    resolution: {integrity: sha1-cAkJSpzVjH78Ml0x8fbPzhko+gA=, tarball: read-pkg/download/read-pkg-7.0.0.tgz}
-    engines: {node: '>=12.20'}
-    dependencies:
-      '@types/normalize-package-data': 2.4.1
-      normalize-package-data: 3.0.3
-      parse-json: 5.2.0
-      type-fest: 2.8.0
     dev: false
 
   /rechoir/0.6.2:
@@ -1324,9 +1261,4 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha1-ApTrPe4FAo0x7hpfosVWpqrxChs=, tarball: yocto-queue/download/yocto-queue-0.1.0.tgz}
     engines: {node: '>=10'}
-    dev: false
-
-  /yocto-queue/1.0.0:
-    resolution: {integrity: sha1-f4FkM/ssvFEeyL99Jjw7WKGjwlE=, tarball: yocto-queue/download/yocto-queue-1.0.0.tgz}
-    engines: {node: '>=12.20'}
     dev: false
