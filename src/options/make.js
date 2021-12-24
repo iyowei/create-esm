@@ -362,7 +362,11 @@ export default async function getOptions(cli) {
         source: cur,
         output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
       })),
-    ...copiers.map((cur) => ({
+    ...copiers.common.map((cur) => ({
+      source: cur,
+      output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+    })),
+    ...copiers.esm.map((cur) => ({
       source: cur,
       output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
     })),

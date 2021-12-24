@@ -51,7 +51,11 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
         },
 
         // 脚手架
-        scripts: {},
+        scripts: {
+          format:
+            "npx prettier '**/*.{js,mjs,json,md}' --write --loglevel error",
+          lint: 'npx eslint **/*.js',
+        },
 
         // 基本信息
         description: opts.get('description'),
@@ -66,11 +70,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
       };
 
       if (opts.get('tdd')) {
-        Object.assign(TMP, {
-          scripts: {
-            test: "npx mocha '**/*.+(spec|test).js'",
-          },
-        });
+        TMP.scripts.test = "npx mocha '**/*.+(spec|test).js'";
       }
 
       pkgIns.update(TMP);

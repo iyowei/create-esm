@@ -15,7 +15,13 @@ const DEFAULTS = new Map(
     pkgFiles: [],
     pkgExports: {},
 
-    devDependencies: [],
+    devDependencies: [
+      'eslint',
+      'eslint-config-prettier',
+      'eslint-plugin-import',
+      'eslint-config-airbnb-base',
+      'prettier',
+    ],
     dependencies: [],
 
     namespace: '',

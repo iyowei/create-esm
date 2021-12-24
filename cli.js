@@ -184,7 +184,7 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
       {
         title: '发布到 NPM',
         task: async (ctx, task) => {
-          // await taskPublish({ ctx, task, opts });
+          await taskPublish({ ctx, task, opts });
         },
       },
     ],
