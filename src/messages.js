@@ -1,6 +1,6 @@
 import { basename } from 'path';
 
-import chalk from 'chalk';
+import chalk from 'chalk'; // eslint-disable-line
 import gradient from 'gradient-string';
 import figlet from 'figlet';
 
@@ -101,23 +101,33 @@ export const getReport = (opts) => {
   )} 位置创建 ${chalk.greenBright.bold(opts.get('name'))} 项目。
 
   待拷贝，
-${opts.get('targets').reduce((acc, cur) => {
-  return !acc
-    ? `- ${chalk.greenBright.bold(basename(cur.path))}, ${chalk.grey(cur.path)}`
-    : `${acc}\n- ${chalk.greenBright.bold(basename(cur.path))}, ${chalk.grey(
-        cur.path,
-      )}`;
-}, '')}\n
+${opts
+  .get('targets')
+  .reduce(
+    (acc, cur) =>
+      !acc
+        ? `- ${chalk.greenBright.bold(basename(cur.path))}, ${chalk.grey(
+            cur.path,
+          )}`
+        : `${acc}\n- ${chalk.greenBright.bold(
+            basename(cur.path),
+          )}, ${chalk.grey(cur.path)}`,
+    '',
+  )}\n
   `;
 
   // 如果 `opts.dependencies` 有效，才显示 "需要安装的依赖有这些" 部分
   if (!isEmpty(opts.get('dependencies'))) {
     f += `需要安装的依赖有这些，
-${opts.get('dependencies').reduce((acc, cur) => {
-  return !acc
-    ? `- ${chalk.greenBright.bold(cur)}`
-    : `${acc}\n- ${chalk.greenBright.bold(cur)}`;
-}, '')}\n
+${opts
+  .get('dependencies')
+  .reduce(
+    (acc, cur) =>
+      !acc
+        ? `- ${chalk.greenBright.bold(cur)}`
+        : `${acc}\n- ${chalk.greenBright.bold(cur)}`,
+    '',
+  )}\n
   `;
   }
 
