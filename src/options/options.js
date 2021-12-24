@@ -14,11 +14,14 @@ const DEFAULTS = new Map(
     description: '',
     pkgFiles: [],
     pkgExports: {},
+
+    devDependencies: [],
     dependencies: [],
 
     namespace: '',
 
     generateReadme: false,
+    tdd: false,
 
     // 默认在个人 Github 账户下创建项目
     githubOrgNameSameWithNpmOrg: false,

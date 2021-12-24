@@ -40,7 +40,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
     } else {
       const pkgIns = await pkg.load(opts.get('newProjectPath'));
 
-      pkgIns.update({
+      const TMP = {
         // 包
         type: 'module',
         exports: opts.get('pkgExports').relativePath,
@@ -63,7 +63,17 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
         },
         keywords: ['iyowei'],
         license: 'MIT',
-      });
+      };
+
+      if (opts.get('tdd')) {
+        Object.assign(TMP, {
+          scripts: {
+            test: "npx mocha '**/*.+(spec|test).js'",
+          },
+        });
+      }
+
+      pkgIns.update(TMP);
       await pkgIns.save();
 
       delete pkgIns.content.author;
@@ -87,11 +97,21 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
     const DEPs = opts.get('dependencies');
 
     if (DEPs.length !== 0) {
-      const PART_NAME = '安装依赖';
+      const PART_NAME = '安装生产依赖';
 
       task.title = PART_NAME;
 
-      shell.exec(`pnpm i ${DEPs.join(' ')}`, { silent: true });
+      shell.exec(`pnpm add ${DEPs.join(' ')}`, { silent: true });
+    }
+
+    const DevDEPs = opts.get('devDependencies');
+
+    if (DevDEPs.length !== 0) {
+      const PART_NAME = '安装开发依赖';
+
+      task.title = PART_NAME;
+
+      shell.exec(`pnpm add ${DevDEPs.join(' ')} -D`, { silent: true });
     }
   }
 

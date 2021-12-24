@@ -72,6 +72,10 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
       githubOrg: {
         type: 'string',
       },
+      tdd: {
+        type: 'boolean',
+        default: false,
+      },
       version: {
         type: 'boolean',
         alias: 'v',
@@ -180,7 +184,7 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
       {
         title: '发布到 NPM',
         task: async (ctx, task) => {
-          await taskPublish({ ctx, task, opts });
+          // await taskPublish({ ctx, task, opts });
         },
       },
     ],

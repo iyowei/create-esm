@@ -243,6 +243,14 @@ function treatArgs({ cli, questioners, confirmedOptions }) {
           }, '')}，如果需要指定更多，以逗号区分`,
     });
   }
+
+  if (cli.flags.tdd) {
+    confirmedOptions.set(
+      'devDependencies',
+      confirmedOptions.get('devDependencies').concat(['mocha']),
+    );
+    confirmedOptions.set('tdd', cli.flags.tdd);
+  }
 }
 
 function hasReadme(paths = []) {
