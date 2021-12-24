@@ -16,7 +16,7 @@ import prompts from 'prompts';
 import isReadmePath from '@iyowei/is-readme-path';
 import precinct from 'detective-es6';
 import isEmpty from 'lodash/isEmpty.js';
-import createTemplates from '@iyowei/create-templates';
+import { prints, copiers, stockrooms } from '@iyowei/create-templates';
 
 import jsModuleDependenciesToBeInstalled from '@iyowei/js-module-dependencies-to-be-installed';
 import { HINT_NO_FILE_INPUT, hints } from '../messages.js';
@@ -346,8 +346,6 @@ export default async function getOptions(cli) {
     }
   }
 
-  const tpls = createTemplates();
-
   confirmedOptions.set('copiers', [
     ...confirmedOptions
       .get('targets')
@@ -356,7 +354,7 @@ export default async function getOptions(cli) {
         source: cur,
         output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
       })),
-    ...tpls.copiers.map((cur) => ({
+    ...copiers.map((cur) => ({
       source: cur,
       output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
     })),
@@ -364,7 +362,7 @@ export default async function getOptions(cli) {
 
   confirmedOptions.set(
     'prints',
-    Object.entries(tpls.prints).reduce((acc, cur) => {
+    Object.entries(prints).reduce((acc, cur) => {
       const k = cur[0];
       const v = cur[1];
 
@@ -378,7 +376,7 @@ export default async function getOptions(cli) {
   );
 
   confirmedOptions.set('gitignore', {
-    source: tpls.stockrooms.gitignore,
+    source: stockrooms.gitignore,
     output: join(confirmedOptions.get('newProjectPath'), '.gitignore'),
   });
 

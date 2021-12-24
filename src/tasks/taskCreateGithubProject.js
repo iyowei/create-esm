@@ -1,14 +1,10 @@
-import { readFileSync, mkdirSync, writeFileSync, existsSync, watch } from 'fs';
-
-import fastGitignore from '@iyowei/fast-gitignore';
 import isEmpty from 'lodash/isEmpty.js';
 import shell from 'shelljs';
-
-import print from '../print.js';
+import { writeGitignore, writeReadme } from '@iyowei/create-templates';
 
 export const TASK_NAME_CREATE_REPO = '创建项目';
 
-// TODO: 独立成专门的 API 模块
+// TODO: 使用 "模板方法模式" 组织代码
 export default async function taskCreateGithubProject({ ctx, task, opts }) {
   if (!ctx.error) {
     const PART_NAME = '切换到输出目录';
@@ -40,6 +36,7 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
 
   if (!ctx.error) {
     let repo;
+
     if (opts.get('githubOrgNameSameWithNpmOrg')) {
       repo = `${opts.get('namespace')}/${opts.get('name')}`;
     } else {
@@ -70,36 +67,29 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
   if (!ctx.error) {
     task.title = '生成 .gitignore';
 
-    writeFileSync(
-      opts.get('gitignore').output,
-      Object.values(
-        // TODO: 如果是仓库里所有的模板都要的话，设置 ignore 为空数组即是
-        await fastGitignore({
-          ignore: [
-            'macOS',
-            'Windows',
-            'Linux',
-            'Node',
-            'VisualStudioCode',
-            'SublimeText',
-            'CVS',
-            'Diff',
-            'Vim',
-            'TortoiseGit',
-          ],
-          templatesDir: opts.get('gitignore').source,
-        }),
-      ).join('\n\n\n'),
-    );
+    await writeGitignore({
+      output: opts.get('gitignore').output,
+      topics: [
+        'macOS',
+        'Windows',
+        'Linux',
+        'Node',
+        'VisualStudioCode',
+        'SublimeText',
+        'CVS',
+        'Diff',
+        'Vim',
+        'TortoiseGit',
+      ],
+    });
   }
 
   if (!ctx.error) {
     if (opts.get('generateReadme')) {
       task.title = '生成 README.md';
 
-      print({
-        outputPath: opts.get('prints').readme.output,
-        templatePath: opts.get('prints').readme.source,
+      await writeReadme({
+        output: opts.get('prints').readme.output,
         data: {
           name: opts.get('name'),
           description: opts.get('description'),

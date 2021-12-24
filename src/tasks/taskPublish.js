@@ -2,7 +2,7 @@ import shell from 'shelljs';
 
 export const TASK_NAME_PUBLISH = '发布到 NPM';
 
-// TODO: 独立成专门的 API 模块
+// TODO: 使用 "模板方法模式" 组织代码
 export default async function taskPublish({ ctx, task, opts }) {
   if (!ctx.error) {
     const PART_NAME = '切换到新创建好的项目';

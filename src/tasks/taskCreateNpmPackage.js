@@ -1,14 +1,11 @@
-import { readFileSync, writeFileSync } from 'fs';
-
 import pkg from '@npmcli/package-json';
 import shell from 'shelljs';
-
+import { writeNpmRc } from '@iyowei/create-templates';
 import isEmpty from 'lodash/isEmpty.js';
-import print from '../print.js';
 
 export const TASK_NAME_CREATE_NPM_PACKAGE = '创建项目';
 
-// TODO: 独立成专门的 API 模块
+// TODO: 使用 "模板方法模式" 组织代码
 export default async function taskCreateNpmPackage({ ctx, task, opts }) {
   if (!ctx.error) {
     const PART_NAME = '切换到新创建好的项目';
@@ -80,9 +77,8 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
     task.title = PART_NAME;
 
     // 读取 .npmrc 模板，填入数据，写到新建项目中
-    print({
-      outputPath: opts.get('prints').npmrc.output,
-      templatePath: opts.get('prints').npmrc.source,
+    await writeNpmRc({
+      output: opts.get('prints').npmrc.output,
       data: { namespace: opts.get('namespace') },
     });
   }

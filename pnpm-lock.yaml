@@ -2,8 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@iyowei/cli-cancel-or-continue': ^1.0.1
-  '@iyowei/create-templates': ^1.0.2
-  '@iyowei/fast-gitignore': ^1.0.2
+  '@iyowei/create-templates': ^1.0.4
   '@iyowei/is-esm': ^1.0.1
   '@iyowei/is-readme-path': ^1.0.1
   '@iyowei/is-tilde-path': ^1.0.0
@@ -30,8 +29,7 @@ specifiers:
 
 dependencies:
   '@iyowei/cli-cancel-or-continue': 1.0.1
-  '@iyowei/create-templates': 1.0.2
-  '@iyowei/fast-gitignore': 1.0.2
+  '@iyowei/create-templates': 1.0.4
   '@iyowei/is-esm': 1.0.1
   '@iyowei/is-readme-path': 1.0.1
   '@iyowei/is-tilde-path': 1.0.0
@@ -91,18 +89,20 @@ packages:
     requiresBuild: true
     dev: false
 
-  /@iyowei/create-templates/1.0.2:
-    resolution: {integrity: sha512-aHjwnqtwPil8Ajjh0gQJIGLHIUiazgsH+liW3Ut+k4CgOCGFmo5X+DiGryaweT2TSzeShjOfwfO2Qe8cOOZkQQ==}
+  /@iyowei/create-templates/1.0.4:
+    resolution: {integrity: sha512-kQbmg7L+4fQYQ4kYZtQCVm2g9vleIdspMDT3PmJKWFolVQ1dzgsKm1f1MKEr3otyo2exhGgthzVPno2MXG1JHA==}
     engines: {node: '>=12.20.0'}
+    dependencies:
+      '@iyowei/fast-gitignore': 1.0.4
+      lodash.template: 4.5.0
     dev: false
 
-  /@iyowei/fast-gitignore/1.0.2:
-    resolution: {integrity: sha512-OEje5HJOWCBwLQXzCSiszvlBkT/1iiiZLO172ZzmOlPzHVkfXcWVi3G5oTGBZ1uR8pA415tKZ0yiZjAPRV0CGw==}
+  /@iyowei/fast-gitignore/1.0.4:
+    resolution: {integrity: sha512-6VPx2q5NzxgaDlx6UGLu9cbVj47HTcnnjsb1X2QZZXWn5Hqx1fL+vCaCTbHf73yQCZ/paYUeLgPLEj6kU5ZPvQ==}
     engines: {node: '>=12.20.0'}
     requiresBuild: true
     dependencies:
       arrify: 3.0.0
-      deepmerge: 4.2.2
       fast-glob: 3.2.7
       p-map: 5.3.0
     dev: false
@@ -424,11 +424,6 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /deepmerge/4.2.2:
-    resolution: {integrity: sha1-RNLqNnm49NT/ujPwPYZfwee/SVU=, tarball: deepmerge/download/deepmerge-4.2.2.tgz?cache=0&sync_timestamp=1632822781299&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fdeepmerge%2Fdownload%2Fdeepmerge-4.2.2.tgz}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /detect-indent/7.0.0:
     resolution: {integrity: sha1-yrWOarESnGaeIQEYGmxneRfUNXc=, tarball: detect-indent/download/detect-indent-7.0.0.tgz}
     engines: {node: '>=12.20'}
@@ -728,6 +723,23 @@ packages:
       p-locate: 5.0.0
     dev: false
 
+  /lodash._reinterpolate/3.0.0:
+    resolution: {integrity: sha1-DM8tiRZq8Ds2Y8eWU4t1rG4RTZ0=, tarball: lodash._reinterpolate/download/lodash._reinterpolate-3.0.0.tgz}
+    dev: false
+
+  /lodash.template/4.5.0:
+    resolution: {integrity: sha1-+XYZXPPzR9DV9SSDVp/oAxzM6Ks=, tarball: lodash.template/download/lodash.template-4.5.0.tgz}
+    dependencies:
+      lodash._reinterpolate: 3.0.0
+      lodash.templatesettings: 4.2.0
+    dev: false
+
+  /lodash.templatesettings/4.2.0:
+    resolution: {integrity: sha1-5IExDwSdPPbUfpEq0JMTsVTw+zM=, tarball: lodash.templatesettings/download/lodash.templatesettings-4.2.0.tgz}
+    dependencies:
+      lodash._reinterpolate: 3.0.0
+    dev: false
+
   /lodash/4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, tarball: lodash/download/lodash-4.17.21.tgz}
     dev: false
@@ -1003,7 +1015,7 @@ packages:
     dev: false
 
   /shelljs/0.8.4:
-    resolution: {integrity: sha1-3naE/ut2f4cWsyYHiooAh1iQ48I=, tarball: shelljs/download/shelljs-0.8.4.tgz?cache=0&sync_timestamp=1635241344051&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fshelljs%2Fdownload%2Fshelljs-0.8.4.tgz}
+    resolution: {integrity: sha1-3naE/ut2f4cWsyYHiooAh1iQ48I=, tarball: shelljs/download/shelljs-0.8.4.tgz}
     engines: {node: '>=4'}
     hasBin: true
     dependencies:
