@@ -16,14 +16,12 @@ export default async function taskCreateChangelog({ ctx, task, opts }) {
   }
 
   if (!ctx.error) {
-    // TODO: 首次发布文案
-
     const PART_NAME = '推送更新日志';
 
     task.title = PART_NAME;
 
     const FIRST_VERSION = 'v1.0.0';
-    const cmdRelease = `gh release create ${FIRST_VERSION} --notes "${FIRST_VERSION}"`;
+    const cmdRelease = `gh release create ${FIRST_VERSION} --generate-notes`;
 
     if (shell.exec(cmdRelease, { silent: true }).code !== 0) {
       ctx.error = true;
