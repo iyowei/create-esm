@@ -15,12 +15,37 @@ export default async function taskCreateChangelog({ ctx, task, opts }) {
     }
   }
 
+  const FIRST_VERSION = 'v1.0.0';
+
+  if (!ctx.error) {
+    const PART_NAME = `贴标签：${FIRST_VERSION}`;
+
+    task.title = PART_NAME;
+    const cmdTag = `git tag ${FIRST_VERSION}`;
+
+    if (shell.exec(cmdTag, { silent: true }).code !== 0) {
+      ctx.error = true;
+      ctx.message = `"${TASK_NAME_UPDATE_CHANGELOG}" 任务在 "${PART_NAME}" 环节出错`;
+    }
+  }
+
+  if (!ctx.error) {
+    const PART_NAME = '推送标签';
+
+    task.title = PART_NAME;
+    const cmdPushTags = 'git push --tags';
+
+    if (shell.exec(cmdPushTags, { silent: true }).code !== 0) {
+      ctx.error = true;
+      ctx.message = `"${TASK_NAME_UPDATE_CHANGELOG}" 任务在 "${PART_NAME}" 环节出错`;
+    }
+  }
+
   if (!ctx.error) {
     const PART_NAME = '推送更新日志';
 
     task.title = PART_NAME;
 
-    const FIRST_VERSION = 'v1.0.0';
     const cmdRelease = `gh release create ${FIRST_VERSION} --generate-notes`;
 
     if (shell.exec(cmdRelease, { silent: true }).code !== 0) {

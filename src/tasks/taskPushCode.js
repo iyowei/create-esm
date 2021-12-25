@@ -43,36 +43,12 @@ export default async function taskPushCode({ ctx, task, opts }) {
   }
 
   if (!ctx.error) {
-    const PART_NAME = `贴标签：${FIRST_VERSION}`;
-
-    task.title = PART_NAME;
-    const cmdTag = `git tag ${FIRST_VERSION}`;
-
-    if (shell.exec(cmdTag, { silent: true }).code !== 0) {
-      ctx.error = true;
-      ctx.message = `"${TASK_NAME_PUSH_CODE}" 任务在 "${PART_NAME}" 环节出错`;
-    }
-  }
-
-  if (!ctx.error) {
     const PART_NAME = '推送至 Github';
 
     task.title = PART_NAME;
     const cmdPushSource = 'git push -u origin main';
 
     if (shell.exec(cmdPushSource, { silent: true }).code !== 0) {
-      ctx.error = true;
-      ctx.message = `"${TASK_NAME_PUSH_CODE}" 任务在 "${PART_NAME}" 环节出错`;
-    }
-  }
-
-  if (!ctx.error) {
-    const PART_NAME = '推送标签';
-
-    task.title = PART_NAME;
-    const cmdPushTags = 'git push --tags';
-
-    if (shell.exec(cmdPushTags, { silent: true }).code !== 0) {
       ctx.error = true;
       ctx.message = `"${TASK_NAME_PUSH_CODE}" 任务在 "${PART_NAME}" 环节出错`;
     }
