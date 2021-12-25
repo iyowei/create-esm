@@ -46,6 +46,7 @@
 - TDD；
 - Node.js >= v12.20.0；
 - .vscode 配置；
+- 默认使用 PNPM 包管理器；
 - 包含基本结构的 README.md；（可以照模子画瓢）
 - 开源；
 - 在 Github 上托管源码；
