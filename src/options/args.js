@@ -1,6 +1,4 @@
 import { existsSync, realpathSync } from 'fs';
-import { resolve } from 'path';
-import { homedir } from 'os';
 
 import isEmpty from 'lodash/isEmpty.js';
 import validateNpmPkgName from 'validate-npm-package-name';
@@ -15,7 +13,7 @@ export const ARG_SSH_KEY = 'sshkey';
 // 部分 ”交互式提问“ 自动根据某些参数是否提供、是否有默认值等特征出现或隐藏
 export const rules = {
   [ARG_NAME]: {
-    is_default: false,
+    isDefault: false,
     cliRequired: true,
     hint: '必须提供 name 参数',
 
@@ -39,12 +37,12 @@ export const rules = {
     },
   },
   [ARG_DESCRIPTION]: {
-    is_default: false,
+    isDefault: false,
     cliRequired: true,
     hint: '必须提供 description 参数',
   },
   [ARG_OUTPUT]: {
-    is_default: true,
+    isDefault: true,
     cliRequired: false,
     hint: '未提供 output 参数，且没有默认配置，请提供',
     validate: (value) => {
@@ -62,7 +60,7 @@ export const rules = {
     },
   },
   [ARG_SSH_KEY]: {
-    is_default: true,
+    isDefault: true,
     cliRequired: false,
     hint: '未提供 sshkey 参数，且没有默认配置，请提供',
     validate: (value) => {

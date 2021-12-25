@@ -3,7 +3,7 @@
 import { Listr } from 'listr2';
 import shell from 'shelljs';
 import meow from 'meow';
-import chalk from 'chalk';
+import chalk from 'chalk'; // eslint-disable-line
 import cancelOrContinue from '@iyowei/cli-cancel-or-continue';
 
 import {
@@ -34,7 +34,7 @@ import taskPublish from './src/tasks/taskPublish.js';
 import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
 
 // TODO: 骨架化
-(async function () {
+(async function () { // eslint-disable-line
   // 必要工具检查
   prerequisites();
 
@@ -196,14 +196,16 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
   if (completed.error) {
     if (Array.isArray(completed.message)) {
       shell.echo(
-        completed.message.reduce((acc, cur) => {
-          return !acc
-            ? `\n  ${chalk.redBright.bold(cur)}`
-            : `${acc}\n  ${chalk.redBright.bold(cur)}`;
-        }, ''),
+        completed.message.reduce(
+          (acc, cur) =>
+            !acc
+              ? `\n  ${chalk.redBright.bold(cur)}`
+              : `${acc}\n  ${chalk.redBright.bold(cur)}`,
+          '',
+        ),
       );
     } else {
-      shell.echo(`\n  ${chalk.redBright.bold(completed.message + '!!!')}\n`);
+      shell.echo(`\n  ${chalk.redBright.bold(`${completed.message} !!!`)}\n`);
     }
   }
 

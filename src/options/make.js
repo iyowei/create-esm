@@ -11,10 +11,11 @@ import notEmptyString from '@iyowei/not-empty-string';
 import alphaSort from 'alpha-sort';
 import isScoped from 'is-scoped';
 import shell from 'shelljs';
-import chalk from 'chalk';
+import chalk from 'chalk'; // eslint-disable-line
 import prompts from 'prompts';
 import isReadmePath from '@iyowei/is-readme-path';
 import precinct from 'detective-es6';
+import { isESMSync } from '@iyowei/is-esm';
 import isEmpty from 'lodash/isEmpty.js';
 import { prints, copiers, stockrooms } from '@iyowei/create-templates';
 
@@ -23,21 +24,68 @@ import { HINT_NO_FILE_INPUT, hints } from '../messages.js';
 import { getGlobalConfigurations } from './global.js';
 import terminateCli from '../terminateCli.js';
 import confirmedOptions from './options.js';
-import { isESMSync } from '@iyowei/is-esm';
 
 import questions from './questions.js';
-import {
-  rules as argsRules,
-  ARG_NAME,
-  ARG_DESCRIPTION,
-  ARG_OUTPUT,
-  ARG_SSH_KEY,
-} from './args.js';
+import { rules as argsRules } from './args.js';
 
 const questioners = [];
 const ext = ['.js', '.mjs'];
 
-function treatInputs({ cli, questioners, confirmedOptions }) {
+function hasReadme(paths = []) {
+  return paths.some(isReadmePath);
+}
+
+function getJSTypeFileInputs(inputs) {
+  return inputs.filter(
+    (cur) => cur.dirent.isFile() && ext.includes(extname(cur.path)),
+  );
+}
+
+function treatDependencies(cli) {
+  // 解析 JS 文件中的需要安装依赖
+  const scaned = Array.from(
+    new Set(
+      cli.input
+        .filter((cur) => ext.includes(extname(cur)))
+        .map((cur) => {
+          const specifiers = precinct(readFileSync(cur, 'utf-8'));
+          return jsModuleDependenciesToBeInstalled(specifiers);
+        })
+        .flat(),
+    ),
+  );
+
+  if (!isEmpty(scaned)) {
+    confirmedOptions.set('dependencies', scaned);
+  }
+
+  // 即使命令行中已指定，但仍需要二次确认的参数，除非要求，否则交互式提问用户
+  if (!isEmpty(cli.flags.dependencies)) {
+    confirmedOptions.set(
+      'dependencies',
+      Array.from(new Set([...scaned, ...cli.flags.dependencies])),
+    );
+  }
+
+  if (cli.flags.doubleCheckDependencies) {
+    questioners.push({
+      type: 'list',
+      separator: ' ',
+      initial: '',
+      name: 'dependencies',
+      message: isEmpty(confirmedOptions.get('dependencies'))
+        ? '未指定需要安装的依赖，如果需要，以空格间隔输入'
+        : `将安装 ${confirmedOptions
+            .get('dependencies')
+            .reduce(
+              (acc, cur) => (!acc ? `"${cur}"` : `${acc}、"${cur}"`),
+              '',
+            )}，如果需要指定更多，以空格间隔输入`,
+    });
+  }
+}
+
+function treatInputs(cli) {
   if (isEmpty(cli.input)) {
     terminateCli('请指定文件、文件夹');
   }
@@ -48,9 +96,10 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
   if (!isEmpty(inputsExist)) {
     log(`
   ${chalk.redBright.bold('以下输入的文件不存在，请检查是否输入有误，')}
-  ${inputsExist.reduce((acc, cur) => {
-    return !acc ? `- ${cur}` : `${acc}\n  - ${cur}`;
-  }, '')}
+  ${inputsExist.reduce(
+    (acc, cur) => (!acc ? `- ${cur}` : `${acc}\n  - ${cur}`),
+    '',
+  )}
       `);
 
     shell.exit(1);
@@ -58,13 +107,11 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
 
   // ==========================================================================>
 
-  const inputs = cli.input.map((cur) => {
-    return {
-      path: cur,
-      name: basename(cur),
-      dirent: statSync(cur),
-    };
-  });
+  const inputs = cli.input.map((cur) => ({
+    path: cur,
+    name: basename(cur),
+    dirent: statSync(cur),
+  }));
 
   if (isEmpty(getJSTypeFileInputs(inputs))) {
     terminateCli(hints[HINT_NO_FILE_INPUT]);
@@ -126,12 +173,12 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
   const jsFileTypeInputs = getJSTypeFileInputs(inputs);
 
   if (jsFileTypeInputs.length === 1) {
-    const _the = jsFileTypeInputs[0];
+    const jsInput = jsFileTypeInputs[0];
     confirmedOptions.set(
       'pkgExports',
-      Object.assign(_the, {
-        relativePath: `./${_the.name}`,
-        bareRelativePath: _the.name,
+      Object.assign(jsInput, {
+        relativePath: `./${jsInput.name}`,
+        bareRelativePath: jsInput.name,
       }),
     );
   } else {
@@ -161,13 +208,14 @@ function treatInputs({ cli, questioners, confirmedOptions }) {
   }
 }
 
-function treatArgs({ cli, questioners, confirmedOptions }) {
+// 部分 ”交互式提问“ 自动根据某些参数是否提供、是否有默认值等特征出现或隐藏
+function treatArgsWithQuestionIfNotGiven(cli) {
   const defaults = getGlobalConfigurations();
 
-  // 部分 ”交互式提问“ 自动根据某些参数是否提供、是否有默认值等特征出现或隐藏
-  Object.entries(argsRules).forEach(function (kv) {
+
+  Object.entries(argsRules).forEach((kv) => {
     const arg = kv[0];
-    const { cliRequired, hint, is_default } = kv[1];
+    const { cliRequired, isDefault } = kv[1];
 
     // 必需参数，使用命令行中提供的配置，未提供的情况下交互式提问用户
     if (cliRequired) {
@@ -192,88 +240,30 @@ function treatArgs({ cli, questioners, confirmedOptions }) {
             ? cli.flags[arg]
             : argsRules[arg].format(cli.flags[arg]),
         );
+      } else if (isDefault && !defaults[arg]) {
+        questioners.push(questions[arg]);
       } else {
-        if (is_default) {
-          if (!defaults[arg]) {
-            questioners.push(questions[arg]);
-          } else {
-            confirmedOptions.set(arg, defaults[arg]);
-          }
-        }
+        confirmedOptions.set(arg, defaults[arg]);
       }
     }
   });
+}
 
-  // 解析 JS 文件中的需要安装依赖
-  const scanedDependencies = Array.from(
-    new Set(
-      cli.input
-        .filter((cur) => {
-          return ext.includes(extname(cur));
-        })
-        .map((cur) => {
-          const specifiers = precinct(readFileSync(cur, 'utf-8'));
-          return jsModuleDependenciesToBeInstalled(specifiers);
-        })
-        .flat(),
-    ),
-  );
+export default async function make(cli) {
+  treatInputs(cli);
 
-  if (!isEmpty(scanedDependencies)) {
-    confirmedOptions.set('dependencies', scanedDependencies);
-  }
+  treatArgsWithQuestionIfNotGiven(cli);
 
-  // 即使命令行中已指定，但仍需要二次确认的参数，除非要求，否则交互式提问用户
-  !isEmpty(cli.flags.dependencies) &&
-    confirmedOptions.set('dependencies', [
-      ...cli.flags.dependencies,
-      ...confirmedOptions.get('dependencies'),
-    ]);
+  treatDependencies(cli);
 
-  if (cli.flags.doubleCheckDependencies) {
-    questioners.push({
-      type: 'list',
-      separator: ' ',
-      initial: '',
-      name: 'dependencies',
-      message: isEmpty(cli.flags.dependencies)
-        ? '未指定需要安装的依赖，如果需要，以逗号区分'
-        : `将安装 ${confirmedOptions.get('dependencies').reduce((acc, cur) => {
-            return !acc ? `"${cur}"` : `${acc}、"${cur}"`;
-          }, '')}，如果需要指定更多，以逗号区分`,
+  // 有问题就显示交互式界面提问用户，questioners 更新相关的参数处理必须在前面
+  if (!isEmpty(questioners)) {
+    const rslt = await prompts(questioners, {
+      onCancel: () => {
+        shell.exit(1);
+      },
     });
-  }
 
-  if (cli.flags.tdd) {
-    confirmedOptions.set(
-      'devDependencies',
-      confirmedOptions.get('devDependencies').concat(['mocha']),
-    );
-    confirmedOptions.set('tdd', cli.flags.tdd);
-  }
-}
-
-function hasReadme(paths = []) {
-  return paths.some(isReadmePath);
-}
-
-function getJSTypeFileInputs(inputs) {
-  return inputs.filter((cur) => {
-    return cur.dirent.isFile() && ext.includes(extname(cur.path));
-  });
-}
-
-export default async function getOptions(cli) {
-  treatInputs({ cli, questioners, confirmedOptions });
-  treatArgs({ cli, questioners, confirmedOptions });
-
-  const rslt = await prompts(questioners, {
-    onCancel: () => {
-      shell.exit(1);
-    },
-  });
-
-  if (!isEmpty(rslt)) {
     Object.entries(rslt).forEach((cur) => {
       const k = cur[0];
       const v = cur[1];
@@ -341,17 +331,25 @@ export default async function getOptions(cli) {
    * 两者不能同时出现
    */
   if (isEmpty(confirmedOptions.get('namespace'))) {
+    // no namespace
     if (!isEmpty(cli.flags.githubOrg)) {
+      // has github org
       confirmedOptions.set('githubOrgName', cli.flags.githubOrg);
     }
-  } else {
-    if (!isEmpty(cli.flags.githubOrg)) {
-      confirmedOptions.set('githubOrgName', cli.flags.githubOrg);
-    } else {
-      if (!cli.flags.personal) {
-        confirmedOptions.set('githubOrgNameSameWithNpmOrg', true);
-      }
-    }
+  } else if (!isEmpty(cli.flags.githubOrg)) {
+    // has namespace, has github org
+    confirmedOptions.set('githubOrgName', cli.flags.githubOrg);
+  } else if (!cli.flags.personal) {
+    // has namespace, no github org, not personal
+    confirmedOptions.set('githubOrgNameSameWithNpmOrg', true);
+  }
+
+  if (cli.flags.tdd) {
+    confirmedOptions.set(
+      'devDependencies',
+      confirmedOptions.get('devDependencies').concat(['mocha']),
+    );
+    confirmedOptions.set('tdd', cli.flags.tdd);
   }
 
   confirmedOptions.set('copiers', [

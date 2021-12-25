@@ -1,4 +1,3 @@
-import { join, basename } from 'path';
 import { copy } from 'fs-extra';
 
 export const TASK_NAME_COPY = '拷贝文件';

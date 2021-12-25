@@ -1,5 +1,3 @@
-import shell from 'shelljs';
-import boxen from 'boxen';
 import isEmpty from 'lodash/isEmpty.js';
 
 import { rules as argsRules } from './args.js';
@@ -44,7 +42,7 @@ const DEFAULTS = new Map(
   }),
 );
 
-const KEY_STORE = Symbol();
+const KEY_STORE = Symbol('key store');
 
 export default {
   [KEY_STORE]: DEFAULTS,

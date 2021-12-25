@@ -54,7 +54,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
         scripts: {
           format:
             "npx prettier '**/*.{js,mjs,json,md}' --write --loglevel error",
-          lint: 'npx eslint **/*.js',
+          lint: 'npx eslint "**/*.js"',
         },
 
         // 基本信息

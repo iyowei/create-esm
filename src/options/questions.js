@@ -39,11 +39,14 @@ export default {
     name: [ARG_SSH_KEY],
     initial: '',
     message: '必须提供私钥（绝对路径）建立安全 SSH 管道',
-    validate: (value) =>
-      !isEmpty(value)
-        ? existsSync(value)
-          ? true
-          : '给定路径未检测到私钥文件'
-        : `未提供私钥文件`,
+    validate: (value) => {
+      if (!isEmpty(value)) {
+        if (existsSync(value)) {
+          return true;
+        }
+        return '给定路径未检测到私钥文件';
+      }
+      return '未提供私钥文件';
+    },
   },
 };

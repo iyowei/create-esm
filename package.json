@@ -18,7 +18,7 @@
   "scripts": {
     "test": "npx mocha '**/*.+(spec|test).js'",
     "format": "npx prettier '**/*.{js,mjs,json,md}' --write --loglevel error",
-    "lint": "npx eslint **/*.js"
+    "lint": "npx eslint '**/*.js'"
   },
   "dependencies": {
     "@iyowei/cli-cancel-or-continue": "^1.0.1",

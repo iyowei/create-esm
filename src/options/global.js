@@ -4,8 +4,6 @@ import { existsSync, realpathSync } from 'fs';
 
 import { writeJsonFileSync } from 'write-json-file';
 import { loadJsonFileSync } from 'load-json-file';
-import shell from 'shelljs';
-import boxen from 'boxen';
 
 import { getText, TXT_NAME } from '../messages.js';
 import terminateCli from '../terminateCli.js';
