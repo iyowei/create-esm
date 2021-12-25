@@ -212,7 +212,6 @@ function treatInputs(cli) {
 function treatArgsWithQuestionIfNotGiven(cli) {
   const defaults = getGlobalConfigurations();
 
-
   Object.entries(argsRules).forEach((kv) => {
     const arg = kv[0];
     const { cliRequired, isDefault } = kv[1];

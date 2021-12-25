@@ -37,11 +37,14 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
   if (!ctx.error) {
     let repo;
 
-    if (opts.get('githubOrgNameSameWithNpmOrg')) { // same name
+    if (opts.get('githubOrgNameSameWithNpmOrg')) {
+      // same name
       repo = `${opts.get('namespace')}/${opts.get('name')}`;
-    } else if (isEmpty(opts.get('githubOrgName'))) { // not same name, no github org
+    } else if (isEmpty(opts.get('githubOrgName'))) {
+      // not same name, no github org
       repo = opts.get('name');
-    } else { // not same name, has github org
+    } else {
+      // not same name, has github org
       repo = `${opts.get('githubOrgName')}/${opts.get('name')}`;
     }
 

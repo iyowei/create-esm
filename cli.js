@@ -33,8 +33,10 @@ import taskPushCode from './src/tasks/taskPushCode.js';
 import taskPublish from './src/tasks/taskPublish.js';
 import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
 
-// TODO: 骨架化
-(async function () { // eslint-disable-line
+/* eslint func-names: 0 */
+(async function () {
+  // TODO: 骨架化
+
   // 必要工具检查
   prerequisites();
 
