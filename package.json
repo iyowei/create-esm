@@ -4,7 +4,8 @@
   "type": "module",
   "main": "cli.js",
   "bin": {
-    "create-esm": "cli.js"
+    "create-esm": "cli.js",
+    "ce": "cli.js"
   },
   "files": [
     "cli.js",
