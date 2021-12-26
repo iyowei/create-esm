@@ -1,8 +1,8 @@
 # $ create-esm [待拷贝的文件、文件夹] [选项]
 
-> 这是一个命令行工具，给到 [ESM][ECMAScript Module] 源码文件路径后，自动创建一个项目、打包、发布，确保一个指令即可在项目中安装使用，进而支持跨项目使用。
+> 这是一个命令行工具，给到 [ESM][ecmascript module] 源码文件路径后，自动创建一个项目、打包、发布，确保一个指令即可在项目中安装使用，进而支持跨项目使用。
 
-如果有频繁新建 [ESM][ECMAScript Module] 项目的需求，这个脚手架会让这件事变得很轻松。
+如果有频繁新建 [ESM][ecmascript module] 项目的需求，这个脚手架会让这件事变得很轻松。
 
 创建项目、配置项目... 想想还是很耗时、复杂的。简单来看，使用现有的生成器，都是生成一个项目，再增、改文件，再推送到代码仓库，再发布。这个过程，理想情况也得耗时个几分钟，足以打断思路、分散注意力，令人望而却步。
 
@@ -41,7 +41,7 @@
 
 被生成的项目具有一下特征，
 
-- [ESM][ECMAScript Module]；
+- [ESM][ecmascript module]；
 - 控制编码风格；（[prettier][prettier] + [eslint-config-airbnb-base]）
 - TDD；
 - Node.js >= v12.20.0；
@@ -207,7 +207,6 @@ yarn global add @iyowei/create-esm
 [node version badge]: https://img.shields.io/badge/node.js-%3E%3D12.20.0-brightgreen?style=flat&logo=Node.js
 [download node.js]: https://nodejs.org/en/download/
 [prs welcome badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat
-
 [pnpm]: https://pnpm.io/zh/installation
 [github cli]: https://cli.github.com/
 [登录 github cli]: https://cli.github.com/manual/gh_auth_login
@@ -217,7 +216,7 @@ yarn global add @iyowei/create-esm
 [unscoped]: https://docs.npmjs.com/creating-and-publishing-unscoped-public-packages
 [github org]: https://docs.github.com/cn/organizations/collaborating-with-groups-in-organizations/about-organizations
 [github personal]: https://docs.github.com/cn/get-started/learning-about-github/types-of-github-accounts#personal-accounts
-[ECMAScript Module]: https://nodejs.org/docs/latest-v12.x/api/esm.html
+[ecmascript module]: https://nodejs.org/docs/latest-v12.x/api/esm.html
 [eslint-config-airbnb-base]: https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base
 [prettier]: https://prettier.io/
 

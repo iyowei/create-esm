@@ -66,37 +66,59 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
   }
 
   if (!ctx.error) {
-    task.title = '生成 .gitignore';
+    const PART_NAME = '生成 .gitignore、README.md';
 
-    await writeGitignore({
-      output: opts.get('gitignore').output,
-      topics: [
-        'macOS',
-        'Windows',
-        'Linux',
-        'Node',
-        'VisualStudioCode',
-        'SublimeText',
-        'CVS',
-        'Diff',
-        'Vim',
-        'TortoiseGit',
-      ],
+    task.title = PART_NAME;
+
+    await Promise.all([
+      new Promise((resolve, reject) => {
+        writeGitignore({
+          output: opts.get('gitignore').output,
+          topics: [
+            'macOS',
+            'Windows',
+            'Linux',
+            'Node',
+            'VisualStudioCode',
+            'SublimeText',
+            'CVS',
+            'Diff',
+            'Vim',
+            'TortoiseGit',
+          ],
+        }).then(
+          () => {
+            resolve();
+          },
+          (err) => {
+            reject(err);
+          },
+        );
+      }),
+      new Promise((resolve, reject) => {
+        if (opts.get('generateReadme')) {
+          writeReadme({
+            output: opts.get('prints').readme.output,
+            data: {
+              name: opts.get('name'),
+              description: opts.get('description'),
+            },
+          }).then(
+            () => {
+              resolve();
+            },
+            (err) => {
+              reject(err);
+            },
+          );
+          return;
+        }
+        resolve();
+      }),
+    ]).catch(() => {
+      ctx.error = true;
+      ctx.message = `"${TASK_NAME_CREATE_REPO}" 任务在 ${PART_NAME} 任务环节出错`;
     });
-  }
-
-  if (!ctx.error) {
-    if (opts.get('generateReadme')) {
-      task.title = '生成 README.md';
-
-      await writeReadme({
-        output: opts.get('prints').readme.output,
-        data: {
-          name: opts.get('name'),
-          description: opts.get('description'),
-        },
-      });
-    }
   }
 
   if (ctx.error) {

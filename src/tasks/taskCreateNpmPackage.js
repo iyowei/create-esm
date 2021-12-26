@@ -74,45 +74,72 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
       }
 
       pkgIns.update(TMP);
-      await pkgIns.save();
-
       delete pkgIns.content.author;
+
       await pkgIns.save();
     }
   }
 
   if (!ctx.error) {
-    const PART_NAME = '生成 .npmrc';
+    const PART_NAME = '其它异步生成任务';
 
     task.title = PART_NAME;
 
-    // 读取 .npmrc 模板，填入数据，写到新建项目中
-    await writeNpmRc({
-      output: opts.get('prints').npmrc.output,
-      data: { namespace: opts.get('namespace') },
+    await Promise.all([
+      // 生成 .npmrc
+      new Promise((resolve, reject) => {
+        writeNpmRc({
+          output: opts.get('prints').npmrc.output,
+          data: { namespace: opts.get('namespace') },
+        }).then(
+          () => {
+            resolve();
+          },
+          (err) => {
+            reject(err);
+          },
+        );
+      }),
+
+      // 安装生产依赖
+      new Promise((resolve, reject) => {
+        const DEPs = opts.get('dependencies');
+
+        if (DEPs.length !== 0) {
+          const excuted = shell.exec(`pnpm add ${DEPs.join(' ')}`, {
+            silent: true,
+          });
+
+          if (excuted.code !== 0) {
+            reject(excuted.stderr);
+            return;
+          }
+
+          resolve();
+        }
+      }),
+
+      // 安装开发依赖
+      new Promise((resolve, reject) => {
+        const DevDEPs = opts.get('devDependencies');
+
+        if (DevDEPs.length !== 0) {
+          const excuted = shell.exec(`pnpm add ${DevDEPs.join(' ')} -D`, {
+            silent: true,
+          });
+
+          if (excuted.code !== 0) {
+            reject(excuted.stderr);
+            return;
+          }
+
+          resolve();
+        }
+      }),
+    ]).catch(() => {
+      ctx.error = true;
+      ctx.message = `"${TASK_NAME_CREATE_NPM_PACKAGE}" 任务在 ${PART_NAME} 任务环节出错`;
     });
-  }
-
-  if (!ctx.error) {
-    const DEPs = opts.get('dependencies');
-
-    if (DEPs.length !== 0) {
-      const PART_NAME = '安装生产依赖';
-
-      task.title = PART_NAME;
-
-      shell.exec(`pnpm add ${DEPs.join(' ')}`, { silent: true });
-    }
-
-    const DevDEPs = opts.get('devDependencies');
-
-    if (DevDEPs.length !== 0) {
-      const PART_NAME = '安装开发依赖';
-
-      task.title = PART_NAME;
-
-      shell.exec(`pnpm add ${DevDEPs.join(' ')} -D`, { silent: true });
-    }
   }
 
   if (ctx.error) {
