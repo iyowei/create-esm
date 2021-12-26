@@ -17,6 +17,7 @@ import {
   COMMAND_RESET,
   getReport,
 } from './src/messages.js';
+import { CLI_FLAGS } from './src/options/args.js';
 
 import {
   updateGlobalConfigurations,
@@ -42,51 +43,7 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
 
   const cli = meow(mainHelp, {
     importMeta: import.meta,
-    flags: {
-      name: {
-        type: 'string',
-        alias: 'n',
-      },
-      description: {
-        type: 'string',
-      },
-      output: {
-        type: 'string',
-        alias: 'o',
-      },
-      dependencies: {
-        isMultiple: true,
-        type: 'string',
-        alias: 'd',
-      },
-      doubleCheckDependencies: {
-        type: 'boolean',
-        default: true,
-      },
-      sshkey: {
-        type: 'string',
-        alias: 'k',
-      },
-      personal: {
-        type: 'boolean',
-        default: false,
-      },
-      githubOrg: {
-        type: 'string',
-      },
-      tdd: {
-        type: 'boolean',
-        default: false,
-      },
-      version: {
-        type: 'boolean',
-        alias: 'v',
-      },
-      help: {
-        type: 'boolean',
-        alias: 'h',
-      },
-    },
+    flags: CLI_FLAGS,
   });
 
   shell.echo(banner);

@@ -9,6 +9,59 @@ export const ARG_NAME = 'name';
 export const ARG_DESCRIPTION = 'description';
 export const ARG_OUTPUT = 'output';
 export const ARG_SSH_KEY = 'sshkey';
+export const ARG_DEPENDENCIES = 'dependencies';
+export const ARG_DOUBLE_CHECK_DEPENDENCIES = 'doubleCheckDependencies';
+export const ARG_PERSONAL = 'personal';
+export const ARG_GITHUB_ORG = 'githubOrg';
+export const ARG_TDD = 'tdd';
+export const ARG_VERSION = 'version';
+export const ARG_HELP = 'help';
+
+export const CLI_FLAGS = {
+  [ARG_NAME]: {
+    type: 'string',
+    alias: 'n',
+  },
+  [ARG_DESCRIPTION]: {
+    type: 'string',
+  },
+  [ARG_OUTPUT]: {
+    type: 'string',
+    alias: 'o',
+  },
+  [ARG_DEPENDENCIES]: {
+    isMultiple: true,
+    type: 'string',
+    alias: 'd',
+  },
+  [ARG_DOUBLE_CHECK_DEPENDENCIES]: {
+    type: 'boolean',
+    default: true,
+  },
+  [ARG_SSH_KEY]: {
+    type: 'string',
+    alias: 'k',
+  },
+  [ARG_PERSONAL]: {
+    type: 'boolean',
+    default: false,
+  },
+  [ARG_GITHUB_ORG]: {
+    type: 'string',
+  },
+  [ARG_TDD]: {
+    type: 'boolean',
+    default: false,
+  },
+  [ARG_VERSION]: {
+    type: 'boolean',
+    alias: 'v',
+  },
+  [ARG_HELP]: {
+    type: 'boolean',
+    alias: 'h',
+  },
+};
 
 // 部分 ”交互式提问“ 自动根据某些参数是否提供、是否有默认值等特征出现或隐藏
 export const rules = {
