@@ -3,13 +3,13 @@ import shell from 'shelljs';
 export const TASK_NAME_PUSH_CODE = '推送代码';
 
 // TODO: 使用 "模板方法模式" 组织代码
-export default async function taskPushCode({ ctx, task, opts }) {
+export default async function taskPushCode({ ctx, task }) {
   if (!ctx.error) {
     const PART_NAME = '切换到新创建好的项目';
 
     task.title = PART_NAME;
 
-    if (shell.cd(opts.get('newProjectPath')).code !== 0) {
+    if (shell.cd(ctx.payload.get('newProjectPath')).code !== 0) {
       ctx.error = true;
       ctx.message = `"${TASK_NAME_PUSH_CODE}" 任务在 "${PART_NAME}" 环节出错`;
     }

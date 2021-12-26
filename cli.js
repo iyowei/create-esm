@@ -156,41 +156,41 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
       {
         title: '创建项目',
         task: async (ctx, task) => {
-          await taskCreateGithubProject({ ctx, task, opts });
+          await taskCreateGithubProject({ ctx, task });
         },
       },
       {
         title: '初始化 NPM',
         task: async (ctx, task) => {
-          await taskCreateNpmPackage({ ctx, task, opts });
+          await taskCreateNpmPackage({ ctx, task });
         },
       },
       {
         title: '拷贝文件',
         task: async (ctx, task) => {
-          await taskCopy({ ctx, task, opts });
+          await taskCopy({ ctx, task });
         },
       },
       {
         title: '推送到 Github',
         task: async (ctx, task) => {
-          await taskPushCode({ ctx, task, opts });
+          await taskPushCode({ ctx, task });
         },
       },
       {
         title: '发布更新日志',
         task: async (ctx, task) => {
-          await taskCreateChangelog({ ctx, task, opts });
+          await taskCreateChangelog({ ctx, task });
         },
       },
       {
         title: '发布到 NPM',
         task: async (ctx, task) => {
-          await taskPublish({ ctx, task, opts });
+          await taskPublish({ ctx, task });
         },
       },
     ],
-    { exitOnError: true, ctx: { error: false } },
+    { exitOnError: true, ctx: { error: false, payload: opts } },
   );
 
   const completed = await tasks.run();

@@ -5,13 +5,13 @@ import { writeGitignore, writeReadme } from '@iyowei/create-templates';
 export const TASK_NAME_CREATE_REPO = '创建项目';
 
 // TODO: 使用 "模板方法模式" 组织代码
-export default async function taskCreateGithubProject({ ctx, task, opts }) {
+export default async function taskCreateGithubProject({ ctx, task }) {
   if (!ctx.error) {
     const PART_NAME = '切换到输出目录';
 
     task.title = PART_NAME;
 
-    if (shell.cd(opts.get('output')).code !== 0) {
+    if (shell.cd(ctx.payload.get('output')).code !== 0) {
       ctx.error = true;
       ctx.message = `"${TASK_NAME_CREATE_REPO}" 任务在 "${PART_NAME}" 环节出错`;
     }
@@ -24,7 +24,7 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
 
     task.title = PART_NAME;
 
-    const cmdSafetySSHTunnel = `eval ssh-agent && ssh-add ${opts.get(
+    const cmdSafetySSHTunnel = `eval ssh-agent && ssh-add ${ctx.payload.get(
       'sshkey',
     )}`;
 
@@ -37,22 +37,22 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
   if (!ctx.error) {
     let repo;
 
-    if (opts.get('githubOrgNameSameWithNpmOrg')) {
+    if (ctx.payload.get('githubOrgNameSameWithNpmOrg')) {
       // same name
-      repo = `${opts.get('namespace')}/${opts.get('name')}`;
-    } else if (isEmpty(opts.get('githubOrgName'))) {
+      repo = `${ctx.payload.get('namespace')}/${ctx.payload.get('name')}`;
+    } else if (isEmpty(ctx.payload.get('githubOrgName'))) {
       // not same name, no github org
-      repo = opts.get('name');
+      repo = ctx.payload.get('name');
     } else {
       // not same name, has github org
-      repo = `${opts.get('githubOrgName')}/${opts.get('name')}`;
+      repo = `${ctx.payload.get('githubOrgName')}/${ctx.payload.get('name')}`;
     }
 
     const PART_NAME = `创建 ${repo} 项目`;
 
     task.title = PART_NAME;
 
-    const cmd = `gh repo create ${repo} -d "${opts.get(
+    const cmd = `gh repo create ${repo} -d "${ctx.payload.get(
       'description',
     )}" -l mit -c --disable-wiki --public`;
     const excuted = shell.exec(cmd, { silent: true });
@@ -73,7 +73,7 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
     await Promise.all([
       new Promise((resolve, reject) => {
         writeGitignore({
-          output: opts.get('gitignore').output,
+          output: ctx.payload.get('gitignore').output,
           topics: [
             'macOS',
             'Windows',
@@ -96,12 +96,12 @@ export default async function taskCreateGithubProject({ ctx, task, opts }) {
         );
       }),
       new Promise((resolve, reject) => {
-        if (opts.get('generateReadme')) {
+        if (ctx.payload.get('generateReadme')) {
           writeReadme({
-            output: opts.get('prints').readme.output,
+            output: ctx.payload.get('prints').readme.output,
             data: {
-              name: opts.get('name'),
-              description: opts.get('description'),
+              name: ctx.payload.get('name'),
+              description: ctx.payload.get('description'),
             },
           }).then(
             () => {

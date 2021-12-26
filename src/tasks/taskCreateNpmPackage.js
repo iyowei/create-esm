@@ -6,13 +6,13 @@ import isEmpty from 'lodash/isEmpty.js';
 export const TASK_NAME_CREATE_NPM_PACKAGE = '创建项目';
 
 // TODO: 使用 "模板方法模式" 组织代码
-export default async function taskCreateNpmPackage({ ctx, task, opts }) {
+export default async function taskCreateNpmPackage({ ctx, task }) {
   if (!ctx.error) {
     const PART_NAME = '切换到新创建好的项目';
 
     task.title = PART_NAME;
 
-    if (shell.cd(opts.get('newProjectPath')).code !== 0) {
+    if (shell.cd(ctx.payload.get('newProjectPath')).code !== 0) {
       ctx.error = true;
       ctx.message = `"${TASK_NAME_CREATE_NPM_PACKAGE}" 任务在 "${PART_NAME}" 环节出错`;
     }
@@ -24,9 +24,9 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
     task.title = PART_NAME;
 
     const excuted = shell.exec(
-      isEmpty(opts.get('namespace'))
+      isEmpty(ctx.payload.get('namespace'))
         ? 'npm init -y'
-        : `npm init --scope=${opts.get('namespace')} -y`,
+        : `npm init --scope=${ctx.payload.get('namespace')} -y`,
       {
         silent: true,
       },
@@ -38,14 +38,14 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
         `"${TASK_NAME_CREATE_NPM_PACKAGE}" 任务在 "${PART_NAME}" 环节出错,`,
       ].concat(excuted.stderr.split('\n'));
     } else {
-      const pkgIns = await pkg.load(opts.get('newProjectPath'));
+      const pkgIns = await pkg.load(ctx.payload.get('newProjectPath'));
 
       const TMP = {
         // 包
         type: 'module',
-        exports: opts.get('pkgExports').relativePath,
-        main: opts.get('pkgExports').bareRelativePath,
-        files: opts.get('pkgFiles'),
+        exports: ctx.payload.get('pkgExports').relativePath,
+        main: ctx.payload.get('pkgExports').bareRelativePath,
+        files: ctx.payload.get('pkgFiles'),
         engines: {
           node: '>=12.20.0',
         },
@@ -58,7 +58,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
         },
 
         // 基本信息
-        description: opts.get('description'),
+        description: ctx.payload.get('description'),
 
         // 公开
         private: false,
@@ -69,7 +69,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
         license: 'MIT',
       };
 
-      if (opts.get('tdd')) {
+      if (ctx.payload.get('tdd')) {
         TMP.scripts.test = "npx mocha '**/*.+(spec|test).js'";
       }
 
@@ -89,8 +89,8 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
       // 生成 .npmrc
       new Promise((resolve, reject) => {
         writeNpmRc({
-          output: opts.get('prints').npmrc.output,
-          data: { namespace: opts.get('namespace') },
+          output: ctx.payload.get('prints').npmrc.output,
+          data: { namespace: ctx.payload.get('namespace') },
         }).then(
           () => {
             resolve();
@@ -103,7 +103,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
 
       // 安装生产依赖
       new Promise((resolve, reject) => {
-        const DEPs = opts.get('dependencies');
+        const DEPs = ctx.payload.get('dependencies');
 
         if (DEPs.length !== 0) {
           const excuted = shell.exec(`pnpm add ${DEPs.join(' ')}`, {
@@ -121,7 +121,7 @@ export default async function taskCreateNpmPackage({ ctx, task, opts }) {
 
       // 安装开发依赖
       new Promise((resolve, reject) => {
-        const DevDEPs = opts.get('devDependencies');
+        const DevDEPs = ctx.payload.get('devDependencies');
 
         if (DevDEPs.length !== 0) {
           const excuted = shell.exec(`pnpm add ${DevDEPs.join(' ')} -D`, {
