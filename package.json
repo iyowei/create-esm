@@ -14,7 +14,7 @@
   "engines": {
     "node": ">=12.20.0"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "scripts": {
     "test": "npx mocha '**/*.+(spec|test).js' --exclude 'node_modules/**' -p -j 2",
     "format": "npx prettier '**/*.{js,mjs,json,md}' --write --loglevel error",
