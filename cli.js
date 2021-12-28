@@ -127,6 +127,8 @@ import getTasks from './src/tasks/index.js';
     } else {
       shell.echo(`\n  ${chalk.redBright.bold(`${completed.message} !!!`)}\n`);
     }
+  } else {
+    shell.echo('');
   }
 
   // shell.echo(completed);
