@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@iyowei/cli-cancel-or-continue': ^1.0.1
-  '@iyowei/create-templates': ^1.0.7
+  '@iyowei/create-templates': ^1.0.8
   '@iyowei/is-esm': ^1.0.1
   '@iyowei/is-readme-path': ^1.0.1
   '@iyowei/is-tilde-path': ^1.0.0
@@ -36,7 +36,7 @@ specifiers:
 
 dependencies:
   '@iyowei/cli-cancel-or-continue': 1.0.1
-  '@iyowei/create-templates': 1.0.7
+  '@iyowei/create-templates': 1.0.8
   '@iyowei/is-esm': 1.0.1
   '@iyowei/is-readme-path': 1.0.1
   '@iyowei/is-tilde-path': 1.0.0
@@ -136,16 +136,16 @@ packages:
     engines: {node: '>=12.20.0'}
     dev: false
 
-  /@iyowei/create-templates/1.0.7:
-    resolution: {integrity: sha512-VJ1eO2PvrPRxkMzAT+9fqYk3lGZj3PjgBVPj4kBDOyEB9fk/dcqxSlcMyEH7fMpmbP95aNngTeaehLghwnHMjQ==}
+  /@iyowei/create-templates/1.0.8:
+    resolution: {integrity: sha512-++/uXEDEosY4J62Bzwo8dnZ7ZJbzjuv3pftAAaQI3guO5FtlO/UFogOKqzSg7ZlydI0O4h4etHQp5E54eQ7k/A==}
     engines: {node: '>=12.20.0'}
     dependencies:
-      '@iyowei/fast-gitignore': 1.0.4
+      '@iyowei/fast-gitignore': 1.0.5
       lodash.template: 4.5.0
     dev: false
 
-  /@iyowei/fast-gitignore/1.0.4:
-    resolution: {integrity: sha512-6VPx2q5NzxgaDlx6UGLu9cbVj47HTcnnjsb1X2QZZXWn5Hqx1fL+vCaCTbHf73yQCZ/paYUeLgPLEj6kU5ZPvQ==}
+  /@iyowei/fast-gitignore/1.0.5:
+    resolution: {integrity: sha512-bYzw2zackKUciohzwiE+8jTo6/g9nWA0ABJ3arg7QIvaaBGpzKO5tKX2/uzQnexblGXtY7ZzONZkv8iV/PU5/Q==}
     engines: {node: '>=12.20.0'}
     dependencies:
       arrify: 3.0.0
@@ -210,7 +210,7 @@ packages:
     dev: false
 
   /@npmcli/package-json/1.0.1:
-    resolution: {integrity: sha1-HtQvAP6+UpPDUC/Q73hWRzVfbok=, tarball: '@npmcli/package-json/download/@npmcli/package-json-1.0.1.tgz?cache=0&sync_timestamp=1637046971149&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40npmcli%2Fpackage-json%2Fdownload%2F%40npmcli%2Fpackage-json-1.0.1.tgz'}
+    resolution: {integrity: sha1-HtQvAP6+UpPDUC/Q73hWRzVfbok=, tarball: '@npmcli/package-json/download/@npmcli/package-json-1.0.1.tgz'}
     dependencies:
       json-parse-even-better-errors: 2.3.1
     dev: false
