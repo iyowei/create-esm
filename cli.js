@@ -5,6 +5,7 @@ import shell from 'shelljs';
 import meow from 'meow';
 import chalk from 'chalk'; // eslint-disable-line
 import cancelOrContinue from '@iyowei/cli-cancel-or-continue';
+import UpdateNotifier from 'update-notifier';
 
 import {
   banner,
@@ -40,6 +41,8 @@ import getTasks from './src/tasks/index.js';
     importMeta: import.meta,
     flags: CLI_FLAGS,
   });
+
+  UpdateNotifier({ pkg: cli.pkg }).notify();
 
   shell.echo(banner);
 
