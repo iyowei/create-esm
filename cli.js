@@ -17,7 +17,7 @@ import {
   COMMAND_RESET,
   getReport,
 } from './src/messages.js';
-import { CLI_FLAGS } from './src/options/args.js';
+import { CLI_FLAGS, ARG_BREAKPOINT } from './src/options/args.js';
 
 import {
   updateGlobalConfigurations,
@@ -27,12 +27,7 @@ import {
 import makeOptions from './src/options/make.js';
 import prerequisites from './src/prerequisites.js';
 
-import taskCreateGithubProject from './src/tasks/taskCreateGithubProject.js';
-import taskCreateNpmPackage from './src/tasks/taskCreateNpmPackage.js';
-import taskCopy from './src/tasks/taskCopy.js';
-import taskPushCode from './src/tasks/taskPushCode.js';
-import taskPublish from './src/tasks/taskPublish.js';
-import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
+import getTasks from './src/tasks/index.js';
 
 /* eslint func-names: 0 */
 (async function () {
@@ -108,47 +103,10 @@ import taskCreateChangelog from './src/tasks/taskCreateChangelog.js';
 
   // console.log(opts);
 
-  const tasks = new Listr(
-    [
-      {
-        title: '创建项目',
-        task: async (ctx, task) => {
-          await taskCreateGithubProject({ ctx, task });
-        },
-      },
-      {
-        title: '初始化 NPM',
-        task: async (ctx, task) => {
-          await taskCreateNpmPackage({ ctx, task });
-        },
-      },
-      {
-        title: '拷贝文件',
-        task: async (ctx, task) => {
-          await taskCopy({ ctx, task });
-        },
-      },
-      {
-        title: '推送到 Github',
-        task: async (ctx, task) => {
-          await taskPushCode({ ctx, task });
-        },
-      },
-      {
-        title: '发布更新日志',
-        task: async (ctx, task) => {
-          await taskCreateChangelog({ ctx, task });
-        },
-      },
-      {
-        title: '发布到 NPM',
-        task: async (ctx, task) => {
-          await taskPublish({ ctx, task });
-        },
-      },
-    ],
-    { exitOnError: true, ctx: { error: false, payload: opts } },
-  );
+  const tasks = new Listr(getTasks(opts.get(ARG_BREAKPOINT)), {
+    exitOnError: true,
+    ctx: { error: false, payload: opts },
+  });
 
   const completed = await tasks.run();
 

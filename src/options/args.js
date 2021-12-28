@@ -16,8 +16,13 @@ export const ARG_GITHUB_ORG = 'githubOrg';
 export const ARG_TDD = 'tdd';
 export const ARG_VERSION = 'version';
 export const ARG_HELP = 'help';
+export const ARG_BREAKPOINT = 'breakpoint';
 
 export const CLI_FLAGS = {
+  [ARG_BREAKPOINT]: {
+    type: 'string',
+    alias: 'b',
+  },
   [ARG_NAME]: {
     type: 'string',
     alias: 'n',

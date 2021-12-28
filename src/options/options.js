@@ -1,15 +1,24 @@
 import isEmpty from 'lodash/isEmpty.js';
 
-import { rules as argsRules } from './args.js';
+import {
+  rules as argsRules,
+  ARG_BREAKPOINT,
+  ARG_NAME,
+  ARG_DESCRIPTION,
+  ARG_OUTPUT,
+  ARG_DEPENDENCIES,
+  ARG_SSH_KEY,
+  ARG_GITHUB_ORG,
+} from './args.js';
 import terminateCli from '../terminateCli.js';
 
 const DEFAULTS = new Map(
   Object.entries({
     targets: [],
 
-    name: '',
+    [ARG_NAME]: '',
     pkgName: '',
-    description: '',
+    [ARG_DESCRIPTION]: '',
     pkgFiles: [],
     pkgExports: {},
 
@@ -20,7 +29,7 @@ const DEFAULTS = new Map(
       'eslint-config-airbnb-base',
       'prettier',
     ],
-    dependencies: [],
+    [ARG_DEPENDENCIES]: [],
 
     namespace: '',
 
@@ -29,16 +38,17 @@ const DEFAULTS = new Map(
 
     // 默认在个人 Github 账户下创建项目
     githubOrgNameSameWithNpmOrg: false,
-    githubOrgName: '',
+    [ARG_GITHUB_ORG]: '',
 
-    output: '',
+    [ARG_OUTPUT]: '',
     newProjectPath: '',
 
-    sshkey: '',
+    [ARG_SSH_KEY]: '',
 
     copiers: [],
     prints: {},
     gitignore: {},
+    [ARG_BREAKPOINT]: '',
   }),
 );
 

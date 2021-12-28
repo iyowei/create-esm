@@ -26,7 +26,15 @@ import terminateCli from '../terminateCli.js';
 import confirmedOptions from './options.js';
 
 import questions from './questions.js';
-import { rules as argsRules } from './args.js';
+import {
+  rules as argsRules,
+  ARG_NAME,
+  ARG_OUTPUT,
+  ARG_DEPENDENCIES,
+  ARG_GITHUB_ORG,
+  ARG_TDD,
+  ARG_BREAKPOINT,
+} from './args.js';
 
 const questioners = [];
 const ext = ['.js', '.mjs'];
@@ -56,14 +64,14 @@ function treatDependencies(cli) {
   );
 
   if (!isEmpty(scaned)) {
-    confirmedOptions.set('dependencies', scaned);
+    confirmedOptions.set(ARG_DEPENDENCIES, scaned);
   }
 
   // 即使命令行中已指定，但仍需要二次确认的参数，除非要求，否则交互式提问用户
-  if (!isEmpty(cli.flags.dependencies)) {
+  if (!isEmpty(cli.flags[ARG_DEPENDENCIES])) {
     confirmedOptions.set(
-      'dependencies',
-      Array.from(new Set([...scaned, ...cli.flags.dependencies])),
+      ARG_DEPENDENCIES,
+      Array.from(new Set([...scaned, ...cli.flags[ARG_DEPENDENCIES]])),
     );
   }
 
@@ -72,11 +80,11 @@ function treatDependencies(cli) {
       type: 'list',
       separator: ' ',
       initial: '',
-      name: 'dependencies',
-      message: isEmpty(confirmedOptions.get('dependencies'))
+      name: ARG_DEPENDENCIES,
+      message: isEmpty(confirmedOptions.get(ARG_DEPENDENCIES))
         ? '未指定需要安装的依赖，如果需要，以空格间隔输入'
         : `将安装 ${confirmedOptions
-            .get('dependencies')
+            .get(ARG_DEPENDENCIES)
             .reduce(
               (acc, cur) => (!acc ? `"${cur}"` : `${acc}、"${cur}"`),
               '',
@@ -129,7 +137,7 @@ function treatInputs(cli) {
 
   // ==========================================================================>
 
-  if (!isEmpty(cli.flags.githubOrg) && cli.flags.personal) {
+  if (!isEmpty(cli.flags[ARG_GITHUB_ORG]) && cli.flags.personal) {
     terminateCli('`--personal`、`--github-org` 两个参数不能同时出现');
   }
 
@@ -273,32 +281,35 @@ export default async function make(cli) {
 
   [
     [
-      'name',
-      isScoped(confirmedOptions.get('name'))
-        ? confirmedOptions.get('name').split('/')[1]
-        : confirmedOptions.get('name'),
+      ARG_NAME,
+      isScoped(confirmedOptions.get(ARG_NAME))
+        ? confirmedOptions.get(ARG_NAME).split('/')[1]
+        : confirmedOptions.get(ARG_NAME),
     ],
-    ['pkgName', confirmedOptions.get('name')],
+    ['pkgName', confirmedOptions.get(ARG_NAME)],
     [
       'newProjectPath',
-      isScoped(confirmedOptions.get('name'))
+      isScoped(confirmedOptions.get(ARG_NAME))
         ? join(
-            confirmedOptions.get('output'),
-            confirmedOptions.get('name').split('/')[1],
+            confirmedOptions.get(ARG_OUTPUT),
+            confirmedOptions.get(ARG_NAME).split('/')[1],
           )
-        : join(confirmedOptions.get('output'), confirmedOptions.get('name')),
+        : join(
+            confirmedOptions.get(ARG_OUTPUT),
+            confirmedOptions.get(ARG_NAME),
+          ),
     ],
     [
-      'dependencies',
+      ARG_DEPENDENCIES,
       confirmedOptions
-        .get('dependencies')
+        .get(ARG_DEPENDENCIES)
         .filter((cur) => notEmptyString(cur))
         .sort(alphaSort()),
     ],
     [
       'namespace',
-      isScoped(confirmedOptions.get('name'))
-        ? confirmedOptions.get('name').split('/')[0].substring(1)
+      isScoped(confirmedOptions.get(ARG_NAME))
+        ? confirmedOptions.get(ARG_NAME).split('/')[0].substring(1)
         : '',
     ],
   ].forEach((cur) => {
@@ -331,24 +342,24 @@ export default async function make(cli) {
    */
   if (isEmpty(confirmedOptions.get('namespace'))) {
     // no namespace
-    if (!isEmpty(cli.flags.githubOrg)) {
+    if (!isEmpty(cli.flags[ARG_GITHUB_ORG])) {
       // has github org
-      confirmedOptions.set('githubOrgName', cli.flags.githubOrg);
+      confirmedOptions.set(ARG_GITHUB_ORG, cli.flags[ARG_GITHUB_ORG]);
     }
-  } else if (!isEmpty(cli.flags.githubOrg)) {
+  } else if (!isEmpty(cli.flags[ARG_GITHUB_ORG])) {
     // has namespace, has github org
-    confirmedOptions.set('githubOrgName', cli.flags.githubOrg);
+    confirmedOptions.set(ARG_GITHUB_ORG, cli.flags[ARG_GITHUB_ORG]);
   } else if (!cli.flags.personal) {
     // has namespace, no github org, not personal
     confirmedOptions.set('githubOrgNameSameWithNpmOrg', true);
   }
 
-  if (cli.flags.tdd) {
+  if (cli.flags[ARG_TDD]) {
     confirmedOptions.set(
       'devDependencies',
       confirmedOptions.get('devDependencies').concat(['mocha']),
     );
-    confirmedOptions.set('tdd', cli.flags.tdd);
+    confirmedOptions.set(ARG_TDD, cli.flags[ARG_TDD]);
   }
 
   confirmedOptions.set('copiers', [
@@ -388,6 +399,10 @@ export default async function make(cli) {
     source: stockrooms.gitignore,
     output: join(confirmedOptions.get('newProjectPath'), '.gitignore'),
   });
+
+  if (cli.flags[ARG_BREAKPOINT]) {
+    confirmedOptions.set(ARG_BREAKPOINT, cli.flags[ARG_BREAKPOINT]);
+  }
 
   return confirmedOptions.getAll();
 }
