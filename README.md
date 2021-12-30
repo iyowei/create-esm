@@ -1,4 +1,4 @@
-# $ create-esm [待拷贝的源码、文件夹...] [选项]
+# $ create-esm | ce [待拷贝的源码、文件夹...] [选项]
 
 > 这是一个命令行工具，给到 [ESM][ecmascript module] 源码文件路径后，自动创建一个项目、打包、发布，确保一个指令即可在项目中安装使用，进而支持跨项目使用。
 
@@ -58,7 +58,7 @@
 ### 根据命令行提示一步步操作
 
 ```shell
-create-esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
+ce /Users/iyowei/Development/iyowei/create-esm/src/print.js
 ```
 
 ![Kapture 2021-12-16 at 21 24 14](https://user-images.githubusercontent.com/5499703/146546818-848b478e-90b7-4891-875d-b00a5dd143ee.gif)
@@ -67,11 +67,11 @@ create-esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
 
 ### 查看命令行参数说明
 
-运行 `create-esm` 或 `create-esm --help` 即可。
+运行 `ce` 或 `ce --help` 即可。
 
 ```shell
   使用方式
-    $ create-esm [指定待拷贝的文件、文件夹] [选项]
+    $ create-esm | ce [指定待拷贝的文件、文件夹] [选项]
 
   选项
     --name, -n                                 包名（实际安装时使用的名称）
@@ -93,8 +93,8 @@ create-esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
     defaults                                   查看 create-esm 全局设置
 
   示例
-    $ create-esm
-    $ create-esm /Users/iyowei/Development/generators/create-esm/src/notEmptyString.js
+    $ ce
+    $ ce /Users/iyowei/Development/generators/create-esm/src/notEmptyString.js
 ```
 
 熟悉命令行参数后，相比交互式命令行界面下输入参数值，可选择命令行参数直供的方式，高效的多。
@@ -104,7 +104,7 @@ create-esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
 ##### 在 [Github 个人账户][github personal] 下创建 [scoped][scoped] 包
 
 ```shell
-create-esm \
+ce \
 /Users/iyowei/Development/iyowei/create-esm/src/lsDir.js \
 /Users/iyowei/Development/iyowei/create-esm/src/README.md \ # 打包前，项目中每个模块都有自己的 README.md 文件，比较推荐
 -n @iyowei/test-scan-dir \
@@ -118,7 +118,7 @@ create-esm \
 ##### 在 **同名** [Github 组织][github org] 下创建 [scoped][scoped] 包
 
 ```shell
-create-esm \
+ce \
 /Users/iyowei/Development/iyowei/create-esm/src/lsDir.js \
 /Users/iyowei/Development/iyowei/create-esm/src/README.md \ # 打包前，项目中每个模块都有自己的 README.md 文件，比较推荐
 -n @iyowei/test-scan-dir \
@@ -131,7 +131,7 @@ create-esm \
 ##### 在 **异名** [Github 组织][github org] 下创建 [unscoped][unscoped] 包
 
 ```shell
-create-esm \
+ce \
 /Users/iyowei/Development/iyowei/create-esm/src/lsDir.js \
 /Users/iyowei/Development/iyowei/create-esm/src/README.md \ # 打包前，项目中每个模块都有自己的 README.md 文件，比较推荐
 -n test-scan-dir \
@@ -145,16 +145,16 @@ create-esm \
 ### 查看全局配置
 
 ```shell
-create-esm defaults
+ce defaults
 ```
 
 ### 更新全局配置
 
 ```shell
-create-esm set [key] [value]
+ce set [key] [value]
 ```
 
-运行 `create-esm defaults` 了解具体有哪些全局配置。
+运行 `ce defaults` 了解具体有哪些全局配置。
 
 ### 最佳实践
 
@@ -170,7 +170,7 @@ create-esm set [key] [value]
 - **安装 [Github Cli][github cli]，使用 [安全的 SSH 管道][安全的 ssh 管道] 选项 [登录][登录 github cli]**；（创建、推送、拉取 Github 项目等）
 - [登录 NPM][登录 npm]；（发包）
 
-公钥要添加到 Github 上，另外保存好秘钥位置，私钥要用来建立 [安全的 SSH 管道][安全的 ssh 管道]，"@iyowei/create-esm" 通过 `--sshkey` 命令行参数指定私钥，或者全局设置 `sshkey` 即可，运行 `create-esm set sshkey [私钥绝对路径]`。
+公钥要添加到 Github 上，另外保存好秘钥位置，私钥要用来建立 [安全的 SSH 管道][安全的 ssh 管道]，"@iyowei/create-esm" 通过 `--sshkey` 命令行参数指定私钥，或者全局设置 `sshkey` 即可，运行 `ce set sshkey [私钥绝对路径]`。
 
 另外，还有点基本的全局 Git 设置，创建项目、提交修改时需要，
 
