@@ -381,7 +381,10 @@ export default async function make(cli) {
         output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
       })),
 
-      cli.flags[ARG_TDD] && copiers.mocha,
+      cli.flags[ARG_TDD] && {
+        source: copiers.mocha,
+        output: join(confirmedOptions.get('newProjectPath'), basename(copiers.mocha)),
+      },
     ].filter(Boolean),
   );
 
