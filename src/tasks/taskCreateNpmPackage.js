@@ -118,8 +118,11 @@ export default {
               return;
             }
 
-            resolve();
+            resolve(true);
+            return;
           }
+
+          resolve(true);
         }),
 
         // 安装开发依赖
@@ -136,8 +139,12 @@ export default {
               return;
             }
 
-            resolve();
+
+            resolve(true);
+            return;
           }
+
+          resolve(true);
         }),
       ]).catch(() => {
         ctx.error = true;
