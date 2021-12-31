@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@iyowei/cli-cancel-or-continue": "^1.0.1",
-    "@iyowei/create-templates": "^1.0.10",
+    "@iyowei/create-templates": "^1.0.11",
     "@iyowei/is-esm": "^1.0.1",
     "@iyowei/is-readme-path": "^1.0.1",
     "@iyowei/is-tilde-path": "^1.0.0",

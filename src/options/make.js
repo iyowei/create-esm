@@ -362,23 +362,28 @@ export default async function make(cli) {
     confirmedOptions.set(ARG_TDD, cli.flags[ARG_TDD]);
   }
 
-  confirmedOptions.set('copiers', [
-    ...confirmedOptions
-      .get('targets')
-      .map((cur) => cur.path)
-      .map((cur) => ({
+  confirmedOptions.set(
+    'copiers',
+    [
+      ...confirmedOptions
+        .get('targets')
+        .map((cur) => cur.path)
+        .map((cur) => ({
+          source: cur,
+          output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+        })),
+      ...copiers.common.map((cur) => ({
         source: cur,
         output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
       })),
-    ...copiers.common.map((cur) => ({
-      source: cur,
-      output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
-    })),
-    ...copiers.esm.map((cur) => ({
-      source: cur,
-      output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
-    })),
-  ]);
+      ...copiers.esm.map((cur) => ({
+        source: cur,
+        output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+      })),
+
+      cli.flags[ARG_TDD] && copiers.mocha,
+    ].filter(Boolean),
+  );
 
   confirmedOptions.set(
     'prints',

@@ -2,7 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@iyowei/cli-cancel-or-continue': ^1.0.1
-  '@iyowei/create-templates': ^1.0.10
+  '@iyowei/create-templates': ^1.0.11
   '@iyowei/is-esm': ^1.0.1
   '@iyowei/is-readme-path': ^1.0.1
   '@iyowei/is-tilde-path': ^1.0.0
@@ -36,7 +36,7 @@ specifiers:
 
 dependencies:
   '@iyowei/cli-cancel-or-continue': 1.0.1
-  '@iyowei/create-templates': 1.0.10
+  '@iyowei/create-templates': 1.0.11
   '@iyowei/is-esm': 1.0.1
   '@iyowei/is-readme-path': 1.0.1
   '@iyowei/is-tilde-path': 1.0.0
@@ -136,8 +136,8 @@ packages:
     engines: {node: '>=12.20.0'}
     dev: false
 
-  /@iyowei/create-templates/1.0.10:
-    resolution: {integrity: sha512-ds+YQrvprZzR4L8Q7eq2Exke87IivTKnrvuQwj2YAzp61bMsX7l571w26hOa3sGFsTQYlpJ/DktGGb18mMa5+g==}
+  /@iyowei/create-templates/1.0.11:
+    resolution: {integrity: sha512-PGZCoNZKEGslc42V5rB11/ieltacLUz7M9JjkBzs+fN9cPmdLBjGITVeQahjC13IZk4uF0uIoMhQclV+cnp+SQ==}
     engines: {node: '>=12.20.0'}
     dependencies:
       '@iyowei/fast-gitignore': 1.0.5

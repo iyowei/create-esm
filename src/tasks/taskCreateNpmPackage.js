@@ -73,7 +73,7 @@ export default {
 
         if (ctx.payload.get('tdd')) {
           TMP.scripts.test =
-            "npx mocha '**/*.+(spec|test).js' --exclude 'node_modules/**' -p -j 2";
+            "npx mocha '**/*.+(spec|test).js' -p";
         }
 
         pkgIns.update(TMP);
