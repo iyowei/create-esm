@@ -18,7 +18,7 @@ export function getText(key) {
 
 export const mainHelp = `
   ${chalk.bold('使用方式')}
-    $ ${texts[TXT_NAME]} | ce [指定待拷贝的文件、文件夹] [选项]
+    $ ${texts[TXT_NAME]} | ce | esm [指定待拷贝的文件、文件夹] [选项]
 
   ${chalk.bold('选项')}
     --name, -n                       包名（实际安装时使用的名称）

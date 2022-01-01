@@ -5,7 +5,8 @@
   "main": "cli.js",
   "bin": {
     "create-esm": "cli.js",
-    "ce": "cli.js"
+    "ce": "cli.js",
+    "esm": "cli.js"
   },
   "files": [
     "cli.js",
