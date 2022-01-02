@@ -33,6 +33,7 @@ import {
   ARG_DEPENDENCIES,
   ARG_GITHUB_ORG,
   ARG_TDD,
+  ARG_BENCHMARK,
   ARG_BREAKPOINT,
 } from './args.js';
 
@@ -362,6 +363,16 @@ export default async function make(cli) {
     confirmedOptions.set(ARG_TDD, cli.flags[ARG_TDD]);
   }
 
+  if (cli.flags[ARG_BENCHMARK]) {
+    confirmedOptions.set(
+      'devDependencies',
+      confirmedOptions
+        .get('devDependencies')
+        .concat(['benchmark', 'microtime']),
+    );
+    confirmedOptions.set(ARG_BENCHMARK, cli.flags[ARG_BENCHMARK]);
+  }
+
   confirmedOptions.set(
     'copiers',
     [
@@ -383,7 +394,18 @@ export default async function make(cli) {
 
       cli.flags[ARG_TDD] && {
         source: copiers.mocha,
-        output: join(confirmedOptions.get('newProjectPath'), basename(copiers.mocha)),
+        output: join(
+          confirmedOptions.get('newProjectPath'),
+          basename(copiers.mocha),
+        ),
+      },
+
+      cli.flags[ARG_BENCHMARK] && {
+        source: copiers[ARG_BENCHMARK],
+        output: join(
+          confirmedOptions.get('newProjectPath'),
+          basename(copiers[ARG_BENCHMARK]),
+        ),
       },
     ].filter(Boolean),
   );

@@ -9,6 +9,8 @@ import {
   ARG_DEPENDENCIES,
   ARG_SSH_KEY,
   ARG_GITHUB_ORG,
+  ARG_BENCHMARK,
+  ARG_TDD,
 } from './args.js';
 import terminateCli from '../terminateCli.js';
 
@@ -34,7 +36,8 @@ const DEFAULTS = new Map(
     namespace: '',
 
     generateReadme: false,
-    tdd: false,
+    [ARG_TDD]: false,
+    [ARG_BENCHMARK]: false,
 
     // 默认在个人 Github 账户下创建项目
     githubOrgNameSameWithNpmOrg: false,

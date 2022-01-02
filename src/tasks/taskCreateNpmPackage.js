@@ -3,6 +3,8 @@ import shell from 'shelljs';
 import { writeNpmRc } from '@iyowei/create-templates';
 import isEmpty from 'lodash/isEmpty.js';
 
+import { ARG_DESCRIPTION, ARG_BENCHMARK, ARG_TDD } from '../options/args.js';
+
 export const TASK_NAME_CREATE_NPM_PACKAGE = '初始化 NPM';
 
 // TODO: 使用 "模板方法模式" 组织代码
@@ -60,7 +62,7 @@ export default {
           },
 
           // 基本信息
-          description: ctx.payload.get('description'),
+          description: ctx.payload.get(ARG_DESCRIPTION),
 
           // 公开
           private: false,
@@ -71,9 +73,12 @@ export default {
           license: 'MIT',
         };
 
-        if (ctx.payload.get('tdd')) {
-          TMP.scripts.test =
-            "npx mocha '**/*.+(spec|test).js' -p";
+        if (ctx.payload.get(ARG_TDD)) {
+          TMP.scripts.test = "npx mocha '**/*.+(spec|test).js' -p";
+        }
+
+        if (ctx.payload.get(ARG_BENCHMARK)) {
+          TMP.scripts.benchmark = 'node ./benchmark.js';
         }
 
         pkgIns.update(TMP);
@@ -138,7 +143,6 @@ export default {
               reject(excuted.stderr);
               return;
             }
-
 
             resolve(true);
             return;

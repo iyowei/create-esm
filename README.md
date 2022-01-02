@@ -74,8 +74,9 @@ esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
     --sshkey                                   私钥文件地址
     --no-double-check-dependencies             不需要二次确认是否还有其它依赖需要安装
     --no-confirm-github-org                    如果包名有命名空间，则确认是否需要在某个 Github Org 下创建项目
-    --tdd                                      单元测试支持
-    --breakpoint, -b                 'repo'、'npm'、'copy'、'push'、'changelog'、’publish‘ 任一，指定任务及其之前的任务都会被执行
+    --breakpoint, -b                           'repo'、'npm'、'copy'、'push'、'changelog'、’publish‘ 任一，指定任务及其之前的任务都会被执行
+    --benchmark                                架设性能测试环境
+    --tdd                                      架设单元测试环境
 
     --version, -v                              查看版本号
     --help, -h                                 查看帮助

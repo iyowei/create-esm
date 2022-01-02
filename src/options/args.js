@@ -17,6 +17,7 @@ export const ARG_TDD = 'tdd';
 export const ARG_VERSION = 'version';
 export const ARG_HELP = 'help';
 export const ARG_BREAKPOINT = 'breakpoint';
+export const ARG_BENCHMARK = 'benchmark';
 
 export const CLI_FLAGS = {
   [ARG_BREAKPOINT]: {
@@ -55,6 +56,10 @@ export const CLI_FLAGS = {
     type: 'string',
   },
   [ARG_TDD]: {
+    type: 'boolean',
+    default: false,
+  },
+  [ARG_BENCHMARK]: {
     type: 'boolean',
     default: false,
   },
