@@ -30,7 +30,7 @@ export const mainHelp = `
     --personal                       包名有命名空间时，指定在 Github 个人账户下创建项目
     --github-org                     包名有命名空间但与 Github 组织名不同时需特别指定，默认在与命名空间同名的 Github 组织下创建项目
     --breakpoint, -b                 'repo'、'npm'、'copy'、'push'、'changelog'、’publish‘ 任一，指定任务及其之前的任务都会被执行
-    --benchmark                      架设性能测试环境
+    --benchmark                      架设性能s测试环境
     --tdd                            架设单元测试环境
 
     --version, -v                    查看版本号
@@ -42,10 +42,8 @@ export const mainHelp = `
     defaults                         查看 ${texts[TXT_NAME]} 全局配置
 
   ${chalk.bold('示例')}
-    $ ${texts[TXT_NAME]}
-    $ ${
-      texts[TXT_NAME]
-    } /Users/iyowei/Development/generators/create-esm/src/notEmptyString.js
+    $ esm
+    $ esm /Users/iyowei/Development/generators/create-esm/src/notEmptyString.js
 `;
 
 export const setupHelp = `
