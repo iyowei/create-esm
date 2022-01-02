@@ -14,7 +14,7 @@ specifiers:
   boxen: ^6.2.1
   chalk: ^5.0.0
   detective-es6: ^2.2.1
-  eslint: ^8.5.0
+  eslint: ^8.6.0
   eslint-config-airbnb-base: ^15.0.0
   eslint-config-prettier: ^8.3.0
   eslint-plugin-import: ^2.25.3
@@ -63,10 +63,10 @@ dependencies:
   write-json-file: 5.0.0
 
 devDependencies:
-  eslint: 8.5.0
-  eslint-config-airbnb-base: 15.0.0_f385d671d5f1c72a868db745a891bc1f
-  eslint-config-prettier: 8.3.0_eslint@8.5.0
-  eslint-plugin-import: 2.25.3_eslint@8.5.0
+  eslint: 8.6.0
+  eslint-config-airbnb-base: 15.0.0_b54597effeb7d09a84a334cc3c3dadae
+  eslint-config-prettier: 8.3.0_eslint@8.6.0
+  eslint-plugin-import: 2.25.3_eslint@8.6.0
   mocha: 9.1.3
   prettier: 2.5.1
 
@@ -105,7 +105,7 @@ packages:
     dependencies:
       ajv: 6.12.6
       debug: 4.3.3
-      espree: 9.2.0
+      espree: 9.3.0
       globals: 13.12.0
       ignore: 4.0.6
       import-fresh: 3.3.0
@@ -247,16 +247,16 @@ packages:
     resolution: {integrity: sha1-qlgEJxHW4ydd033Fl+XTHowpCkQ=, tarball: '@ungap/promise-all-settled/download/@ungap/promise-all-settled-1.1.2.tgz'}
     dev: true
 
-  /acorn-jsx/5.3.2_acorn@8.6.0:
+  /acorn-jsx/5.3.2_acorn@8.7.0:
     resolution: {integrity: sha1-ftW7VZCLOy8bxVxq8WU7rafweTc=, tarball: acorn-jsx/download/acorn-jsx-5.3.2.tgz}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.6.0
+      acorn: 8.7.0
     dev: true
 
-  /acorn/8.6.0:
-    resolution: {integrity: sha512-U1riIR+lBSNi3IbxtaHOIKdH8sLFv3NYfNv8sg7ZsNhcfl4HF2++BfqqrNAxoCLQW1iiylOj76ecnaUxz+z9yw==, tarball: acorn/download/acorn-8.6.0.tgz?cache=0&sync_timestamp=1637225784941&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Facorn%2Fdownload%2Facorn-8.6.0.tgz}
+  /acorn/8.7.0:
+    resolution: {integrity: sha512-V/LGr1APy+PXIwKebEWrkZPwoeoF+w1jiOBUmuxuiUIaOHtob8Qc9BTrYo7VuI5fR8tqsy+buA2WFooR5olqvQ==, tarball: acorn/download/acorn-8.7.0.tgz}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
@@ -410,7 +410,7 @@ packages:
     dev: false
 
   /boxen/6.2.1:
-    resolution: {integrity: sha1-sJiiJ4ss0oRd7vLf8u/DjTKbQ00=, tarball: boxen/download/boxen-6.2.1.tgz}
+    resolution: {integrity: sha1-sJiiJ4ss0oRd7vLf8u/DjTKbQ00=, tarball: boxen/download/boxen-6.2.1.tgz?cache=0&sync_timestamp=1634135099696&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fboxen%2Fdownload%2Fboxen-6.2.1.tgz}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       ansi-align: 3.0.1
@@ -849,7 +849,7 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /eslint-config-airbnb-base/15.0.0_f385d671d5f1c72a868db745a891bc1f:
+  /eslint-config-airbnb-base/15.0.0_b54597effeb7d09a84a334cc3c3dadae:
     resolution: {integrity: sha512-xaX3z4ZZIcFLvh2oUNvcX5oEofXda7giYmuplVxoOg5A7EXJMrUyqRgR+mhDhPK8LZ4PttFOBvCYDbX3sUoUig==, tarball: eslint-config-airbnb-base/download/eslint-config-airbnb-base-15.0.0.tgz}
     engines: {node: ^10.12.0 || >=12.0.0}
     peerDependencies:
@@ -857,20 +857,20 @@ packages:
       eslint-plugin-import: ^2.25.2
     dependencies:
       confusing-browser-globals: 1.0.11
-      eslint: 8.5.0
-      eslint-plugin-import: 2.25.3_eslint@8.5.0
+      eslint: 8.6.0
+      eslint-plugin-import: 2.25.3_eslint@8.6.0
       object.assign: 4.1.2
       object.entries: 1.1.5
       semver: 6.3.0
     dev: true
 
-  /eslint-config-prettier/8.3.0_eslint@8.5.0:
+  /eslint-config-prettier/8.3.0_eslint@8.6.0:
     resolution: {integrity: sha1-90cbILb+ipqSVMxoRFQgKIai3Xo=, tarball: eslint-config-prettier/download/eslint-config-prettier-8.3.0.tgz}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
     dependencies:
-      eslint: 8.5.0
+      eslint: 8.6.0
     dev: true
 
   /eslint-import-resolver-node/0.3.6:
@@ -889,7 +889,7 @@ packages:
       pkg-dir: 2.0.0
     dev: true
 
-  /eslint-plugin-import/2.25.3_eslint@8.5.0:
+  /eslint-plugin-import/2.25.3_eslint@8.6.0:
     resolution: {integrity: sha512-RzAVbby+72IB3iOEL8clzPLzL3wpDrlwjsTBAQXgyp5SeTqqY+0bFubwuo+y/HLhNZcXV4XqTBO4LGsfyHIDXg==, tarball: eslint-plugin-import/download/eslint-plugin-import-2.25.3.tgz}
     engines: {node: '>=4'}
     peerDependencies:
@@ -899,7 +899,7 @@ packages:
       array.prototype.flat: 1.2.5
       debug: 2.6.9
       doctrine: 2.1.0
-      eslint: 8.5.0
+      eslint: 8.6.0
       eslint-import-resolver-node: 0.3.6
       eslint-module-utils: 2.7.1
       has: 1.0.3
@@ -919,13 +919,13 @@ packages:
       estraverse: 5.3.0
     dev: true
 
-  /eslint-utils/3.0.0_eslint@8.5.0:
+  /eslint-utils/3.0.0_eslint@8.6.0:
     resolution: {integrity: sha1-iuuvrOc0W7M1WdsKHxOh0tSMNnI=, tarball: eslint-utils/download/eslint-utils-3.0.0.tgz}
     engines: {node: ^10.0.0 || ^12.0.0 || >= 14.0.0}
     peerDependencies:
       eslint: '>=5'
     dependencies:
-      eslint: 8.5.0
+      eslint: 8.6.0
       eslint-visitor-keys: 2.1.0
     dev: true
 
@@ -939,8 +939,8 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /eslint/8.5.0:
-    resolution: {integrity: sha512-tVGSkgNbOfiHyVte8bCM8OmX+xG9PzVG/B4UCF60zx7j61WIVY/AqJECDgpLD4DbbESD0e174gOg3ZlrX15GDg==, tarball: eslint/download/eslint-8.5.0.tgz}
+  /eslint/8.6.0:
+    resolution: {integrity: sha512-UvxdOJ7mXFlw7iuHZA4jmzPaUqIw54mZrv+XPYKNbKdLR0et4rf60lIZUU9kiNtnzzMzGWxMV+tQ7uG7JG8DPw==, tarball: eslint/download/eslint-8.6.0.tgz}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     hasBin: true
     dependencies:
@@ -954,9 +954,9 @@ packages:
       enquirer: 2.3.6
       escape-string-regexp: 4.0.0
       eslint-scope: 7.1.0
-      eslint-utils: 3.0.0_eslint@8.5.0
+      eslint-utils: 3.0.0_eslint@8.6.0
       eslint-visitor-keys: 3.1.0
-      espree: 9.2.0
+      espree: 9.3.0
       esquery: 1.4.0
       esutils: 2.0.3
       fast-deep-equal: 3.1.3
@@ -986,12 +986,12 @@ packages:
       - supports-color
     dev: true
 
-  /espree/9.2.0:
-    resolution: {integrity: sha512-oP3utRkynpZWF/F2x/HZJ+AGtnIclaR7z1pYPxy7NYM2fSO6LgK/Rkny8anRSPK/VwEA1eqm2squui0T7ZMOBg==, tarball: espree/download/espree-9.2.0.tgz}
+  /espree/9.3.0:
+    resolution: {integrity: sha512-d/5nCsb0JcqsSEeQzFZ8DH1RmxPcglRWh24EFTlUEmCKoehXGdpsx0RkHDubqUI8LSAIKMQp4r9SzQ3n+sm4HQ==, tarball: espree/download/espree-9.3.0.tgz}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.6.0
-      acorn-jsx: 5.3.2_acorn@8.6.0
+      acorn: 8.7.0
+      acorn-jsx: 5.3.2_acorn@8.7.0
       eslint-visitor-keys: 3.1.0
     dev: true
 
@@ -2281,7 +2281,7 @@ packages:
     dev: true
 
   /shelljs/0.8.4:
-    resolution: {integrity: sha1-3naE/ut2f4cWsyYHiooAh1iQ48I=, tarball: shelljs/download/shelljs-0.8.4.tgz}
+    resolution: {integrity: sha1-3naE/ut2f4cWsyYHiooAh1iQ48I=, tarball: shelljs/download/shelljs-0.8.4.tgz?cache=0&sync_timestamp=1635241344051&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fshelljs%2Fdownload%2Fshelljs-0.8.4.tgz}
     engines: {node: '>=4'}
     hasBin: true
     dependencies:
@@ -2541,7 +2541,7 @@ packages:
     dev: false
 
   /update-notifier/5.1.0:
-    resolution: {integrity: sha1-SrDXx/NqIx3XMWz3cpMT8CFNmtk=, tarball: update-notifier/download/update-notifier-5.1.0.tgz?cache=0&sync_timestamp=1633685171473&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fupdate-notifier%2Fdownload%2Fupdate-notifier-5.1.0.tgz}
+    resolution: {integrity: sha1-SrDXx/NqIx3XMWz3cpMT8CFNmtk=, tarball: update-notifier/download/update-notifier-5.1.0.tgz}
     engines: {node: '>=10'}
     dependencies:
       boxen: 5.1.2
