@@ -15,6 +15,7 @@
     ".prettierrc": true,
     ".prettierignore": true,
     "CHANGELOG.md": true,
-    ".gitignorerc.json": true
+    ".gitignorerc.json": true,
+    ".mocharc.json": true
   }
 }
