@@ -53,6 +53,13 @@
     "access": "public"
   },
   "keywords": [
+    "esm",
+    "generator",
+    "scoffold",
+    "create",
+    "infrastructure",
+    "template",
+    "cli",
     "iyowei"
   ],
   "private": false,
