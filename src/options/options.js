@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty.js';
+import isNil from 'lodash/isNil.js';
 
 import {
   rules as argsRules,
@@ -62,13 +62,17 @@ export default {
   set(key, value) {
     const rule = argsRules[key];
 
-    if (!isEmpty(rule) && !isEmpty(rule.validate)) {
-      const validateResult = rule.validate(value);
+    if (!isNil(rule)) {
+      if (
+        Object.prototype.toString.call(rule.validate) === '[object Function]'
+      ) {
+        const validateResult = rule.validate(value);
 
-      if (!validateResult.ok) {
-        terminateCli(validateResult.message);
-      } else {
-        this[KEY_STORE].set(key, value);
+        if (!validateResult.ok) {
+          terminateCli(validateResult.message);
+        } else {
+          this[KEY_STORE].set(key, value);
+        }
       }
     } else {
       this[KEY_STORE].set(key, value);
