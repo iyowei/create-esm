@@ -21,6 +21,8 @@ export default {
 
     // TODO: 检测输出目录是否已存在同名项目，如果存在的话就挂断程序
 
+    // TODO: 远程是否已有同名项目，存在即挂断程序
+
     if (!ctx.error) {
       const PART_NAME = '建立安全的 SSH 管道';
 
