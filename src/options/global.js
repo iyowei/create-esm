@@ -1,3 +1,5 @@
+// TODO: 重命名为 "持久化配置"
+
 import { join } from 'path';
 import { homedir } from 'os';
 import { existsSync, realpathSync } from 'fs';
@@ -7,6 +9,7 @@ import { loadJsonFileSync } from 'load-json-file';
 
 import { getText, TXT_NAME } from '../messages.js';
 import terminateCli from '../terminateCli.js';
+import { rules, ARG_OUTPUT, ARG_SSH_KEY } from './args.js';
 
 const GLOBAL_DEFAULTS = {
   output: '',
@@ -27,15 +30,25 @@ export function getGlobalConfigurations() {
 
 // TODO: 键有效性校验
 export function updateGlobalConfigurations(key, value) {
-  if (key === 'output' && !existsSync(value)) {
-    terminateCli(`给定磁盘位置 "${value}" 不存在`);
+  if (key === ARG_OUTPUT) {
+    const result = rules[ARG_OUTPUT].validate(value);
+
+    if (!result.ok) {
+      terminateCli(result.message);
+    }
   }
 
-  if (key === 'sshkey' && !existsSync(value)) {
-    terminateCli(`给定路径 "${value}" 未检测到私钥文件`);
+  if (key === ARG_SSH_KEY) {
+    const result = rules[ARG_SSH_KEY].validate(value);
+
+    if (!result.ok) {
+      terminateCli(result.message);
+    }
   }
 
   const defaults = getGlobalConfigurations();
+
+  // TODO: value 被设置前未格式化，如果输入的是波浪号路径
   Object.assign(defaults, { [key]: realpathSync(value) });
 
   writeJsonFileSync(defaultsFilePath, defaults);
