@@ -232,7 +232,8 @@ function treatArgsWithQuestionIfNotGiven(cli) {
       } else {
         confirmedOptions.set(
           arg,
-          !argsRules[arg].format
+          Object.prototype.toString.call(argsRules[arg].format) !==
+            '[object Function]'
             ? cli.flags[arg]
             : argsRules[arg].format(cli.flags[arg]),
         );
@@ -244,7 +245,8 @@ function treatArgsWithQuestionIfNotGiven(cli) {
       if (cli.flags[arg]) {
         confirmedOptions.set(
           arg,
-          !argsRules[arg].format
+          Object.prototype.toString.call(argsRules[arg].format) !==
+            '[object Function]'
             ? cli.flags[arg]
             : argsRules[arg].format(cli.flags[arg]),
         );

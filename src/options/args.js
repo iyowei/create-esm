@@ -1,4 +1,4 @@
-import { existsSync, realpathSync } from 'fs';
+import { existsSync } from 'fs';
 
 import isEmpty from 'lodash/isEmpty.js';
 import validateNpmPkgName from 'validate-npm-package-name';
@@ -119,7 +119,7 @@ export const rules = {
         return untildify(path);
       }
 
-      return realpathSync(path);
+      return path;
     },
   },
   [ARG_SSH_KEY]: {
@@ -137,7 +137,7 @@ export const rules = {
         return untildify(path);
       }
 
-      return realpathSync(path);
+      return path;
     },
   },
 };
