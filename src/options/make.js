@@ -402,13 +402,14 @@ export default async function make(cli) {
         ),
       },
 
-      cli.flags[ARG_BENCHMARK] && {
-        source: copiers[ARG_BENCHMARK],
-        output: join(
-          confirmedOptions.get('newProjectPath'),
-          basename(copiers[ARG_BENCHMARK]),
-        ),
-      },
+      // TODO: 如果用户已编写性能测试脚本，此处默认脚本的生成就是一种困扰了，默认脚本生成策略需再思考
+      // cli.flags[ARG_BENCHMARK] && {
+      //   source: copiers[ARG_BENCHMARK],
+      //   output: join(
+      //     confirmedOptions.get('newProjectPath'),
+      //     basename(copiers[ARG_BENCHMARK]),
+      //   ),
+      // },
     ].filter(Boolean),
   );
 
