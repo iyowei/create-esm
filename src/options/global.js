@@ -12,8 +12,8 @@ import terminateCli from '../terminateCli.js';
 import { OPTION_RULES, OPTION_OUTPUT, OPTION_SSH_KEY } from './options.js';
 
 const GLOBAL_DEFAULTS = {
-  output: '',
-  sshkey: '',
+  [OPTION_OUTPUT]: '',
+  [OPTION_SSH_KEY]: '',
 };
 
 export const defaultsFilePath = join(
