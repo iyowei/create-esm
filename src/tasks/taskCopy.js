@@ -1,4 +1,5 @@
 import { copy } from 'fs-extra';
+import { OPTION_COPIERS } from '../options/options.js';
 
 export const TASK_NAME_COPY = '拷贝文件';
 
@@ -10,7 +11,7 @@ export default {
   async excute({ ctx, task }) {
     if (!ctx.error) {
       await Promise.all(
-        ctx.payload.get('copiers').map(
+        ctx.payload.get(OPTION_COPIERS).map(
           (cur) =>
             new Promise((resolve, reject) => {
               copy(cur.source, cur.output, (err) => {

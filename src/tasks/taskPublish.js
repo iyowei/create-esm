@@ -1,4 +1,5 @@
 import shell from 'shelljs';
+import { OPTION_NEW_PROJECT_PATH } from '../options/options.js';
 
 export const TASK_NAME_PUBLISH = '发布到 NPM';
 
@@ -11,7 +12,7 @@ export default {
 
       task.title = PART_NAME;
 
-      if (shell.cd(ctx.payload.get('newProjectPath')).code !== 0) {
+      if (shell.cd(ctx.payload.get(OPTION_NEW_PROJECT_PATH)).code !== 0) {
         ctx.error = true;
         ctx.message = `"${TASK_NAME_PUBLISH}" 任务在 "${PART_NAME}" 环节出错`;
       }

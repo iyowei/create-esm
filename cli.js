@@ -18,13 +18,19 @@ import {
   COMMAND_RESET,
   getReport,
 } from './src/messages.js';
-import { CLI_FLAGS, ARG_BREAKPOINT } from './src/options/args.js';
+
+import {
+  CLI_FLAGS,
+  OPTION_BREAKPOINT,
+  OPTION_HELP,
+} from './src/options/options.js';
 
 import {
   updateGlobalConfigurations,
   getGlobalConfigurations,
   reset,
 } from './src/options/global.js';
+
 import makeOptions from './src/options/make.js';
 import prerequisites from './src/prerequisites.js';
 
@@ -48,7 +54,7 @@ import getTasks from './src/tasks/index.js';
 
   // 二级指令：修改默认设置
   if (cli.input[0] === COMMAND_SET) {
-    if (cli.flags.help) {
+    if (cli.flags[OPTION_HELP]) {
       shell.echo(setupHelp);
       return;
     }
@@ -65,7 +71,7 @@ import getTasks from './src/tasks/index.js';
 
   // 二级指令：查看默认配置
   if (cli.input[0] === COMMAND_DEFAULTS) {
-    if (cli.flags.help) {
+    if (cli.flags[OPTION_HELP]) {
       shell.echo(defaultsHelp);
       return;
     }
@@ -77,7 +83,7 @@ import getTasks from './src/tasks/index.js';
 
   // 二级指令：清空
   if (cli.input[0] === COMMAND_RESET) {
-    if (cli.flags.help) {
+    if (cli.flags[OPTION_HELP]) {
       shell.echo(resetHelp);
       return;
     }
@@ -106,7 +112,7 @@ import getTasks from './src/tasks/index.js';
 
   // console.log(opts);
 
-  const tasks = new Listr(getTasks(opts.get(ARG_BREAKPOINT)), {
+  const tasks = new Listr(getTasks(opts.get(OPTION_BREAKPOINT)), {
     exitOnError: true,
     ctx: { error: false, payload: opts },
   });

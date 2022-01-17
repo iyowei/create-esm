@@ -17,25 +17,28 @@ import isReadmePath from '@iyowei/is-readme-path';
 import precinct from 'detective-es6';
 import { isESMSync } from '@iyowei/is-esm';
 import isEmpty from 'lodash/isEmpty.js';
+
 import { prints, copiers, stockrooms } from '@iyowei/create-templates';
 
 import jsModuleDependenciesToBeInstalled from '@iyowei/js-module-dependencies-to-be-installed';
 import { HINT_NO_FILE_INPUT, hints } from '../messages.js';
 import { getGlobalConfigurations } from './global.js';
 import terminateCli from '../terminateCli.js';
-import confirmedOptions from './options.js';
-
 import questions from './questions.js';
+
 import {
-  rules as argsRules,
-  ARG_NAME,
-  ARG_OUTPUT,
-  ARG_DEPENDENCIES,
-  ARG_GITHUB_ORG,
-  ARG_TDD,
-  ARG_BENCHMARK,
-  ARG_BREAKPOINT,
-} from './args.js';
+  OPTIONS,
+  OPTION_RULES,
+  OPTION_NAME,
+  OPTION_OUTPUT,
+  OPTION_DEPENDENCIES,
+  OPTION_GITHUB_ORG,
+  OPTION_TDD,
+  OPTION_BENCHMARK,
+  OPTION_BREAKPOINT,
+  OPTION_DOUBLE_CHECK_DEPENDENCIES,
+  OPTION_PERSONAL,
+} from './options.js';
 
 const questioners = [];
 const ext = ['.js', '.mjs'];
@@ -65,31 +68,29 @@ function treatDependencies(cli) {
   );
 
   if (!isEmpty(scaned)) {
-    confirmedOptions.set(ARG_DEPENDENCIES, scaned);
+    OPTIONS.set(OPTION_DEPENDENCIES, scaned);
   }
 
   // 即使命令行中已指定，但仍需要二次确认的参数，除非要求，否则交互式提问用户
-  if (!isEmpty(cli.flags[ARG_DEPENDENCIES])) {
-    confirmedOptions.set(
-      ARG_DEPENDENCIES,
-      Array.from(new Set([...scaned, ...cli.flags[ARG_DEPENDENCIES]])),
+  if (!isEmpty(cli.flags[OPTION_DEPENDENCIES])) {
+    OPTIONS.set(
+      OPTION_DEPENDENCIES,
+      Array.from(new Set([...scaned, ...cli.flags[OPTION_DEPENDENCIES]])),
     );
   }
 
-  if (cli.flags.doubleCheckDependencies) {
+  if (cli.flags[OPTION_DOUBLE_CHECK_DEPENDENCIES]) {
     questioners.push({
       type: 'list',
       separator: ' ',
       initial: '',
-      name: ARG_DEPENDENCIES,
-      message: isEmpty(confirmedOptions.get(ARG_DEPENDENCIES))
+      name: OPTION_DEPENDENCIES,
+      message: isEmpty(OPTIONS.get(OPTION_DEPENDENCIES))
         ? '未指定需要安装的依赖，如果需要，以空格间隔输入'
-        : `将安装 ${confirmedOptions
-            .get(ARG_DEPENDENCIES)
-            .reduce(
-              (acc, cur) => (!acc ? `"${cur}"` : `${acc}、"${cur}"`),
-              '',
-            )}，如果需要指定更多，以空格间隔输入`,
+        : `将安装 ${OPTIONS.get(OPTION_DEPENDENCIES).reduce(
+            (acc, cur) => (!acc ? `"${cur}"` : `${acc}、"${cur}"`),
+            '',
+          )}，如果需要指定更多，以空格间隔输入`,
     });
   }
 }
@@ -138,14 +139,14 @@ function treatInputs(cli) {
 
   // ==========================================================================>
 
-  if (!isEmpty(cli.flags[ARG_GITHUB_ORG]) && cli.flags.personal) {
+  if (!isEmpty(cli.flags[OPTION_GITHUB_ORG]) && cli.flags[OPTION_PERSONAL]) {
     terminateCli('`--personal`、`--github-org` 两个参数不能同时出现');
   }
 
   // ==========================================================================>
 
   if (!hasReadme(cli.input)) {
-    confirmedOptions.set('generateReadme', true);
+    OPTIONS.set('generateReadme', true);
   }
 
   // ==========================================================================>
@@ -167,7 +168,7 @@ function treatInputs(cli) {
       instructions: false,
     });
   } else {
-    confirmedOptions.set(
+    OPTIONS.set(
       'pkgFiles',
       inputs.map((cur) =>
         cur.dirent.isDirectory()
@@ -177,13 +178,13 @@ function treatInputs(cli) {
     );
   }
 
-  confirmedOptions.set('targets', inputs);
+  OPTIONS.set('targets', inputs);
 
   const jsFileTypeInputs = getJSTypeFileInputs(inputs);
 
   if (jsFileTypeInputs.length === 1) {
     const jsInput = jsFileTypeInputs[0];
-    confirmedOptions.set(
+    OPTIONS.set(
       'pkgExports',
       Object.assign(jsInput, {
         relativePath: `./${jsInput.name}`,
@@ -221,7 +222,7 @@ function treatInputs(cli) {
 function treatArgsWithQuestionIfNotGiven(cli) {
   const defaults = getGlobalConfigurations();
 
-  Object.entries(argsRules).forEach((kv) => {
+  Object.entries(OPTION_RULES).forEach((kv) => {
     const arg = kv[0];
     const { cliRequired, isDefault } = kv[1];
 
@@ -229,31 +230,31 @@ function treatArgsWithQuestionIfNotGiven(cli) {
     if (cliRequired) {
       if (!cli.flags[arg]) {
         questioners.push(questions[arg]);
+      } else if (
+        OPTION_RULES[arg].format &&
+        Object.prototype.toString.call(OPTION_RULES[arg].format) !==
+          '[object Function]'
+      ) {
+        OPTIONS.set(arg, OPTION_RULES[arg].format(cli.flags[arg]));
       } else {
-        confirmedOptions.set(
-          arg,
-          Object.prototype.toString.call(argsRules[arg].format) !==
-            '[object Function]'
-            ? cli.flags[arg]
-            : argsRules[arg].format(cli.flags[arg]),
-        );
+        OPTIONS.set(arg, cli.flags[arg]);
       }
     }
 
     // 非必需参数，优先使用命令行中提供的配置，其次是系统默认配置，如果未设置系统默认配置，就交互式提问用户
     if (!cliRequired) {
       if (cli.flags[arg]) {
-        confirmedOptions.set(
+        OPTIONS.set(
           arg,
-          Object.prototype.toString.call(argsRules[arg].format) !==
+          Object.prototype.toString.call(OPTION_RULES[arg].format) !==
             '[object Function]'
             ? cli.flags[arg]
-            : argsRules[arg].format(cli.flags[arg]),
+            : OPTION_RULES[arg].format(cli.flags[arg]),
         );
       } else if (isDefault && !defaults[arg]) {
         questioners.push(questions[arg]);
       } else {
-        confirmedOptions.set(arg, defaults[arg]);
+        OPTIONS.set(arg, defaults[arg]);
       }
     }
   });
@@ -278,47 +279,43 @@ export default async function make(cli) {
       const k = cur[0];
       const v = cur[1];
 
-      confirmedOptions.set(k, v);
+      OPTIONS.set(k, v);
     });
   }
 
   [
     [
-      ARG_NAME,
-      isScoped(confirmedOptions.get(ARG_NAME))
-        ? confirmedOptions.get(ARG_NAME).split('/')[1]
-        : confirmedOptions.get(ARG_NAME),
+      OPTION_NAME,
+      isScoped(OPTIONS.get(OPTION_NAME))
+        ? OPTIONS.get(OPTION_NAME).split('/')[1]
+        : OPTIONS.get(OPTION_NAME),
     ],
-    ['pkgName', confirmedOptions.get(ARG_NAME)],
+    ['pkgName', OPTIONS.get(OPTION_NAME)],
     [
       'newProjectPath',
-      isScoped(confirmedOptions.get(ARG_NAME))
+      isScoped(OPTIONS.get(OPTION_NAME))
         ? join(
-            confirmedOptions.get(ARG_OUTPUT),
-            confirmedOptions.get(ARG_NAME).split('/')[1],
+            OPTIONS.get(OPTION_OUTPUT),
+            OPTIONS.get(OPTION_NAME).split('/')[1],
           )
-        : join(
-            confirmedOptions.get(ARG_OUTPUT),
-            confirmedOptions.get(ARG_NAME),
-          ),
+        : join(OPTIONS.get(OPTION_OUTPUT), OPTIONS.get(OPTION_NAME)),
     ],
     [
-      ARG_DEPENDENCIES,
-      confirmedOptions
-        .get(ARG_DEPENDENCIES)
+      OPTION_DEPENDENCIES,
+      OPTIONS.get(OPTION_DEPENDENCIES)
         .filter((cur) => notEmptyString(cur))
         .sort(alphaSort()),
     ],
     [
       'namespace',
-      isScoped(confirmedOptions.get(ARG_NAME))
-        ? confirmedOptions.get(ARG_NAME).split('/')[0].substring(1)
+      isScoped(OPTIONS.get(OPTION_NAME))
+        ? OPTIONS.get(OPTION_NAME).split('/')[0].substring(1)
         : '',
     ],
   ].forEach((cur) => {
     const k = cur[0];
     const v = cur[1];
-    confirmedOptions.set(k, v);
+    OPTIONS.set(k, v);
   });
 
   /**
@@ -343,77 +340,71 @@ export default async function make(cli) {
    *
    * 两者不能同时出现
    */
-  if (isEmpty(confirmedOptions.get('namespace'))) {
+  if (isEmpty(OPTIONS.get('namespace'))) {
     // no namespace
-    if (!isEmpty(cli.flags[ARG_GITHUB_ORG])) {
+    if (!isEmpty(cli.flags[OPTION_GITHUB_ORG])) {
       // has github org
-      confirmedOptions.set(ARG_GITHUB_ORG, cli.flags[ARG_GITHUB_ORG]);
+      OPTIONS.set(OPTION_GITHUB_ORG, cli.flags[OPTION_GITHUB_ORG]);
     }
-  } else if (!isEmpty(cli.flags[ARG_GITHUB_ORG])) {
+  } else if (!isEmpty(cli.flags[OPTION_GITHUB_ORG])) {
     // has namespace, has github org
-    confirmedOptions.set(ARG_GITHUB_ORG, cli.flags[ARG_GITHUB_ORG]);
-  } else if (!cli.flags.personal) {
+    OPTIONS.set(OPTION_GITHUB_ORG, cli.flags[OPTION_GITHUB_ORG]);
+  } else if (!cli.flags[OPTION_PERSONAL]) {
     // has namespace, no github org, not personal
-    confirmedOptions.set('githubOrgNameSameWithNpmOrg', true);
+    OPTIONS.set('githubOrgNameSameWithNpmOrg', true);
   }
 
-  if (cli.flags[ARG_TDD]) {
-    confirmedOptions.set(
+  if (cli.flags[OPTION_TDD]) {
+    OPTIONS.set(
       'devDependencies',
-      confirmedOptions.get('devDependencies').concat(['mocha']),
+      OPTIONS.get('devDependencies').concat(['mocha']),
     );
-    confirmedOptions.set(ARG_TDD, cli.flags[ARG_TDD]);
+    OPTIONS.set(OPTION_TDD, cli.flags[OPTION_TDD]);
   }
 
-  if (cli.flags[ARG_BENCHMARK]) {
-    confirmedOptions.set(
+  if (cli.flags[OPTION_BENCHMARK]) {
+    OPTIONS.set(
       'devDependencies',
-      confirmedOptions
-        .get('devDependencies')
-        .concat(['benchmark', 'microtime']),
+      OPTIONS.get('devDependencies').concat(['benchmark', 'microtime']),
     );
-    confirmedOptions.set(ARG_BENCHMARK, cli.flags[ARG_BENCHMARK]);
+    OPTIONS.set(OPTION_BENCHMARK, cli.flags[OPTION_BENCHMARK]);
   }
 
-  confirmedOptions.set(
+  OPTIONS.set(
     'copiers',
     [
-      ...confirmedOptions
-        .get('targets')
+      ...OPTIONS.get('targets')
         .map((cur) => cur.path)
         .map((cur) => ({
           source: cur,
-          output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+          output: join(OPTIONS.get('newProjectPath'), basename(cur)),
         })),
       ...copiers.common.map((cur) => ({
         source: cur,
-        output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+        output: join(OPTIONS.get('newProjectPath'), basename(cur)),
       })),
       ...copiers.esm.map((cur) => ({
         source: cur,
-        output: join(confirmedOptions.get('newProjectPath'), basename(cur)),
+        output: join(OPTIONS.get('newProjectPath'), basename(cur)),
       })),
 
-      cli.flags[ARG_TDD] && {
+      cli.flags[OPTION_TDD] && {
         source: copiers.mocha,
-        output: join(
-          confirmedOptions.get('newProjectPath'),
-          basename(copiers.mocha),
-        ),
+        output: join(OPTIONS.get('newProjectPath'), basename(copiers.mocha)),
       },
 
       // TODO: 如果用户已编写性能测试脚本，此处默认脚本的生成就是一种困扰了，默认脚本生成策略需再思考
-      // cli.flags[ARG_BENCHMARK] && {
-      //   source: copiers[ARG_BENCHMARK],
+      // cli.flags[OPTION_BENCHMARK] && {
+      //   source: copiers[OPTION_BENCHMARK],
       //   output: join(
-      //     confirmedOptions.get('newProjectPath'),
-      //     basename(copiers[ARG_BENCHMARK]),
+      //     OPTIONS.get('newProjectPath'),
+      //     basename(copiers[OPTION_BENCHMARK]),
       //   ),
       // },
     ].filter(Boolean),
   );
 
-  confirmedOptions.set(
+  OPTIONS.set(
     'prints',
     Object.entries(prints).reduce((acc, cur) => {
       const k = cur[0];
@@ -421,21 +412,21 @@ export default async function make(cli) {
 
       acc[k] = {
         source: v,
-        output: join(confirmedOptions.get('newProjectPath'), basename(v)),
+        output: join(OPTIONS.get('newProjectPath'), basename(v)),
       };
 
       return acc;
     }, {}),
   );
 
-  confirmedOptions.set('gitignore', {
+  OPTIONS.set('gitignore', {
     source: stockrooms.gitignore,
-    output: join(confirmedOptions.get('newProjectPath'), '.gitignore'),
+    output: join(OPTIONS.get('newProjectPath'), '.gitignore'),
   });
 
-  if (cli.flags[ARG_BREAKPOINT]) {
-    confirmedOptions.set(ARG_BREAKPOINT, cli.flags[ARG_BREAKPOINT]);
+  if (cli.flags[OPTION_BREAKPOINT]) {
+    OPTIONS.set(OPTION_BREAKPOINT, cli.flags[OPTION_BREAKPOINT]);
   }
 
-  return confirmedOptions.getAll();
+  return OPTIONS.getAll();
 }

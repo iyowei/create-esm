@@ -3,7 +3,18 @@ import shell from 'shelljs';
 import { writeNpmRc } from '@iyowei/create-templates';
 import isEmpty from 'lodash/isEmpty.js';
 
-import { ARG_DESCRIPTION, ARG_BENCHMARK, ARG_TDD } from '../options/args.js';
+import {
+  OPTION_NEW_PROJECT_PATH,
+  OPTION_NAMESPACE,
+  OPTION_DESCRIPTION,
+  OPTION_BENCHMARK,
+  OPTION_TDD,
+  OPTION_PKG_EXPORTS,
+  OPTION_PKG_FILES,
+  OPTION_DEPENDENCIES,
+  OPTION_DEV_DEPENDENCIES,
+  OPTION_PRINTS,
+} from '../options/options.js';
 
 export const TASK_NAME_CREATE_NPM_PACKAGE = '初始化 NPM';
 
@@ -16,7 +27,7 @@ export default {
 
       task.title = PART_NAME;
 
-      if (shell.cd(ctx.payload.get('newProjectPath')).code !== 0) {
+      if (shell.cd(ctx.payload.get(OPTION_NEW_PROJECT_PATH)).code !== 0) {
         ctx.error = true;
         ctx.message = `"${TASK_NAME_CREATE_NPM_PACKAGE}" 任务在 "${PART_NAME}" 环节出错`;
       }
@@ -28,9 +39,9 @@ export default {
       task.title = PART_NAME;
 
       const excuted = shell.exec(
-        isEmpty(ctx.payload.get('namespace'))
+        isEmpty(ctx.payload.get(OPTION_NAMESPACE))
           ? 'npm init -y'
-          : `npm init --scope=${ctx.payload.get('namespace')} -y`,
+          : `npm init --scope=${ctx.payload.get(OPTION_NAMESPACE)} -y`,
         {
           silent: true,
         },
@@ -42,14 +53,14 @@ export default {
           `"${TASK_NAME_CREATE_NPM_PACKAGE}" 任务在 "${PART_NAME}" 环节出错,`,
         ].concat(excuted.stderr.split('\n'));
       } else {
-        const pkgIns = await pkg.load(ctx.payload.get('newProjectPath'));
+        const pkgIns = await pkg.load(ctx.payload.get(OPTION_NEW_PROJECT_PATH));
 
         const TMP = {
           // 包
           type: 'module',
-          exports: ctx.payload.get('pkgExports').relativePath,
-          main: ctx.payload.get('pkgExports').bareRelativePath,
-          files: ctx.payload.get('pkgFiles'),
+          exports: ctx.payload.get(OPTION_PKG_EXPORTS).relativePath,
+          main: ctx.payload.get(OPTION_PKG_EXPORTS).bareRelativePath,
+          files: ctx.payload.get(OPTION_PKG_FILES),
           engines: {
             node: '>=12.20.0',
           },
@@ -62,7 +73,7 @@ export default {
           },
 
           // 基本信息
-          description: ctx.payload.get(ARG_DESCRIPTION),
+          description: ctx.payload.get(OPTION_DESCRIPTION),
 
           // 公开
           private: false,
@@ -73,11 +84,11 @@ export default {
           license: 'MIT',
         };
 
-        if (ctx.payload.get(ARG_TDD)) {
+        if (ctx.payload.get(OPTION_TDD)) {
           TMP.scripts.test = "npx mocha '**/*.+(spec|test).js' -p";
         }
 
-        if (ctx.payload.get(ARG_BENCHMARK)) {
+        if (ctx.payload.get(OPTION_BENCHMARK)) {
           TMP.scripts.benchmark = 'node ./benchmark.js';
         }
 
@@ -97,8 +108,8 @@ export default {
         // 生成 .npmrc
         new Promise((resolve, reject) => {
           writeNpmRc({
-            output: ctx.payload.get('prints').npmrc.output,
-            data: { namespace: ctx.payload.get('namespace') },
+            output: ctx.payload.get(OPTION_PRINTS).npmrc.output,
+            data: { namespace: ctx.payload.get(OPTION_NAMESPACE) },
           }).then(
             () => {
               resolve();
@@ -111,7 +122,7 @@ export default {
 
         // 安装生产依赖
         new Promise((resolve, reject) => {
-          const DEPs = ctx.payload.get('dependencies');
+          const DEPs = ctx.payload.get(OPTION_DEPENDENCIES);
 
           if (DEPs.length !== 0) {
             const excuted = shell.exec(`pnpm add ${DEPs.join(' ')}`, {
@@ -132,7 +143,7 @@ export default {
 
         // 安装开发依赖
         new Promise((resolve, reject) => {
-          const DevDEPs = ctx.payload.get('devDependencies');
+          const DevDEPs = ctx.payload.get(OPTION_DEV_DEPENDENCIES);
 
           if (DevDEPs.length !== 0) {
             const excuted = shell.exec(`pnpm add ${DevDEPs.join(' ')} -D`, {

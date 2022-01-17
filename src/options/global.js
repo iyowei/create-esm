@@ -9,7 +9,7 @@ import { loadJsonFileSync } from 'load-json-file';
 
 import { getText, TXT_NAME } from '../messages.js';
 import terminateCli from '../terminateCli.js';
-import { rules, ARG_OUTPUT, ARG_SSH_KEY } from './args.js';
+import { OPTION_RULES, OPTION_OUTPUT, OPTION_SSH_KEY } from './options.js';
 
 const GLOBAL_DEFAULTS = {
   output: '',
@@ -30,16 +30,16 @@ export function getGlobalConfigurations() {
 
 // TODO: 键有效性校验
 export function updateGlobalConfigurations(key, value) {
-  if (key === ARG_OUTPUT) {
-    const result = rules[ARG_OUTPUT].validate(value);
+  if (key === OPTION_OUTPUT) {
+    const result = OPTION_RULES[OPTION_OUTPUT].validate(value);
 
     if (!result.ok) {
       terminateCli(result.message);
     }
   }
 
-  if (key === ARG_SSH_KEY) {
-    const result = rules[ARG_SSH_KEY].validate(value);
+  if (key === OPTION_SSH_KEY) {
+    const result = OPTION_RULES[OPTION_SSH_KEY].validate(value);
 
     if (!result.ok) {
       terminateCli(result.message);

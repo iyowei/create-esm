@@ -1,6 +1,18 @@
 import isEmpty from 'lodash/isEmpty.js';
 import shell from 'shelljs';
 import { writeGitignore, writeReadme } from '@iyowei/create-templates';
+import {
+  OPTION_NAME,
+  OPTION_NAMESPACE,
+  OPTION_DESCRIPTION,
+  OPTION_OUTPUT,
+  OPTION_SSH_KEY,
+  OPTION_GITHUB_ORG,
+  OPTION_GITHUB_ORG_NAME_SAME_WITH_NPM_ORG,
+  OPTION_GITIGNONRE,
+  OPTION_GENERATE_README,
+  OPTION_PRINTS,
+} from '../options/options.js';
 
 export const TASK_NAME_CREATE_REPO = '创建项目';
 
@@ -13,7 +25,7 @@ export default {
 
       task.title = PART_NAME;
 
-      if (shell.cd(ctx.payload.get('output')).code !== 0) {
+      if (shell.cd(ctx.payload.get(OPTION_OUTPUT)).code !== 0) {
         ctx.error = true;
         ctx.message = `"${TASK_NAME_CREATE_REPO}" 任务在 "${PART_NAME}" 环节出错`;
       }
@@ -29,7 +41,7 @@ export default {
       task.title = PART_NAME;
 
       const cmdSafetySSHTunnel = `eval ssh-agent && ssh-add ${ctx.payload.get(
-        'sshkey',
+        OPTION_SSH_KEY,
       )}`;
 
       if (shell.exec(cmdSafetySSHTunnel, { silent: true }).code !== 0) {
@@ -41,15 +53,19 @@ export default {
     if (!ctx.error) {
       let repo;
 
-      if (ctx.payload.get('githubOrgNameSameWithNpmOrg')) {
+      if (ctx.payload.get(OPTION_GITHUB_ORG_NAME_SAME_WITH_NPM_ORG)) {
         // same name
-        repo = `${ctx.payload.get('namespace')}/${ctx.payload.get('name')}`;
-      } else if (isEmpty(ctx.payload.get('githubOrgName'))) {
+        repo = `${ctx.payload.get(OPTION_NAMESPACE)}/${ctx.payload.get(
+          OPTION_NAME,
+        )}`;
+      } else if (isEmpty(ctx.payload.get(OPTION_GITHUB_ORG))) {
         // not same name, no github org
-        repo = ctx.payload.get('name');
+        repo = ctx.payload.get(OPTION_NAME);
       } else {
         // not same name, has github org
-        repo = `${ctx.payload.get('githubOrgName')}/${ctx.payload.get('name')}`;
+        repo = `${ctx.payload.get(OPTION_GITHUB_ORG)}/${ctx.payload.get(
+          OPTION_NAME,
+        )}`;
       }
 
       const PART_NAME = `创建 ${repo} 项目`;
@@ -57,7 +73,7 @@ export default {
       task.title = PART_NAME;
 
       const cmd = `gh repo create ${repo} -d "${ctx.payload.get(
-        'description',
+        OPTION_DESCRIPTION,
       )}" -l mit -c --disable-wiki --public`;
       const excuted = shell.exec(cmd, { silent: true });
 
@@ -77,7 +93,7 @@ export default {
       await Promise.all([
         new Promise((resolve, reject) => {
           writeGitignore({
-            output: ctx.payload.get('gitignore').output,
+            output: ctx.payload.get(OPTION_GITIGNONRE).output,
             topics: [
               'macOS',
               'Windows',
@@ -100,12 +116,12 @@ export default {
           );
         }),
         new Promise((resolve, reject) => {
-          if (ctx.payload.get('generateReadme')) {
+          if (ctx.payload.get(OPTION_GENERATE_README)) {
             writeReadme({
-              output: ctx.payload.get('prints').readme.output,
+              output: ctx.payload.get(OPTION_PRINTS).readme.output,
               data: {
-                name: ctx.payload.get('name'),
-                description: ctx.payload.get('description'),
+                name: ctx.payload.get(OPTION_NAME),
+                description: ctx.payload.get(OPTION_DESCRIPTION),
               },
             }).then(
               () => {
