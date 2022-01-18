@@ -30,14 +30,26 @@ import {
   OPTIONS,
   OPTION_RULES,
   OPTION_NAME,
+  OPTION_NAMESPACE,
+  OPTION_COPIERS,
+  OPTION_PKG_EXPORTS,
+  OPTION_PKG_FILES,
+  OPTION_TARGETS,
   OPTION_OUTPUT,
+  OPTION_PKG_NAME,
   OPTION_DEPENDENCIES,
+  OPTION_DEV_DEPENDENCIES,
+  OPTION_GENERATE_README,
+  OPTION_GITHUB_ORG_NAME_SAME_WITH_NPM_ORG,
   OPTION_GITHUB_ORG,
   OPTION_TDD,
   OPTION_BENCHMARK,
   OPTION_BREAKPOINT,
   OPTION_DOUBLE_CHECK_DEPENDENCIES,
   OPTION_PERSONAL,
+  OPTION_NEW_PROJECT_PATH,
+  OPTION_PRINTS,
+  OPTION_GITIGNORE
 } from './options.js';
 
 const questioners = [];
@@ -146,7 +158,7 @@ function treatInputs(cli) {
   // ==========================================================================>
 
   if (!hasReadme(cli.input)) {
-    OPTIONS.set('generateReadme', true);
+    OPTIONS.set(OPTION_GENERATE_README, true);
   }
 
   // ==========================================================================>
@@ -157,7 +169,7 @@ function treatInputs(cli) {
   if (rootFiles.some((cur) => !ext.includes(extname(cur.name)))) {
     questioners.push({
       type: 'multiselect',
-      name: 'pkgFiles',
+      name: OPTION_PKG_FILES,
       message: '选择发包时需要包含的文件',
       choices: inputs.map((cur) => ({
         title: cur.name,
@@ -169,7 +181,7 @@ function treatInputs(cli) {
     });
   } else {
     OPTIONS.set(
-      'pkgFiles',
+      OPTION_PKG_FILES,
       inputs.map((cur) =>
         cur.dirent.isDirectory()
           ? `${basename(cur.path)}/**`
@@ -178,14 +190,14 @@ function treatInputs(cli) {
     );
   }
 
-  OPTIONS.set('targets', inputs);
+  OPTIONS.set(OPTION_TARGETS, inputs);
 
   const jsFileTypeInputs = getJSTypeFileInputs(inputs);
 
   if (jsFileTypeInputs.length === 1) {
     const jsInput = jsFileTypeInputs[0];
     OPTIONS.set(
-      'pkgExports',
+      OPTION_PKG_EXPORTS,
       Object.assign(jsInput, {
         relativePath: `./${jsInput.name}`,
         bareRelativePath: jsInput.name,
@@ -194,7 +206,7 @@ function treatInputs(cli) {
   } else {
     // 有多份文件，此时需要用户指定将哪份文件作为导出文件
     questioners.push({
-      name: 'pkgExports',
+      name: OPTION_PKG_EXPORTS,
       type: 'select',
       choices: jsFileTypeInputs.reduce((acc, cur) => {
         const { name, path, dirent } = cur;
@@ -290,9 +302,9 @@ export default async function make(cli) {
         ? OPTIONS.get(OPTION_NAME).split('/')[1]
         : OPTIONS.get(OPTION_NAME),
     ],
-    ['pkgName', OPTIONS.get(OPTION_NAME)],
+    [OPTION_PKG_NAME, OPTIONS.get(OPTION_NAME)],
     [
-      'newProjectPath',
+      OPTION_NEW_PROJECT_PATH,
       isScoped(OPTIONS.get(OPTION_NAME))
         ? join(
             OPTIONS.get(OPTION_OUTPUT),
@@ -307,7 +319,7 @@ export default async function make(cli) {
         .sort(alphaSort()),
     ],
     [
-      'namespace',
+      OPTION_NAMESPACE,
       isScoped(OPTIONS.get(OPTION_NAME))
         ? OPTIONS.get(OPTION_NAME).split('/')[0].substring(1)
         : '',
@@ -340,7 +352,7 @@ export default async function make(cli) {
    *
    * 两者不能同时出现
    */
-  if (isEmpty(OPTIONS.get('namespace'))) {
+  if (isEmpty(OPTIONS.get(OPTION_NAMESPACE))) {
     // no namespace
     if (!isEmpty(cli.flags[OPTION_GITHUB_ORG])) {
       // has github org
@@ -351,53 +363,53 @@ export default async function make(cli) {
     OPTIONS.set(OPTION_GITHUB_ORG, cli.flags[OPTION_GITHUB_ORG]);
   } else if (!cli.flags[OPTION_PERSONAL]) {
     // has namespace, no github org, not personal
-    OPTIONS.set('githubOrgNameSameWithNpmOrg', true);
+    OPTIONS.set(OPTION_GITHUB_ORG_NAME_SAME_WITH_NPM_ORG, true);
   }
 
   if (cli.flags[OPTION_TDD]) {
     OPTIONS.set(
-      'devDependencies',
-      OPTIONS.get('devDependencies').concat(['mocha']),
+      OPTION_DEV_DEPENDENCIES,
+      OPTIONS.get(OPTION_DEV_DEPENDENCIES).concat(['mocha']),
     );
     OPTIONS.set(OPTION_TDD, cli.flags[OPTION_TDD]);
   }
 
   if (cli.flags[OPTION_BENCHMARK]) {
     OPTIONS.set(
-      'devDependencies',
-      OPTIONS.get('devDependencies').concat(['benchmark', 'microtime']),
+      OPTION_DEV_DEPENDENCIES,
+      OPTIONS.get(OPTION_DEV_DEPENDENCIES).concat(['benchmark', 'microtime']),
     );
     OPTIONS.set(OPTION_BENCHMARK, cli.flags[OPTION_BENCHMARK]);
   }
 
   OPTIONS.set(
-    'copiers',
+    OPTION_COPIERS,
     [
-      ...OPTIONS.get('targets')
+      ...OPTIONS.get(OPTION_TARGETS)
         .map((cur) => cur.path)
         .map((cur) => ({
           source: cur,
-          output: join(OPTIONS.get('newProjectPath'), basename(cur)),
+          output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(cur)),
         })),
       ...copiers.common.map((cur) => ({
         source: cur,
-        output: join(OPTIONS.get('newProjectPath'), basename(cur)),
+        output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(cur)),
       })),
       ...copiers.esm.map((cur) => ({
         source: cur,
-        output: join(OPTIONS.get('newProjectPath'), basename(cur)),
+        output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(cur)),
       })),
 
       cli.flags[OPTION_TDD] && {
         source: copiers.mocha,
-        output: join(OPTIONS.get('newProjectPath'), basename(copiers.mocha)),
+        output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(copiers.mocha)),
       },
 
       // TODO: 如果用户已编写性能测试脚本，此处默认脚本的生成就是一种困扰了，默认脚本生成策略需再思考
       // cli.flags[OPTION_BENCHMARK] && {
       //   source: copiers[OPTION_BENCHMARK],
       //   output: join(
-      //     OPTIONS.get('newProjectPath'),
+      //     OPTIONS.get(OPTION_NEW_PROJECT_PATH),
       //     basename(copiers[OPTION_BENCHMARK]),
       //   ),
       // },
@@ -405,23 +417,23 @@ export default async function make(cli) {
   );
 
   OPTIONS.set(
-    'prints',
+    OPTION_PRINTS,
     Object.entries(prints).reduce((acc, cur) => {
       const k = cur[0];
       const v = cur[1];
 
       acc[k] = {
         source: v,
-        output: join(OPTIONS.get('newProjectPath'), basename(v)),
+        output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(v)),
       };
 
       return acc;
     }, {}),
   );
 
-  OPTIONS.set('gitignore', {
-    source: stockrooms.gitignore,
-    output: join(OPTIONS.get('newProjectPath'), '.gitignore'),
+  OPTIONS.set(OPTION_GITIGNORE, {
+    source: stockrooms[OPTION_GITIGNORE],
+    output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), '.gitignore'),
   });
 
   if (cli.flags[OPTION_BREAKPOINT]) {

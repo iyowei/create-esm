@@ -9,7 +9,7 @@ import {
   OPTION_SSH_KEY,
   OPTION_GITHUB_ORG,
   OPTION_GITHUB_ORG_NAME_SAME_WITH_NPM_ORG,
-  OPTION_GITIGNONRE,
+  OPTION_GITIGNORE,
   OPTION_GENERATE_README,
   OPTION_PRINTS,
 } from '../options/options.js';
@@ -93,7 +93,7 @@ export default {
       await Promise.all([
         new Promise((resolve, reject) => {
           writeGitignore({
-            output: ctx.payload.get(OPTION_GITIGNONRE).output,
+            output: ctx.payload.get(OPTION_GITIGNORE).output,
             topics: [
               'macOS',
               'Windows',

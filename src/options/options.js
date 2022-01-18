@@ -21,7 +21,7 @@ export const OPTION_GITHUB_ORG_NAME_SAME_WITH_NPM_ORG =
 export const OPTION_NEW_PROJECT_PATH = 'newProjectPath';
 export const OPTION_COPIERS = 'copiers';
 export const OPTION_PRINTS = 'prints';
-export const OPTION_GITIGNONRE = 'gitignore';
+export const OPTION_GITIGNORE = 'gitignore';
 export const OPTION_DESCRIPTION = 'description';
 export const OPTION_OUTPUT = 'output';
 export const OPTION_SSH_KEY = 'sshkey';
@@ -143,7 +143,7 @@ export const OPTIONS = {
 
       [OPTION_COPIERS]: [],
       [OPTION_PRINTS]: {},
-      [OPTION_GITIGNONRE]: {},
+      [OPTION_GITIGNORE]: {},
       [OPTION_BREAKPOINT]: '',
     }),
   ),
