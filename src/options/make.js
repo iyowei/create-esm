@@ -391,14 +391,16 @@ export default async function make(cli) {
           source: cur,
           output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(cur)),
         })),
+
       ...copiers.common.map((cur) => ({
         source: cur,
         output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(cur)),
       })),
-      ...copiers.esm.map((cur) => ({
-        source: cur,
-        output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(cur)),
-      })),
+
+      {
+        source: copiers.eslintrc.esm,
+        output: join(OPTIONS.get(OPTION_NEW_PROJECT_PATH), basename(copiers.eslintrc.esm)),
+      },
 
       cli.flags[OPTION_TDD] && {
         source: copiers.mocha,

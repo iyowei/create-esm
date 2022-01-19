@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@iyowei/cli-cancel-or-continue": "^1.0.1",
-    "@iyowei/create-templates": "^1.0.14",
+    "@iyowei/create-templates": "^1.0.15",
     "@iyowei/is-esm": "^1.0.1",
     "@iyowei/is-readme-path": "^1.0.1",
     "@iyowei/is-tilde-path": "^1.0.0",
@@ -39,12 +39,12 @@
     "fs-extra": "^10.0.0",
     "gradient-string": "^2.0.0",
     "is-scoped": "^3.0.0",
-    "listr2": "^3.13.5",
+    "listr2": "^3.14.0",
     "load-json-file": "^7.0.1",
     "lodash": "^4.17.21",
     "meow": "^10.1.2",
     "prompts": "^2.4.2",
-    "shelljs": "^0.8.4",
+    "shelljs": "^0.8.5",
     "update-notifier": "^5.1.0",
     "validate-npm-package-name": "^3.0.0",
     "write-json-file": "^5.0.0"
@@ -65,11 +65,11 @@
   "private": false,
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^8.6.0",
+    "eslint": "^8.7.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.25.3",
-    "mocha": "^9.1.3",
+    "eslint-plugin-import": "^2.25.4",
+    "mocha": "^9.1.4",
     "prettier": "^2.5.1"
   }
 }
