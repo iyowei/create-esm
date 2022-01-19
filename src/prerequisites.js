@@ -11,5 +11,5 @@ export default function prerequisites() {
   }
 
   // TODO: 研究，可否检查 GH、NPM 登录与否？
-  // TODO: 检查必要的 Git 全局设置有效与否
+  // TODO: 检查必要的 Git 持久化设置有效与否
 }

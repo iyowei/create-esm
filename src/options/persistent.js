@@ -1,5 +1,3 @@
-// TODO: 重命名为 "持久化配置"
-
 import { join } from 'path';
 import { homedir } from 'os';
 import { existsSync, realpathSync } from 'fs';
@@ -11,25 +9,25 @@ import { getText, TXT_NAME } from '../messages.js';
 import terminateCli from '../terminateCli.js';
 import { OPTION_RULES, OPTION_OUTPUT, OPTION_SSH_KEY } from './options.js';
 
-const GLOBAL_DEFAULTS = {
+const PERSISTENT_OPTIONS = {
   [OPTION_OUTPUT]: '',
   [OPTION_SSH_KEY]: '',
 };
 
-export const defaultsFilePath = join(
+export const PERSISTENT_OPTIONS_FILE_PATH = join(
   homedir(),
   `${getText(TXT_NAME)}-defaults.json`,
 );
 
 // 每次都获取最新的配置
-export function getGlobalConfigurations() {
-  return existsSync(defaultsFilePath)
-    ? loadJsonFileSync(defaultsFilePath)
-    : GLOBAL_DEFAULTS;
+export function getPersistentConfigurations() {
+  return existsSync(PERSISTENT_OPTIONS_FILE_PATH)
+    ? loadJsonFileSync(PERSISTENT_OPTIONS_FILE_PATH)
+    : PERSISTENT_OPTIONS;
 }
 
 // TODO: 键有效性校验
-export function updateGlobalConfigurations(key, value) {
+export function updatePersistentConfigurations(key, value) {
   if (key === OPTION_OUTPUT) {
     const result = OPTION_RULES[OPTION_OUTPUT].validate(value);
 
@@ -46,14 +44,14 @@ export function updateGlobalConfigurations(key, value) {
     }
   }
 
-  const defaults = getGlobalConfigurations();
+  const defaults = getPersistentConfigurations();
 
   // TODO: value 被设置前未格式化，如果输入的是波浪号路径
   Object.assign(defaults, { [key]: realpathSync(value) });
 
-  writeJsonFileSync(defaultsFilePath, defaults);
+  writeJsonFileSync(PERSISTENT_OPTIONS_FILE_PATH, defaults);
 }
 
-export function reset() {
-  writeJsonFileSync(defaultsFilePath, GLOBAL_DEFAULTS);
+export function resetPersistentConfigurations() {
+  writeJsonFileSync(PERSISTENT_OPTIONS_FILE_PATH, PERSISTENT_OPTIONS);
 }

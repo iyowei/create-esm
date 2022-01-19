@@ -26,10 +26,10 @@ import {
 } from './src/options/options.js';
 
 import {
-  updateGlobalConfigurations,
-  getGlobalConfigurations,
-  reset,
-} from './src/options/global.js';
+  updatePersistentConfigurations,
+  getPersistentConfigurations,
+  resetPersistentConfigurations,
+} from './src/options/persistent.js';
 
 import makeOptions from './src/options/make.js';
 import prerequisites from './src/prerequisites.js';
@@ -62,9 +62,9 @@ import getTasks from './src/tasks/index.js';
     const SETUP_KEY = cli.input[1];
     const SETUP_VALUE = cli.input[2];
 
-    updateGlobalConfigurations(SETUP_KEY, SETUP_VALUE);
+    updatePersistentConfigurations(SETUP_KEY, SETUP_VALUE);
 
-    shell.echo(getGlobalConfigurations());
+    shell.echo(getPersistentConfigurations());
 
     return;
   }
@@ -76,7 +76,7 @@ import getTasks from './src/tasks/index.js';
       return;
     }
 
-    shell.echo(getGlobalConfigurations());
+    shell.echo(getPersistentConfigurations());
 
     return;
   }
@@ -88,8 +88,8 @@ import getTasks from './src/tasks/index.js';
       return;
     }
 
-    reset();
-    shell.echo(getGlobalConfigurations());
+    resetPersistentConfigurations();
+    shell.echo(getPersistentConfigurations());
 
     return;
   }

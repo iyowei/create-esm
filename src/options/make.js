@@ -22,7 +22,7 @@ import { prints, copiers, stockrooms } from '@iyowei/create-templates';
 
 import jsModuleDependenciesToBeInstalled from '@iyowei/js-module-dependencies-to-be-installed';
 import { HINT_NO_FILE_INPUT, hints } from '../messages.js';
-import { getGlobalConfigurations } from './global.js';
+import { getPersistentConfigurations } from './persistent.js';
 import terminateCli from '../terminateCli.js';
 import questions from './questions.js';
 
@@ -232,7 +232,7 @@ function treatInputs(cli) {
 
 // 部分 ”交互式提问“ 自动根据某些参数是否提供、是否有默认值等特征出现或隐藏
 function treatArgsWithQuestionIfNotGiven(cli) {
-  const defaults = getGlobalConfigurations();
+  const defaults = getPersistentConfigurations();
 
   Object.entries(OPTION_RULES).forEach((kv) => {
     const arg = kv[0];

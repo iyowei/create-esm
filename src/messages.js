@@ -37,9 +37,9 @@ export const mainHelp = `
     --help, -h                       查看帮助
 
   ${chalk.bold('命令')}
-    set                              设置 ${texts[TXT_NAME]} 全局配置
-    reset                            清空 ${texts[TXT_NAME]} 全局配置
-    defaults                         查看 ${texts[TXT_NAME]} 全局配置
+    set                              设置 ${texts[TXT_NAME]} 持久化配置
+    reset                            清空 ${texts[TXT_NAME]} 持久化配置
+    defaults                         查看 ${texts[TXT_NAME]} 持久化配置
 
   ${chalk.bold('示例')}
     $ esm
@@ -55,14 +55,14 @@ export const setupHelp = `
 `;
 
 export const defaultsHelp = `
-  查看 @iyowei/create-esm 全局配置
+  查看 @iyowei/create-esm 持久化配置
 
   示例
     $ ${texts[TXT_NAME]} defaults
 `;
 
 export const resetHelp = `
-  重置 @iyowei/create-esm 全局配置
+  重置 @iyowei/create-esm 持久化配置
 
   示例
     $ ${texts[TXT_NAME]} reset

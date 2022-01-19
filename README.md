@@ -19,8 +19,8 @@
   - [根据命令行提示一步步操作](#根据命令行提示一步步操作)
   - [查看命令行参数说明](#查看命令行参数说明)
   - [使用命令行参数直接创建项目](#使用命令行参数直接创建项目)
-  - [查看全局配置](#查看全局配置)
-  - [更新全局配置](#更新全局配置)
+  - [查看持久化配置](#查看持久化配置)
+  - [更新持久化配置](#更新持久化配置)
   - [最佳实践](#最佳实践)
 - [安装](#安装)
   - [NPM](#npm)
@@ -82,9 +82,9 @@ esm /Users/iyowei/Development/iyowei/create-esm/src/print.js
     --help, -h                                 查看帮助
 
   命令
-    set                                        设置 create-esm 全局设置
-    reset                                      清空 create-esm 全局设置
-    defaults                                   查看 create-esm 全局设置
+    set                                        设置 create-esm 持久化设置
+    reset                                      清空 create-esm 持久化设置
+    defaults                                   查看 create-esm 持久化设置
 
   示例
     $ esm
@@ -136,19 +136,19 @@ esm \
 --no-double-check-dependencies
 ```
 
-### 查看全局配置
+### 查看持久化配置
 
 ```shell
 esm defaults
 ```
 
-### 更新全局配置
+### 更新持久化配置
 
 ```shell
 esm set [key] [value]
 ```
 
-运行 `esm defaults` 了解具体有哪些全局配置。
+运行 `esm defaults` 了解具体有哪些持久化配置。
 
 ### 最佳实践
 
@@ -164,9 +164,9 @@ esm set [key] [value]
 - **安装 [Github Cli][github cli]，使用 [安全的 SSH 管道][安全的 ssh 管道] 选项 [登录][登录 github cli]**；（创建、推送、拉取 Github 项目等）
 - [登录 NPM][登录 npm]；（发包）
 
-公钥要添加到 Github 上，另外保存好秘钥位置，私钥要用来建立 [安全的 SSH 管道][安全的 ssh 管道]，"@iyowei/create-esm" 通过 `--sshkey` 命令行参数指定私钥，或者全局设置 `sshkey` 即可，运行 `esm set sshkey [私钥绝对路径]`。
+公钥要添加到 Github 上，另外保存好秘钥位置，私钥要用来建立 [安全的 SSH 管道][安全的 ssh 管道]，"@iyowei/create-esm" 通过 `--sshkey` 命令行参数指定私钥，或者持久化设置 `sshkey` 即可，运行 `esm set sshkey [私钥绝对路径]`。
 
-另外，还有点基本的全局 Git 设置，创建项目、提交修改时需要，
+另外，还有点基本的持久化 Git 设置，创建项目、提交修改时需要，
 
 - **`git config --global init.defaultBranch main`**；
 - `git config —-global user.email “you@example.com”`；
