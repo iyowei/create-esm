@@ -35,6 +35,14 @@ export const OPTION_HELP = 'help';
 export const OPTION_BREAKPOINT = 'breakpoint';
 export const OPTION_BENCHMARK = 'benchmark';
 
+function fsPathFormatter(path) {
+  if (isTildePath(path)) {
+    return untildify(path);
+  }
+
+  return path;
+}
+
 // 部分 ”交互式提问“ 自动根据某些参数是否提供、是否有默认值等特征出现或隐藏
 export const OPTION_RULES = {
   [OPTION_NAME]: {
@@ -71,36 +79,26 @@ export const OPTION_RULES = {
     cliRequired: false,
     hint: '未提供 output 参数，且没有默认配置，请提供',
     validate: (value) => {
+      // TODO: 自动格式化 value，别处使用时就不需要每次手动调用 format 函数了
       if (!existsSync(value) || isEmpty(value)) {
         return { ok: false, message: `给定磁盘位置 "${value}" 不存在` };
       }
       return { ok: true };
     },
-    format: (path) => {
-      if (isTildePath(path)) {
-        return untildify(path);
-      }
-
-      return path;
-    },
+    format: fsPathFormatter,
   },
   [OPTION_SSH_KEY]: {
     isDefault: true,
     cliRequired: false,
     hint: '未提供 sshkey 参数，且没有默认配置，请提供',
     validate: (value) => {
+      // TODO: 自动格式化 value，别处使用时就不需要每次手动调用 format 函数了
       if (!existsSync(value) || isEmpty(value)) {
         return { ok: false, message: `给定路径 "${value}" 未检测到私钥文件` };
       }
       return { ok: true };
     },
-    format: (path) => {
-      if (isTildePath(path)) {
-        return untildify(path);
-      }
-
-      return path;
-    },
+    format: fsPathFormatter,
   },
 };
 
