@@ -69,7 +69,7 @@ export default {
           scripts: {
             format:
               "npx prettier '**/*.{js,mjs,json,md}' --write --loglevel error",
-            lint: 'npx eslint "**/*.js"',
+            lint: 'npx eslint "**/*.{js,mjs}"',
           },
 
           // 基本信息
